@@ -1,0 +1,59 @@
+[gd_scene load_steps=6 format=3 uid="uid://brmyj48t05jr"]
+
+[ext_resource type="Script" uid="uid://2e45rx5qgudo" path="res://scripts/player.gd" id="1_onrkg"]
+[ext_resource type="Texture2D" uid="uid://b60xdaf2x6hdk" path="res://assets/circle.png" id="2_i3pqv"]
+
+[sub_resource type="PhysicsMaterial" id="PhysicsMaterial_g2els"]
+friction = 0.1
+bounce = 0.6
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_0e48y"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_g2els"]
+draw_center = false
+
+[node name="Player" type="RigidBody2D"]
+collision_mask = 6
+physics_material_override = SubResource("PhysicsMaterial_g2els")
+lock_rotation = true
+script = ExtResource("1_onrkg")
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+scale = Vector2(-0.08048777, -0.08048777)
+texture = ExtResource("2_i3pqv")
+offset = Vector2(-6.96, 22.089)
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+scale = Vector2(2.2772944, 2.2772944)
+shape = SubResource("CircleShape2D_0e48y")
+
+[node name="Control" type="Control" parent="."]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="Panel" type="Panel" parent="Control"]
+layout_mode = 0
+offset_left = -19.0
+offset_top = -20.0
+offset_right = 21.0
+offset_bottom = 20.0
+theme_override_styles/panel = SubResource("StyleBoxFlat_g2els")
+
+[node name="Dice" type="Label" parent="Control/Panel"]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -5.0
+offset_top = -11.5
+offset_right = 5.0
+offset_bottom = 11.5
+grow_horizontal = 2
+grow_vertical = 2
+text = "10"

@@ -1,0 +1,178 @@
+[gd_scene load_steps=3 format=3 uid="uid://dy3ggd4jhp6rc"]
+
+[ext_resource type="Script" uid="uid://cxni2e1echlnr" path="res://scripts/store.gd" id="1_jmp1n"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_ncv12"]
+bg_color = Color(0.6357732, 0.377816, 0.008479924, 1)
+
+[node name="Store" type="Control"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1_jmp1n")
+
+[node name="CanvasLayer" type="CanvasLayer" parent="."]
+
+[node name="PanelContainer" type="PanelContainer" parent="CanvasLayer"]
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_styles/panel = SubResource("StyleBoxFlat_ncv12")
+
+[node name="MarginContainer" type="MarginContainer" parent="CanvasLayer/PanelContainer"]
+layout_mode = 2
+theme_override_constants/margin_left = 10
+theme_override_constants/margin_top = 10
+theme_override_constants/margin_right = 10
+theme_override_constants/margin_bottom = 10
+
+[node name="MenuContainer" type="VBoxContainer" parent="CanvasLayer/PanelContainer/MarginContainer"]
+layout_mode = 2
+
+[node name="PanelContainer" type="PanelContainer" parent="CanvasLayer/PanelContainer/MarginContainer/MenuContainer"]
+layout_mode = 2
+size_flags_horizontal = 4
+size_flags_vertical = 3
+size_flags_stretch_ratio = 0.0
+
+[node name="CurrentMoneyLabel" type="Label" parent="CanvasLayer/PanelContainer/MarginContainer/MenuContainer/PanelContainer"]
+layout_mode = 2
+text = "$"
+
+[node name="UpgradeHBox" type="HBoxContainer" parent="CanvasLayer/PanelContainer/MarginContainer/MenuContainer"]
+layout_mode = 2
+size_flags_vertical = 3
+
+[node name="UpgradeVBox" type="VBoxContainer" parent="CanvasLayer/PanelContainer/MarginContainer/MenuContainer/UpgradeHBox"]
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_constants/separation = 10
+
+[node name="Row1" type="HBoxContainer" parent="CanvasLayer/PanelContainer/MarginContainer/MenuContainer/UpgradeHBox/UpgradeVBox"]
+layout_mode = 2
+size_flags_vertical = 3
+theme_override_constants/separation = 15
+
+[node name="HealthUpgrade" type="Button" parent="CanvasLayer/PanelContainer/MarginContainer/MenuContainer/UpgradeHBox/UpgradeVBox/Row1"]
+layout_mode = 2
+size_flags_horizontal = 3
+text = "Upgrade Health
+$10"
+
+[node name="LaunchUpgrade" type="Button" parent="CanvasLayer/PanelContainer/MarginContainer/MenuContainer/UpgradeHBox/UpgradeVBox/Row1"]
+layout_mode = 2
+size_flags_horizontal = 3
+text = "Upgrade Launch
+$10"
+
+[node name="BounceOffEnemyUpgrade" type="Button" parent="CanvasLayer/PanelContainer/MarginContainer/MenuContainer/UpgradeHBox/UpgradeVBox/Row1"]
+layout_mode = 2
+size_flags_horizontal = 3
+text = "Upgrade Bounce Off Enemy
+$10"
+autowrap_mode = 2
+
+[node name="Row2" type="HBoxContainer" parent="CanvasLayer/PanelContainer/MarginContainer/MenuContainer/UpgradeHBox/UpgradeVBox"]
+layout_mode = 2
+size_flags_vertical = 3
+theme_override_constants/separation = 15
+
+[node name="LaunchOffEnemyUpgrade" type="Button" parent="CanvasLayer/PanelContainer/MarginContainer/MenuContainer/UpgradeHBox/UpgradeVBox/Row2"]
+layout_mode = 2
+size_flags_horizontal = 3
+text = "Upgrade Launch Off Enemy
+$10"
+autowrap_mode = 2
+
+[node name="MoneyMultUpgrade" type="Button" parent="CanvasLayer/PanelContainer/MarginContainer/MenuContainer/UpgradeHBox/UpgradeVBox/Row2"]
+layout_mode = 2
+size_flags_horizontal = 3
+text = "Upgrade Money Multiplyer
+$10"
+autowrap_mode = 2
+
+[node name="Blah" type="Button" parent="CanvasLayer/PanelContainer/MarginContainer/MenuContainer/UpgradeHBox/UpgradeVBox/Row2"]
+layout_mode = 2
+size_flags_horizontal = 3
+text = "
+$10"
+autowrap_mode = 2
+
+[node name="Row5" type="HBoxContainer" parent="CanvasLayer/PanelContainer/MarginContainer/MenuContainer/UpgradeHBox/UpgradeVBox"]
+layout_mode = 2
+size_flags_vertical = 3
+
+[node name="Button" type="Button" parent="CanvasLayer/PanelContainer/MarginContainer/MenuContainer/UpgradeHBox/UpgradeVBox/Row5"]
+layout_mode = 2
+size_flags_horizontal = 3
+text = "
+$10"
+
+[node name="Row3" type="HBoxContainer" parent="CanvasLayer/PanelContainer/MarginContainer/MenuContainer/UpgradeHBox/UpgradeVBox"]
+layout_mode = 2
+size_flags_vertical = 3
+
+[node name="Button" type="Button" parent="CanvasLayer/PanelContainer/MarginContainer/MenuContainer/UpgradeHBox/UpgradeVBox/Row3"]
+layout_mode = 2
+size_flags_horizontal = 3
+text = "
+$10"
+
+[node name="InfoVBox" type="VBoxContainer" parent="CanvasLayer/PanelContainer/MarginContainer/MenuContainer/UpgradeHBox"]
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="HealthLevelBox" type="HBoxContainer" parent="CanvasLayer/PanelContainer/MarginContainer/MenuContainer/UpgradeHBox/InfoVBox"]
+layout_mode = 2
+
+[node name="HealthLevelLabel" type="Label" parent="CanvasLayer/PanelContainer/MarginContainer/MenuContainer/UpgradeHBox/InfoVBox/HealthLevelBox"]
+layout_mode = 2
+text = "Health: "
+
+[node name="HealthLevel" type="Label" parent="CanvasLayer/PanelContainer/MarginContainer/MenuContainer/UpgradeHBox/InfoVBox/HealthLevelBox"]
+layout_mode = 2
+
+[node name="LaunchLevelBox" type="HBoxContainer" parent="CanvasLayer/PanelContainer/MarginContainer/MenuContainer/UpgradeHBox/InfoVBox"]
+layout_mode = 2
+
+[node name="LaunchLevelLabel" type="Label" parent="CanvasLayer/PanelContainer/MarginContainer/MenuContainer/UpgradeHBox/InfoVBox/LaunchLevelBox"]
+layout_mode = 2
+text = "Launch Level: "
+
+[node name="LaunchLevel" type="Label" parent="CanvasLayer/PanelContainer/MarginContainer/MenuContainer/UpgradeHBox/InfoVBox/LaunchLevelBox"]
+layout_mode = 2
+
+[node name="BounceLevelBox" type="HBoxContainer" parent="CanvasLayer/PanelContainer/MarginContainer/MenuContainer/UpgradeHBox/InfoVBox"]
+layout_mode = 2
+
+[node name="BounceLevelLabel" type="Label" parent="CanvasLayer/PanelContainer/MarginContainer/MenuContainer/UpgradeHBox/InfoVBox/BounceLevelBox"]
+layout_mode = 2
+text = "Bounce Level: "
+
+[node name="BounceLevel" type="Label" parent="CanvasLayer/PanelContainer/MarginContainer/MenuContainer/UpgradeHBox/InfoVBox/BounceLevelBox"]
+layout_mode = 2
+
+[node name="LaunchOffLevelBox" type="HBoxContainer" parent="CanvasLayer/PanelContainer/MarginContainer/MenuContainer/UpgradeHBox/InfoVBox"]
+layout_mode = 2
+
+[node name="LaunchOffLevelLabel" type="Label" parent="CanvasLayer/PanelContainer/MarginContainer/MenuContainer/UpgradeHBox/InfoVBox/LaunchOffLevelBox"]
+layout_mode = 2
+text = "Launch Off Level: "
+
+[node name="LaunchOffLevel" type="Label" parent="CanvasLayer/PanelContainer/MarginContainer/MenuContainer/UpgradeHBox/InfoVBox/LaunchOffLevelBox"]
+layout_mode = 2
+
+[node name="MoneyMultLevelBox" type="HBoxContainer" parent="CanvasLayer/PanelContainer/MarginContainer/MenuContainer/UpgradeHBox/InfoVBox"]
+layout_mode = 2
+
+[node name="MoneyMultLevelLabel" type="Label" parent="CanvasLayer/PanelContainer/MarginContainer/MenuContainer/UpgradeHBox/InfoVBox/MoneyMultLevelBox"]
+layout_mode = 2
+text = "Money Mult Level: "
+
+[node name="MoneyMultLevel" type="Label" parent="CanvasLayer/PanelContainer/MarginContainer/MenuContainer/UpgradeHBox/InfoVBox/MoneyMultLevelBox"]
+layout_mode = 2

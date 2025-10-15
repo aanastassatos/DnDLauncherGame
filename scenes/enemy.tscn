@@ -1,0 +1,57 @@
+[gd_scene load_steps=5 format=3 uid="uid://ct5p61x2qm88v"]
+
+[ext_resource type="Script" uid="uid://behldpmfxyo77" path="res://scripts/enemy.gd" id="2_4ra3w"]
+[ext_resource type="Texture2D" uid="uid://dmq8yp7vq4gnu" path="res://assets/enemy.png" id="2_md0e3"]
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_0e48y"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_md0e3"]
+draw_center = false
+
+[node name="Enemy" type="Area2D"]
+collision_layer = 2
+collision_mask = 5
+script = ExtResource("2_4ra3w")
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+position = Vector2(0, 5.9604645e-08)
+rotation = -3.1415927
+scale = Vector2(0.069972746, 0.069972746)
+texture = ExtResource("2_md0e3")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+scale = Vector2(2.2772944, 2.2772944)
+shape = SubResource("CircleShape2D_0e48y")
+
+[node name="Control" type="Control" parent="."]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="Panel" type="Panel" parent="Control"]
+layout_mode = 0
+offset_left = -19.0
+offset_top = -20.0
+offset_right = 21.0
+offset_bottom = 20.0
+theme_override_styles/panel = SubResource("StyleBoxFlat_md0e3")
+
+[node name="Level" type="Label" parent="Control/Panel"]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -5.0
+offset_top = -11.5
+offset_right = 5.0
+offset_bottom = 11.5
+grow_horizontal = 2
+grow_vertical = 2
+text = "3"
+
+[connection signal="body_entered" from="." to="." method="_on_body_entered"]

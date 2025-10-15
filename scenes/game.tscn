@@ -1,0 +1,352 @@
+[gd_scene load_steps=19 format=3 uid="uid://bu5rbi6tmk83u"]
+
+[ext_resource type="Script" uid="uid://0vmwscm1swpe" path="res://scripts/controller.gd" id="1_lbhrr"]
+[ext_resource type="PackedScene" uid="uid://brmyj48t05jr" path="res://scenes/player.tscn" id="1_lnu2h"]
+[ext_resource type="Script" uid="uid://o2gu4wndfc5r" path="res://scripts/camera_2d.gd" id="2_lbhrr"]
+[ext_resource type="Script" uid="uid://bn41b5o32be40" path="res://scripts/lines.gd" id="3_iywne"]
+[ext_resource type="Script" uid="uid://ieirnvo0p1qc" path="res://scripts/aim_line.gd" id="5_iywne"]
+[ext_resource type="Script" uid="uid://2t3gc362lajr" path="res://scripts/power_bar.gd" id="6_p57ef"]
+[ext_resource type="Script" uid="uid://c3r6j6w4bvbpx" path="res://scripts/hud.gd" id="7_u5sy4"]
+[ext_resource type="Script" uid="uid://c115i6dexqvso" path="res://scripts/enemy_spawner.gd" id="8_0tnpc"]
+[ext_resource type="PackedScene" uid="uid://ct5p61x2qm88v" path="res://scenes/enemy.tscn" id="9_vtaks"]
+[ext_resource type="Script" uid="uid://7mpnvkgu68lt" path="res://scripts/stats_manager.gd" id="10_kvpfn"]
+[ext_resource type="Texture2D" uid="uid://es2pq45jg6rn" path="res://assets/Backgound_elements/Samples/colored_castle.png" id="11_kvpfn"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_kvpfn"]
+bg_color = Color(1, 0, 0, 1)
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_dinhu"]
+bg_color = Color(0, 1, 0.048797607, 1)
+
+[sub_resource type="PhysicsMaterial" id="PhysicsMaterial_rnjyy"]
+friction = 0.1
+
+[sub_resource type="CanvasItemMaterial" id="CanvasItemMaterial_4dvvg"]
+
+[sub_resource type="WorldBoundaryShape2D" id="WorldBoundaryShape2D_rnjyy"]
+distance = -1.0
+
+[sub_resource type="Gradient" id="Gradient_iywne"]
+offsets = PackedFloat32Array(0, 0.21917808)
+colors = PackedColorArray(0, 1, 0.05499029, 1, 1, 0, 0, 1)
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_vtaks"]
+bg_color = Color(0.839433, 0.20993586, 0.20993586, 1)
+border_width_left = 2
+border_width_top = 2
+border_width_right = 2
+border_width_bottom = 2
+border_color = Color(0.48642266, 0, 0, 1)
+
+[node name="Game" type="Node2D"]
+
+[node name="Controller" type="Node2D" parent="."]
+script = ExtResource("1_lbhrr")
+
+[node name="StatsManager" type="Node2D" parent="Controller"]
+script = ExtResource("10_kvpfn")
+forward_force_level = 5
+
+[node name="EnemySpawner" type="Node2D" parent="Controller" node_paths=PackedStringArray("camera")]
+position = Vector2(240, 167)
+script = ExtResource("8_0tnpc")
+enemy_scene = ExtResource("9_vtaks")
+camera = NodePath("../Player/Camera2D")
+
+[node name="Player" parent="Controller" instance=ExtResource("1_lnu2h")]
+position = Vector2(201, 204)
+
+[node name="Camera2D" type="Camera2D" parent="Controller/Player"]
+position = Vector2(375, 120)
+ignore_rotation = false
+limit_bottom = 400
+position_smoothing_speed = 10.0
+script = ExtResource("2_lbhrr")
+
+[node name="HealthControl" type="Control" parent="Controller/Player"]
+layout_mode = 3
+anchors_preset = 0
+offset_right = 40.0
+offset_bottom = 40.0
+
+[node name="HealthBar" type="ProgressBar" parent="Controller/Player/HealthControl"]
+custom_minimum_size = Vector2(100, 0)
+layout_mode = 0
+offset_left = 28.0
+offset_top = 24.0
+offset_right = 128.0
+offset_bottom = 45.0
+scale = Vector2(0.67999876, 0.39999998)
+theme_override_styles/background = SubResource("StyleBoxFlat_kvpfn")
+theme_override_styles/fill = SubResource("StyleBoxFlat_dinhu")
+value = 100.0
+show_percentage = false
+
+[node name="Ground" type="StaticBody2D" parent="Controller"]
+position = Vector2(240, 265)
+collision_layer = 4
+collision_mask = 3
+physics_material_override = SubResource("PhysicsMaterial_rnjyy")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Controller/Ground"]
+material = SubResource("CanvasItemMaterial_4dvvg")
+shape = SubResource("WorldBoundaryShape2D_rnjyy")
+
+[node name="Line2D" type="Line2D" parent="Controller/Ground"]
+position = Vector2(-5992, 0)
+points = PackedVector2Array(-1000000, 2, 100000000, 2)
+default_color = Color(0.3882353, 0.7411765, 0.08627451, 0.9882353)
+
+[node name="Lines" type="Node2D" parent="Controller"]
+visibility_layer = 4
+position = Vector2(240, 167)
+script = ExtResource("3_iywne")
+player = NodePath("../Player")
+
+[node name="Label" type="Label" parent="Controller/Lines"]
+offset_right = 40.0
+offset_bottom = 23.0
+text = "Start"
+metadata/_edit_use_anchors_ = true
+
+[node name="AimLine" type="Line2D" parent="Controller"]
+physics_interpolation_mode = 2
+z_index = -1
+position = Vector2(240, 167)
+points = PackedVector2Array(0, 0, 87, 0)
+width = 1.0
+script = ExtResource("5_iywne")
+
+[node name="PowerBar" type="Node2D" parent="Controller"]
+position = Vector2(-519, 167)
+script = ExtResource("6_p57ef")
+
+[node name="PowerLine" type="Line2D" parent="Controller/PowerBar"]
+points = PackedVector2Array(0, 0, 100, 0)
+default_color = Color(0.98878354, 0, 0, 1)
+gradient = SubResource("Gradient_iywne")
+
+[node name="HUD" type="CanvasLayer" parent="Controller"]
+script = ExtResource("7_u5sy4")
+
+[node name="ScreenStack" type="VBoxContainer" parent="Controller/HUD"]
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="TopOuterMargins" type="MarginContainer" parent="Controller/HUD/ScreenStack"]
+layout_mode = 2
+size_flags_vertical = 3
+theme_override_constants/margin_left = 5
+theme_override_constants/margin_top = 5
+theme_override_constants/margin_right = 5
+theme_override_constants/margin_bottom = 5
+metadata/_edit_use_anchors_ = true
+
+[node name="Top" type="HBoxContainer" parent="Controller/HUD/ScreenStack/TopOuterMargins"]
+layout_mode = 2
+
+[node name="DistanceControl" type="Control" parent="Controller/HUD/ScreenStack/TopOuterMargins/Top"]
+layout_mode = 2
+size_flags_horizontal = 3
+metadata/_edit_use_anchors_ = true
+
+[node name="DistancePanel" type="PanelContainer" parent="Controller/HUD/ScreenStack/TopOuterMargins/Top/DistanceControl"]
+layout_mode = 0
+offset_right = 128.0
+offset_bottom = 58.0
+
+[node name="InnerMargins" type="MarginContainer" parent="Controller/HUD/ScreenStack/TopOuterMargins/Top/DistanceControl/DistancePanel"]
+layout_mode = 2
+theme_override_constants/margin_left = 4
+theme_override_constants/margin_top = 4
+theme_override_constants/margin_right = 4
+theme_override_constants/margin_bottom = 4
+
+[node name="HBoxContainer" type="HBoxContainer" parent="Controller/HUD/ScreenStack/TopOuterMargins/Top/DistanceControl/DistancePanel/InnerMargins"]
+layout_mode = 2
+size_flags_horizontal = 0
+
+[node name="LabelBox" type="VBoxContainer" parent="Controller/HUD/ScreenStack/TopOuterMargins/Top/DistanceControl/DistancePanel/InnerMargins/HBoxContainer"]
+layout_mode = 2
+theme_override_constants/separation = 4
+
+[node name="DistanceLabel" type="Label" parent="Controller/HUD/ScreenStack/TopOuterMargins/Top/DistanceControl/DistancePanel/InnerMargins/HBoxContainer/LabelBox"]
+layout_mode = 2
+size_flags_horizontal = 0
+size_flags_vertical = 3
+text = "Distance: "
+
+[node name="HighScoreLabel" type="Label" parent="Controller/HUD/ScreenStack/TopOuterMargins/Top/DistanceControl/DistancePanel/InnerMargins/HBoxContainer/LabelBox"]
+layout_mode = 2
+size_flags_vertical = 3
+text = "High Score:"
+
+[node name="CounterBox" type="VBoxContainer" parent="Controller/HUD/ScreenStack/TopOuterMargins/Top/DistanceControl/DistancePanel/InnerMargins/HBoxContainer"]
+layout_mode = 2
+
+[node name="DistanceCounter" type="Label" parent="Controller/HUD/ScreenStack/TopOuterMargins/Top/DistanceControl/DistancePanel/InnerMargins/HBoxContainer/CounterBox"]
+layout_mode = 2
+size_flags_horizontal = 8
+text = "0 m"
+
+[node name="HighScoreCounter" type="Label" parent="Controller/HUD/ScreenStack/TopOuterMargins/Top/DistanceControl/DistancePanel/InnerMargins/HBoxContainer/CounterBox"]
+layout_mode = 2
+size_flags_horizontal = 8
+text = "0 m"
+
+[node name="MoneyControl" type="Control" parent="Controller/HUD/ScreenStack/TopOuterMargins/Top"]
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="MoneyPanel" type="PanelContainer" parent="Controller/HUD/ScreenStack/TopOuterMargins/Top/MoneyControl"]
+layout_mode = 1
+anchors_preset = 5
+anchor_left = 0.5
+anchor_right = 0.5
+offset_left = -20.0
+offset_right = 20.0
+offset_bottom = 40.0
+grow_horizontal = 2
+
+[node name="Margins" type="MarginContainer" parent="Controller/HUD/ScreenStack/TopOuterMargins/Top/MoneyControl/MoneyPanel"]
+layout_mode = 2
+theme_override_constants/margin_left = 5
+theme_override_constants/margin_top = 5
+theme_override_constants/margin_right = 5
+theme_override_constants/margin_bottom = 5
+
+[node name="MoneyLabel" type="Label" parent="Controller/HUD/ScreenStack/TopOuterMargins/Top/MoneyControl/MoneyPanel/Margins"]
+layout_mode = 2
+size_flags_horizontal = 4
+text = "$0"
+
+[node name="VelocityControl" type="Control" parent="Controller/HUD/ScreenStack/TopOuterMargins/Top"]
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="VelocityPanel" type="PanelContainer" parent="Controller/HUD/ScreenStack/TopOuterMargins/Top/VelocityControl"]
+layout_mode = 1
+anchors_preset = 1
+anchor_left = 1.0
+anchor_right = 1.0
+offset_left = -40.0
+offset_bottom = 40.0
+grow_horizontal = 0
+
+[node name="Margins" type="MarginContainer" parent="Controller/HUD/ScreenStack/TopOuterMargins/Top/VelocityControl/VelocityPanel"]
+layout_mode = 2
+theme_override_constants/margin_left = 5
+theme_override_constants/margin_right = 5
+
+[node name="VBoxContainer" type="VBoxContainer" parent="Controller/HUD/ScreenStack/TopOuterMargins/Top/VelocityControl/VelocityPanel/Margins"]
+layout_mode = 2
+
+[node name="VelocityLabel" type="Label" parent="Controller/HUD/ScreenStack/TopOuterMargins/Top/VelocityControl/VelocityPanel/Margins/VBoxContainer"]
+layout_mode = 2
+text = "(0, 0)"
+
+[node name="VelocityLengthLabel" type="Label" parent="Controller/HUD/ScreenStack/TopOuterMargins/Top/VelocityControl/VelocityPanel/Margins/VBoxContainer"]
+layout_mode = 2
+
+[node name="Middle" type="HBoxContainer" parent="Controller/HUD/ScreenStack"]
+layout_mode = 2
+size_flags_vertical = 3
+size_flags_stretch_ratio = 2.65
+
+[node name="InstructionsControl" type="Control" parent="Controller/HUD/ScreenStack/Middle"]
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="MiddleTextPanel" type="PanelContainer" parent="Controller/HUD/ScreenStack/Middle/InstructionsControl"]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -37.5
+offset_top = -20.00003
+offset_right = 37.5
+offset_bottom = 20.00003
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="MarginContainer" type="MarginContainer" parent="Controller/HUD/ScreenStack/Middle/InstructionsControl/MiddleTextPanel"]
+layout_mode = 2
+theme_override_constants/margin_left = 5
+theme_override_constants/margin_top = 5
+theme_override_constants/margin_right = 5
+theme_override_constants/margin_bottom = 5
+
+[node name="MiddleText" type="Label" parent="Controller/HUD/ScreenStack/Middle/InstructionsControl/MiddleTextPanel/MarginContainer"]
+layout_mode = 2
+text = "test text"
+
+[node name="BottomMargin" type="MarginContainer" parent="Controller/HUD/ScreenStack"]
+layout_mode = 2
+size_flags_vertical = 3
+theme_override_constants/margin_left = 5
+theme_override_constants/margin_top = 5
+theme_override_constants/margin_right = 5
+theme_override_constants/margin_bottom = 5
+
+[node name="Bottom" type="HBoxContainer" parent="Controller/HUD/ScreenStack/BottomMargin"]
+layout_mode = 2
+size_flags_vertical = 3
+theme_override_constants/separation = 0
+
+[node name="HealthContainer" type="Control" parent="Controller/HUD/ScreenStack/BottomMargin/Bottom"]
+visible = false
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="Health panel" type="PanelContainer" parent="Controller/HUD/ScreenStack/BottomMargin/Bottom/HealthContainer"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="HealthMargin" type="MarginContainer" parent="Controller/HUD/ScreenStack/BottomMargin/Bottom/HealthContainer/Health panel"]
+layout_mode = 2
+theme_override_constants/margin_left = 5
+theme_override_constants/margin_top = 5
+theme_override_constants/margin_right = 5
+theme_override_constants/margin_bottom = 5
+
+[node name="HealthVBox" type="VBoxContainer" parent="Controller/HUD/ScreenStack/BottomMargin/Bottom/HealthContainer/Health panel/HealthMargin"]
+layout_mode = 2
+
+[node name="HealthLabel" type="Label" parent="Controller/HUD/ScreenStack/BottomMargin/Bottom/HealthContainer/Health panel/HealthMargin/HealthVBox"]
+layout_mode = 2
+size_flags_horizontal = 4
+size_flags_vertical = 3
+theme_override_font_sizes/font_size = 36
+text = "Health"
+
+[node name="HealthBar" type="ProgressBar" parent="Controller/HUD/ScreenStack/BottomMargin/Bottom/HealthContainer/Health panel/HealthMargin/HealthVBox"]
+layout_mode = 2
+size_flags_vertical = 3
+theme_override_styles/fill = SubResource("StyleBoxFlat_vtaks")
+value = 100.0
+show_percentage = false
+
+[node name="Control" type="Control" parent="Controller/HUD/ScreenStack/BottomMargin/Bottom"]
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="ParallaxBackground" type="ParallaxBackground" parent="."]
+
+[node name="ParallaxLayer" type="ParallaxLayer" parent="ParallaxBackground"]
+position = Vector2(-174, -750)
+motion_scale = Vector2(0.5, 0.5)
+motion_mirroring = Vector2(1461.07, 0)
+
+[node name="Sprite2D" type="Sprite2D" parent="ParallaxBackground/ParallaxLayer"]
+scale = Vector2(1.4271654, 1.4271654)
+texture = ExtResource("11_kvpfn")
+centered = false
