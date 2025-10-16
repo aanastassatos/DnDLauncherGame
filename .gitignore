@@ -16,3 +16,4 @@ Thumbs.db
 *.log
 # Other common ignores
 *.import
+*.tmp
