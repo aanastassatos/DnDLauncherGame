@@ -1,10 +1,83 @@
 extends Control
 
+signal upgrade_requested(stat_name: String)
+
+@onready var canvas_layer = $CanvasLayer
+
+# Get stat labels
 @onready var health_label = find_child("HealthLevel", true, false)
 @onready var launch_label = find_child("LaunchLevel", true, false)
 @onready var bounce_label = find_child("BounceLevel", true, false)
 @onready var launch_off_label = find_child("LaunchOffLevel", true, false)
-@onready var money_mult_label = find_child("MoneyMultLevel", true, false)
+
+#Get Money label
+@onready var current_money_label = find_child("CurrentMoneyLabel", true, false)
+
+# Get upgrade buttons
+@onready var health_upgrade_button = find_child("HealthUpgradeButton", true, false)
+@onready var launch_upgrade_button = find_child("LaunchUpgradeButton", true, false)
+@onready var bounce_off_enemy_upgrade_button = find_child("BounceOffEnemyUpgradeButton", true, false)
+@onready var launch_off_enemy_upgrade_button = find_child("LaunchOffEnemyUpgradeButton", true, false)
+
+# Get Info Panel elements
+@onready var info_panel = find_child("InfoMarginContainer", true, false)
+@onready var item_name_label = find_child("ItemNameLabel", true, false)
+@onready var item_description_label = find_child("ItemDescriptionLabel", true, false)
+@onready var buy_button = find_child("BuyButton", true, false)
+@onready var back_button = find_child("BackButton", true, false)
+
+var selected = ""
+
+func _ready():
+	# Connect each upgrade button
+	info_panel.hide()
+	EventBus.store_opened.connect(_on_store_open)
+	health_upgrade_button.pressed.connect(_on_upgrade_button_pressed.bind("health"))
+	launch_upgrade_button.pressed.connect(_on_upgrade_button_pressed.bind("launch"))
+	bounce_off_enemy_upgrade_button.pressed.connect(_on_upgrade_button_pressed.bind("bounce_off"))
+	launch_off_enemy_upgrade_button.pressed.connect(_on_upgrade_button_pressed.bind("launch_off"))
+	back_button.pressed.connect(_on_back_button_pressed)
+	EventBus.money_changed.connect(set_money)
+
+func _on_store_open():
+	update_store()
+	show_store()
+
+func update_store():
+	#Update Stats
+	set_health(StatsManager.get_current_health(), StatsManager.get_max_health())
+	set_launch_level(StatsManager.get_level("launch"))
+	set_bounce_level(StatsManager.get_level("bounce_off"))
+	set_launch_off_level(StatsManager.get_level("launch_off"))
+	set_money(StatsManager.get_money())
+
+func hide_store():
+	canvas_layer.hide()
+
+func show_store():
+	canvas_layer.show()
+
+func _on_upgrade_button_pressed(stat_name: String):
+	print("upgrade for ",stat_name," pressed")
+	selected = stat_name
+	
+	var item_info = ShopData.ITEMS[selected]
+	item_name_label.text = item_info["display_name"]
+	item_description_label.text = item_info["description"]
+	
+	var item_cost = item_info["base_cost"] * pow(item_info["cost_multiplier"],StatsManager.get_level(selected))
+	buy_button.text = "Buy For\n$"+str(int(item_cost))
+	if item_cost > StatsManager.get_money():
+		buy_button.disabled = true
+	else:
+		buy_button.enabled = true
+		
+	info_panel.show()
+	
+
+func _on_back_button_pressed():
+	print("Back button pressed")
+	EventBus.emit_signal("store_closed")
 
 func set_health(current, max_health):
 	health_label.text = str(current)+"/"+str(max_health)
@@ -18,5 +91,5 @@ func set_bounce_level(level):
 func set_launch_off_level(level):
 	launch_off_label.text = str(level)
 
-func set_money_mult_level(level):
-	money_mult_label.text = str(level)
+func set_money(money):
+	current_money_label.text = "$"+str(money)

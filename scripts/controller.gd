@@ -9,23 +9,13 @@ extends Node2D
 @onready var hud = $HUD
 @onready var enemySpawner = $EnemySpawner
 @onready var debug_display = $Debug
-@onready var stats_manager = $StatsManager
-
-@export var launch_power : float = 2000
-@export var friction : float = 0.1
-@export var bounce_force : float = 500.0
-@export var forward_force : float = 100.0
-
-var health : float = 10.0
-var max_health : float = 10.0
-var power : float = 5000  
+@onready var store = $Store
+@onready var store_button = find_child("StoreButton", true, false)
 
 const AIMING : String = "aiming"
 const LAUNCHING : String = "launching"
 const LAUNCHED : String = "launched"
 const LANDED : String = "landed"
-
-var money : int = 0
 
 var game_state : String = AIMING  # "aiming", "launching", "launched", "landed"
 
@@ -33,14 +23,29 @@ var starting_position : Vector2
 
 func _ready():
 	power_bar.hide()
+	store.hide_store()
 	player.connect("landed", Callable(self, "_on_player_landed"))
 	player.connect("launched", Callable(self, "_on_player_launched"))
 	enemySpawner.player_hit_enemy.connect(_on_player_hit_enemy)
+	store_button.pressed.connect(_on_store_opened)
+	EventBus.store_closed.connect(_on_store_closed)
 	starting_position = player.position
 	hud.hide_middle_text(true)
 	reset()
 
+func _on_store_opened():
+	store.show_store()
+	get_tree().paused = true
+	hud.hide()
+	EventBus.emit_signal("store_opened")
+
+func _on_store_closed():
+	store.hide_store()
+	get_tree().paused = false
+	hud.show()
+
 func _on_player_launched():
+	find_child("StoreButton", true, false).hide()
 	print("launched")
 
 func _on_player_landed():
@@ -48,10 +53,11 @@ func _on_player_landed():
 	game_state = LANDED
 	hud.update_middle_text("Press SPACE to reset")
 	hud.hide_middle_text(false)
+	find_child("StoreButton", true, false).show()
 	pass
 
 func _on_player_hit_enemy(enemy):
-	var roll = roll_dice() + stats_manager.get_attack_modifier()
+	var roll = roll_dice() + StatsManager.get_attack_modifier()
 	print("You rolled ",roll," against a level ", enemy.cr," enemy")
 	if roll > enemy.cr:
 		_launch_player_further()
@@ -70,26 +76,16 @@ func roll_dice():
 	return roll
 
 func _launch_player_further():
-	money += 1
-	print(money)
-	hud.update_money(money)
-	player.bounce(stats_manager.get_bounce_force(), stats_manager.get_forward_force())
+	StatsManager.add_money(1)
+	print(StatsManager.money)
+	player.bounce(StatsManager.get_bounce_force(), StatsManager.get_forward_force())
 
 func hurt_player(damage):
-	health -= damage
-	print("health=",health," max_health=",max_health," health/max_health=",float(health/max_health))
-	health_bar.value = float(float(health/max_health)*100)
-	if health <= 0:
+	StatsManager.take_damage(damage)
+	health_bar.value = float((StatsManager.get_current_health()/StatsManager.get_max_health())*100)
+	if StatsManager.get_current_health() <= 0:
 		player.die()
 		game_state = LANDED
-		
-func heal_player(heal):
-	health += heal
-
-	if health > max_health:
-		health = max_health
-
-	health_bar.value = health/max_health*100
 
 var aim_angle : float
 var powerratio : float
@@ -131,8 +127,8 @@ func doLaunched():
 	aim_line.hide()
 	power_bar.hide()
 	player.freeze = false
-	print("Launched at ", powerratio*100, "% power with value of ", launch_power*powerratio)
-	player.launch(aim_angle, stats_manager.get_launch_power()*powerratio)
+	print("Launched at ", powerratio*100, "% power with value of ", StatsManager.get_launch_power()*powerratio)
+	player.launch(aim_angle, StatsManager.get_launch_power()*powerratio)
 	camera.doLaunched()
 
 func reset():
@@ -145,7 +141,6 @@ func reset():
 	aim_line.start()
 	camera.doAiming()
 	game_state = AIMING
-	heal_player(max_health)
 
 func _process(delta):
 	match game_state:

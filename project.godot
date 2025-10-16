@@ -14,3 +14,8 @@ config/name="DnDLauncher"
 run/main_scene="uid://bu5rbi6tmk83u"
 config/features=PackedStringArray("4.5", "Forward Plus")
 config/icon="res://icon.svg"
+
+[autoload]
+
+EventBus="*res://scripts/event_bus.gd"
+StatsManager="*res://scripts/stats_manager.gd"

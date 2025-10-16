@@ -9,7 +9,7 @@
 [ext_resource type="Script" uid="uid://c3r6j6w4bvbpx" path="res://scripts/hud.gd" id="7_u5sy4"]
 [ext_resource type="Script" uid="uid://c115i6dexqvso" path="res://scripts/enemy_spawner.gd" id="8_0tnpc"]
 [ext_resource type="PackedScene" uid="uid://ct5p61x2qm88v" path="res://scenes/enemy.tscn" id="9_vtaks"]
-[ext_resource type="Script" uid="uid://7mpnvkgu68lt" path="res://scripts/stats_manager.gd" id="10_kvpfn"]
+[ext_resource type="PackedScene" uid="uid://dy3ggd4jhp6rc" path="res://scenes/store.tscn" id="11_dinhu"]
 [ext_resource type="Texture2D" uid="uid://es2pq45jg6rn" path="res://assets/Backgound_elements/Samples/colored_castle.png" id="11_kvpfn"]
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_kvpfn"]
@@ -42,10 +42,6 @@ border_color = Color(0.48642266, 0, 0, 1)
 
 [node name="Controller" type="Node2D" parent="."]
 script = ExtResource("1_lbhrr")
-
-[node name="StatsManager" type="Node2D" parent="Controller"]
-script = ExtResource("10_kvpfn")
-forward_force_level = 5
 
 [node name="EnemySpawner" type="Node2D" parent="Controller" node_paths=PackedStringArray("camera")]
 position = Vector2(240, 167)
@@ -126,7 +122,10 @@ points = PackedVector2Array(0, 0, 100, 0)
 default_color = Color(0.98878354, 0, 0, 1)
 gradient = SubResource("Gradient_iywne")
 
+[node name="Store" parent="Controller" instance=ExtResource("11_dinhu")]
+
 [node name="HUD" type="CanvasLayer" parent="Controller"]
+process_mode = 3
 script = ExtResource("7_u5sy4")
 
 [node name="ScreenStack" type="VBoxContainer" parent="Controller/HUD"]
@@ -299,11 +298,11 @@ size_flags_vertical = 3
 theme_override_constants/separation = 0
 
 [node name="HealthContainer" type="Control" parent="Controller/HUD/ScreenStack/BottomMargin/Bottom"]
-visible = false
 layout_mode = 2
 size_flags_horizontal = 3
 
 [node name="Health panel" type="PanelContainer" parent="Controller/HUD/ScreenStack/BottomMargin/Bottom/HealthContainer"]
+visible = false
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
@@ -338,6 +337,12 @@ show_percentage = false
 [node name="Control" type="Control" parent="Controller/HUD/ScreenStack/BottomMargin/Bottom"]
 layout_mode = 2
 size_flags_horizontal = 3
+
+[node name="StoreButton" type="Button" parent="Controller/HUD/ScreenStack/BottomMargin/Bottom"]
+custom_minimum_size = Vector2(150, 0)
+layout_mode = 2
+focus_mode = 0
+text = "Store"
 
 [node name="ParallaxBackground" type="ParallaxBackground" parent="."]
 

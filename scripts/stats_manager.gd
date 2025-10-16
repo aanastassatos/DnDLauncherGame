@@ -1,4 +1,4 @@
-extends Node2D
+extends Node
 
 # Base Stats
 @export var base_launch_power : float = 2000
@@ -19,28 +19,79 @@ extends Node2D
 @export var ground_drag_level := 0
 @export var attack_power_level := 0
 
+# Current Values
+var current_health : float = 0.0
+var money : int = 0
+
 # Scaling Constants
 const POWER_STEP := 1.2
 const DRAG_STEP := 0.9
 
+func _ready():
+	current_health = get_max_health()
+
+func get_level(stat_name: String) -> int:
+	match stat_name:
+		"health": return health_level
+		"launch": return launch_power_level
+		"bounce_off": return bounce_force_level
+		"launch_off": return forward_force_level
+		_: 
+			push_warning("Unknown stat: %s" % stat_name)
+			return 0
+
+func upgrade(stat_name: String):
+	match stat_name:
+		"health": health_level += 1
+		"launch": launch_power_level += 1
+		"bounce_off": bounce_force_level += 1
+		"launch_off": forward_force_level += 1
+
+func spend_money(cost) -> bool:
+	if money >= cost:
+		money -= cost
+		EventBus.emit_signal("money_changed", money)
+		return true
+	else:
+		return false
+
+func add_money(amount):
+	money += amount
+	EventBus.emit_signal("money_changed", money)
+
+func get_money() -> int:
+	return money
+
 func get_launch_power() -> float:
 	var launch_power = base_launch_power * pow(POWER_STEP, launch_power_level)
-	print("Launch power: ", launch_power)
 	return launch_power
 
 func get_bounce_force() -> float:
 	var bounce_force = base_bounce_force * pow(POWER_STEP, bounce_force_level)
-	print("Bounce force: ", bounce_force)
 	return bounce_force
 
 func get_forward_force() -> float:
 	var forward_force = base_forward_force * pow(POWER_STEP, forward_force_level)
-	print("Forward force: ", forward_force)
 	return forward_force
 
-func get_health() -> float:
+func take_damage(damage):
+	if current_health >= damage:
+		current_health -= damage
+	else:
+		current_health = 0
+	EventBus.emit_signal("health_changed", current_health)
+
+func heal(amount):
+	current_health += amount	
+	if current_health > get_max_health():
+		current_health = get_max_health()
+	EventBus.emit_signal("health_changed",current_health)
+
+func get_current_health() -> float:
+	return current_health
+
+func get_max_health() -> float:
 	var health = base_health + health_level
-	print("Health: ", health)
 	return health
 	
 func get_air_drag() -> float:

@@ -53,17 +53,19 @@ theme_override_constants/separation = 15
 layout_mode = 2
 size_flags_horizontal = 3
 text = "Upgrade Health
-"
+$10"
 
 [node name="LaunchUpgradeButton" type="Button" parent="CanvasLayer/PanelContainer/MarginContainer/StoreHBox/PurchasablesVBox/Row1"]
 layout_mode = 2
 size_flags_horizontal = 3
-text = "Upgrade Launch"
+text = "Upgrade Launch
+$10"
 
 [node name="BounceOffEnemyUpgradeButton" type="Button" parent="CanvasLayer/PanelContainer/MarginContainer/StoreHBox/PurchasablesVBox/Row1"]
 layout_mode = 2
 size_flags_horizontal = 3
-text = "Upgrade Bounce Off Enemy"
+text = "Upgrade Bounce Off Enemy
+$10"
 autowrap_mode = 2
 
 [node name="Row2" type="HBoxContainer" parent="CanvasLayer/PanelContainer/MarginContainer/StoreHBox/PurchasablesVBox"]
@@ -74,17 +76,22 @@ theme_override_constants/separation = 15
 [node name="LaunchOffEnemyUpgradeButton" type="Button" parent="CanvasLayer/PanelContainer/MarginContainer/StoreHBox/PurchasablesVBox/Row2"]
 layout_mode = 2
 size_flags_horizontal = 3
-text = "Upgrade Launch Off Enemy"
+text = "Upgrade Launch Off Enemy
+$10"
 autowrap_mode = 2
 
-[node name="blah" type="Button" parent="CanvasLayer/PanelContainer/MarginContainer/StoreHBox/PurchasablesVBox/Row2"]
+[node name="MoneyMultUpgradeButton" type="Button" parent="CanvasLayer/PanelContainer/MarginContainer/StoreHBox/PurchasablesVBox/Row2"]
 layout_mode = 2
 size_flags_horizontal = 3
+text = "Upgrade Money Multiplier
+$10"
 autowrap_mode = 2
 
 [node name="Blah" type="Button" parent="CanvasLayer/PanelContainer/MarginContainer/StoreHBox/PurchasablesVBox/Row2"]
 layout_mode = 2
 size_flags_horizontal = 3
+text = "
+$10"
 autowrap_mode = 2
 
 [node name="Row5" type="HBoxContainer" parent="CanvasLayer/PanelContainer/MarginContainer/StoreHBox/PurchasablesVBox"]
@@ -94,6 +101,8 @@ size_flags_vertical = 3
 [node name="Button" type="Button" parent="CanvasLayer/PanelContainer/MarginContainer/StoreHBox/PurchasablesVBox/Row5"]
 layout_mode = 2
 size_flags_horizontal = 3
+text = "
+$10"
 
 [node name="Row3" type="HBoxContainer" parent="CanvasLayer/PanelContainer/MarginContainer/StoreHBox/PurchasablesVBox"]
 layout_mode = 2
@@ -102,6 +111,8 @@ size_flags_vertical = 3
 [node name="Button" type="Button" parent="CanvasLayer/PanelContainer/MarginContainer/StoreHBox/PurchasablesVBox/Row3"]
 layout_mode = 2
 size_flags_horizontal = 3
+text = "
+$10"
 
 [node name="InfoVBox" type="VBoxContainer" parent="CanvasLayer/PanelContainer/MarginContainer/StoreHBox"]
 layout_mode = 2
@@ -212,6 +223,16 @@ text = "Launch Off Level: "
 [node name="LaunchOffLevel" type="Label" parent="CanvasLayer/PanelContainer/MarginContainer/StoreHBox/InfoVBox/StatsPanelContainer/StatsMarginContainer/StatsVBox/LaunchOffLevelBox"]
 layout_mode = 2
 
+[node name="MoneyMultLevelBox" type="HBoxContainer" parent="CanvasLayer/PanelContainer/MarginContainer/StoreHBox/InfoVBox/StatsPanelContainer/StatsMarginContainer/StatsVBox"]
+layout_mode = 2
+
+[node name="MoneyMultLevelLabel" type="Label" parent="CanvasLayer/PanelContainer/MarginContainer/StoreHBox/InfoVBox/StatsPanelContainer/StatsMarginContainer/StatsVBox/MoneyMultLevelBox"]
+layout_mode = 2
+text = "Money Mult Level: "
+
+[node name="MoneyMultLevel" type="Label" parent="CanvasLayer/PanelContainer/MarginContainer/StoreHBox/InfoVBox/StatsPanelContainer/StatsMarginContainer/StatsVBox/MoneyMultLevelBox"]
+layout_mode = 2
+
 [node name="BackButtonPanel" type="Panel" parent="CanvasLayer/PanelContainer/MarginContainer/StoreHBox/InfoVBox"]
 layout_mode = 2
 size_flags_vertical = 3
@@ -232,3 +253,5 @@ grow_horizontal = 0
 grow_vertical = 2
 theme_override_font_sizes/font_size = 24
 text = "Back"
+
+[connection signal="pressed" from="CanvasLayer/PanelContainer/MarginContainer/StoreHBox/InfoVBox/BackButtonPanel/BackButton" to="." method="_on_back_button_pressed"]
