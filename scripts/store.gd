@@ -29,19 +29,40 @@ signal upgrade_requested(stat_name: String)
 @onready var buy_button = find_child("BuyButton", true, false)
 @onready var back_button = find_child("BackButton", true, false)
 
+# Array of all buttons in shop
+var shop_buttons : Array = []
+
 var selected = null
 
 func _ready():
 	# Connect each upgrade button
 	info_panel.hide()
 	EventBus.store_opened.connect(_on_store_open)
+	
+	#Configure Buttons with correct signals and IDs
 	health_upgrade_button.pressed.connect(_on_item_button_pressed.bind(Constants.HEALTH))
+	health_upgrade_button.set_meta(Constants.SHOP_DATA_ID, Constants.HEALTH)
+	shop_buttons.append(health_upgrade_button)
+	
 	launch_upgrade_button.pressed.connect(_on_item_button_pressed.bind(Constants.LAUNCH))
+	launch_upgrade_button.set_meta(Constants.SHOP_DATA_ID, Constants.LAUNCH)
+	shop_buttons.append(launch_upgrade_button)
+	
 	bounce_off_enemy_upgrade_button.pressed.connect(_on_item_button_pressed.bind(Constants.BOUNCE_OFF))
+	bounce_off_enemy_upgrade_button.set_meta(Constants.SHOP_DATA_ID, Constants.BOUNCE_OFF)
+	shop_buttons.append(bounce_off_enemy_upgrade_button)
+	
 	launch_off_enemy_upgrade_button.pressed.connect(_on_item_button_pressed.bind(Constants.LAUNCH_OFF))
+	launch_off_enemy_upgrade_button.set_meta(Constants.SHOP_DATA_ID, Constants.LAUNCH_OFF)
+	shop_buttons.append(launch_off_enemy_upgrade_button)
+	
 	health_potion_button.pressed.connect(_on_item_button_pressed.bind(Constants.HEALTH_POTION))
+	health_potion_button.set_meta(Constants.SHOP_DATA_ID, Constants.HEALTH_POTION)
+	shop_buttons.append(health_potion_button)
+	
 	buy_button.pressed.connect(_on_buy_button_pressed)
 	back_button.pressed.connect(_on_back_button_pressed)
+	
 	EventBus.money_changed.connect(set_money)
 
 func _on_store_open():
@@ -59,9 +80,10 @@ func update_store():
 	_update_buy_button()
 
 func _update_buttons():
-	#TODO: Add script to update the item selection buttons with prices
-	pass
-	
+	for button in shop_buttons:
+		var button_id = button.get_meta(Constants.SHOP_DATA_ID)
+		var cost_label = button.find_child("CostLabel")
+		cost_label.text = "$"+str(int(get_item_cost(button_id)))
 
 func hide_store():
 	canvas_layer.hide()
@@ -83,16 +105,18 @@ func _on_item_button_pressed(stat_name: String):
 
 func _update_buy_button():
 	if selected != null:
-		var item_cost = get_selected_item_cost()
+		var item_cost = get_item_cost(selected[Constants.SHOP_DATA_ID])
 		buy_button.text = "Buy For\n$"+str(int(item_cost))
 		if is_purchasable(item_cost):
 			buy_button.disabled = false
 		else:
 			buy_button.disabled = true
 
-func get_selected_item_cost():
-	if selected != null:
-		return selected[Constants.BASE_COST] * pow(selected[Constants.COST_MULTIPLIER],StatsManager.get_level(selected[Constants.SHOP_DATA_ID]))
+func get_item_cost(item_id : String):
+	if item_id != null:
+		var item_info = ShopData.ITEMS[item_id]
+		return item_info[Constants.BASE_COST] * pow(item_info[Constants.COST_MULTIPLIER],
+													StatsManager.get_level(item_info[Constants.SHOP_DATA_ID]))
 
 func is_purchasable(item_cost : int) -> bool:
 	if item_cost <= StatsManager.get_money():
@@ -106,7 +130,7 @@ func is_purchasable(item_cost : int) -> bool:
 	return false
 
 func _on_buy_button_pressed():
-	StatsManager.spend_money(get_selected_item_cost())
+	StatsManager.spend_money(get_item_cost(selected[Constants.SHOP_DATA_ID]))
 	match selected[Constants.TYPE]:
 		Constants.TYPE_UPGRADE:
 			StatsManager.upgrade(selected[Constants.SHOP_DATA_ID])
