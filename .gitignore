@@ -17,3 +17,4 @@ Thumbs.db
 # Other common ignores
 *.import
 *.tmp
+*.uid

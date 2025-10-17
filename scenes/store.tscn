@@ -91,9 +91,11 @@ autowrap_mode = 2
 layout_mode = 2
 size_flags_vertical = 3
 
-[node name="Button" type="Button" parent="CanvasLayer/PanelContainer/MarginContainer/StoreHBox/PurchasablesVBox/Row5"]
+[node name="HealthPotionButton" type="Button" parent="CanvasLayer/PanelContainer/MarginContainer/StoreHBox/PurchasablesVBox/Row5"]
 layout_mode = 2
 size_flags_horizontal = 3
+text = "Health Potion
+"
 
 [node name="Row3" type="HBoxContainer" parent="CanvasLayer/PanelContainer/MarginContainer/StoreHBox/PurchasablesVBox"]
 layout_mode = 2
@@ -143,12 +145,14 @@ layout_mode = 2
 theme_override_constants/separation = 20
 
 [node name="ItemDescriptionLabel" type="Label" parent="CanvasLayer/PanelContainer/MarginContainer/StoreHBox/InfoVBox/InfoContainer/InfoMarginContainer/InfoPanelVBoxContainer"]
+custom_minimum_size = Vector2(544, 101)
 layout_mode = 2
 size_flags_vertical = 6
 text = "Item desctiption blah blah blah blah blah
 nbjasjasldkfjasdf
 aksjdflkajsdfajsdifjaoisdjfjasdfkajsdlfkjas
 klaksjdlfkjasdkfasdkn"
+autowrap_mode = 2
 
 [node name="BuyButton" type="Button" parent="CanvasLayer/PanelContainer/MarginContainer/StoreHBox/InfoVBox/InfoContainer/InfoMarginContainer/InfoPanelVBoxContainer"]
 custom_minimum_size = Vector2(100, 50)

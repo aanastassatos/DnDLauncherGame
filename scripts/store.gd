@@ -19,6 +19,9 @@ signal upgrade_requested(stat_name: String)
 @onready var bounce_off_enemy_upgrade_button = find_child("BounceOffEnemyUpgradeButton", true, false)
 @onready var launch_off_enemy_upgrade_button = find_child("LaunchOffEnemyUpgradeButton", true, false)
 
+# Get item buttons
+@onready var health_potion_button = find_child("HealthPotionButton", true, false)
+
 # Get Info Panel elements
 @onready var info_panel = find_child("InfoMarginContainer", true, false)
 @onready var item_name_label = find_child("ItemNameLabel", true, false)
@@ -26,16 +29,18 @@ signal upgrade_requested(stat_name: String)
 @onready var buy_button = find_child("BuyButton", true, false)
 @onready var back_button = find_child("BackButton", true, false)
 
-var selected = ""
+var selected = null
 
 func _ready():
 	# Connect each upgrade button
 	info_panel.hide()
 	EventBus.store_opened.connect(_on_store_open)
-	health_upgrade_button.pressed.connect(_on_upgrade_button_pressed.bind("health"))
-	launch_upgrade_button.pressed.connect(_on_upgrade_button_pressed.bind("launch"))
-	bounce_off_enemy_upgrade_button.pressed.connect(_on_upgrade_button_pressed.bind("bounce_off"))
-	launch_off_enemy_upgrade_button.pressed.connect(_on_upgrade_button_pressed.bind("launch_off"))
+	health_upgrade_button.pressed.connect(_on_item_button_pressed.bind("health"))
+	launch_upgrade_button.pressed.connect(_on_item_button_pressed.bind("launch"))
+	bounce_off_enemy_upgrade_button.pressed.connect(_on_item_button_pressed.bind("bounce_off"))
+	launch_off_enemy_upgrade_button.pressed.connect(_on_item_button_pressed.bind("launch_off"))
+	health_potion_button.pressed.connect(_on_item_button_pressed.bind("health_potion"))
+	buy_button.pressed.connect(_on_buy_button_pressed)
 	back_button.pressed.connect(_on_back_button_pressed)
 	EventBus.money_changed.connect(set_money)
 
@@ -57,26 +62,42 @@ func hide_store():
 func show_store():
 	canvas_layer.show()
 
-func _on_upgrade_button_pressed(stat_name: String):
+func _on_item_button_pressed(stat_name: String):
 	print("upgrade for ",stat_name," pressed")
-	selected = stat_name
+	selected = ShopData.ITEMS[stat_name]
 	
-	var item_info = ShopData.ITEMS[selected]
-	item_name_label.text = item_info["display_name"]
-	item_description_label.text = item_info["description"]
+	item_name_label.text = selected["display_name"]
+	item_description_label.text = selected["description"]
 	
-	var item_cost = item_info["base_cost"] * pow(item_info["cost_multiplier"],StatsManager.get_level(selected))
+	_update_buy_button()
+	
+	info_panel.show()
+	
+
+func _update_buy_button():
+	var item_cost = get_selected_item_cost()
 	buy_button.text = "Buy For\n$"+str(int(item_cost))
 	if item_cost > StatsManager.get_money():
 		buy_button.disabled = true
 	else:
-		buy_button.enabled = true
-		
-	info_panel.show()
-	
+		buy_button.disabled = false
+
+func get_selected_item_cost():
+	if selected != null:
+		return selected["base_cost"] * pow(selected["cost_multiplier"],StatsManager.get_level(selected["id"]))
+
+func _on_buy_button_pressed():
+	StatsManager.spend_money(get_selected_item_cost())
+	match selected["type"]:
+		"upgrade":
+			StatsManager.upgrade(selected["id"])
+		"consumable":
+			StatsManager.consume(selected["id"])
+			
+	_update_buy_button()
+	update_store()
 
 func _on_back_button_pressed():
-	print("Back button pressed")
 	EventBus.emit_signal("store_closed")
 
 func set_health(current, max_health):

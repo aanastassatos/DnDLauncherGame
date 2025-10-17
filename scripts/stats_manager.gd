@@ -1,23 +1,23 @@
 extends Node
 
 # Base Stats
-@export var base_launch_power : float = 2000
-@export var base_bounce_force : float = 500.0
-@export var base_forward_force : float = 100.0
-@export var base_health : float = 10.0
-@export var base_air_drag : float = 0.02
-@export var base_ground_drag : float = 0.05
+var base_launch_power : float = 2000
+var base_bounce_force : float = 500.0
+var base_forward_force : float = 100.0
+var base_health : float = 10.0
+var base_air_drag : float = 0.02
+var base_ground_drag : float = 0.05
 
-@export var base_attack_power : float = 0.0
+var base_attack_power : float = 0.0
 
 # Upgrade Levels
-@export var launch_power_level := 0
-@export var bounce_force_level := 0
-@export var forward_force_level := 0
-@export var health_level := 0
-@export var air_drag_level := 0
-@export var ground_drag_level := 0
-@export var attack_power_level := 0
+var launch_power_level := 0
+var bounce_force_level := 0
+var forward_force_level := 0
+var health_level := 0
+var air_drag_level := 0
+var ground_drag_level := 0
+var attack_power_level := 0
 
 # Current Values
 var current_health : float = 0.0
@@ -36,6 +36,7 @@ func get_level(stat_name: String) -> int:
 		"launch": return launch_power_level
 		"bounce_off": return bounce_force_level
 		"launch_off": return forward_force_level
+		"health_potion": return health_level
 		_: 
 			push_warning("Unknown stat: %s" % stat_name)
 			return 0
@@ -46,6 +47,11 @@ func upgrade(stat_name: String):
 		"launch": launch_power_level += 1
 		"bounce_off": bounce_force_level += 1
 		"launch_off": forward_force_level += 1
+
+func consume(consumable_name: String):
+	match consumable_name:
+		"health_potion": 
+			heal(get_max_health())
 
 func spend_money(cost) -> bool:
 	if money >= cost:
