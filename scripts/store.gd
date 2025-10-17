@@ -24,9 +24,10 @@ signal upgrade_requested(stat_name: String)
 
 # Get Info Panel elements
 @onready var info_panel = find_child("InfoMarginContainer", true, false)
-@onready var item_name_label = find_child("ItemNameLabel", true, false)
-@onready var item_description_label = find_child("ItemDescriptionLabel", true, false)
-@onready var buy_button = find_child("BuyButton", true, false)
+@onready var item_name_label = info_panel.find_child("ItemNameLabel", true, false)
+@onready var item_description_label = info_panel.find_child("ItemDescriptionLabel", true, false)
+@onready var buy_button = info_panel.find_child("BuyButton", true, false)
+
 @onready var back_button = find_child("BackButton", true, false)
 
 # Array of all buttons in shop
