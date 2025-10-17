@@ -43,7 +43,9 @@ func get_level(stat_name: String) -> int:
 
 func upgrade(stat_name: String):
 	match stat_name:
-		Constants.HEALTH: health_level += 1
+		Constants.HEALTH: 
+			health_level += 1
+			current_health += 1
 		Constants.LAUNCH: launch_power_level += 1
 		Constants.BOUNCE_OFF: bounce_force_level += 1
 		Constants.LAUNCH_OFF: forward_force_level += 1
