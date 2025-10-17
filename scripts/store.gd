@@ -55,6 +55,7 @@ func update_store():
 	set_bounce_level(StatsManager.get_level("bounce_off"))
 	set_launch_off_level(StatsManager.get_level("launch_off"))
 	set_money(StatsManager.get_money())
+	_update_buy_button()
 
 func hide_store():
 	canvas_layer.hide()

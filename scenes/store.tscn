@@ -19,6 +19,7 @@ grow_vertical = 2
 script = ExtResource("1_jmp1n")
 
 [node name="CanvasLayer" type="CanvasLayer" parent="."]
+visible = false
 
 [node name="PanelContainer" type="PanelContainer" parent="CanvasLayer"]
 anchors_preset = 15
