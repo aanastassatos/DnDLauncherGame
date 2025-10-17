@@ -29,6 +29,7 @@ func _ready():
 	enemySpawner.player_hit_enemy.connect(_on_player_hit_enemy)
 	store_button.pressed.connect(_on_store_opened)
 	EventBus.store_closed.connect(_on_store_closed)
+	EventBus.health_changed.connect(_update_health)
 	starting_position = player.position
 	hud.hide_middle_text(true)
 	reset()
@@ -82,10 +83,13 @@ func _launch_player_further():
 
 func hurt_player(damage):
 	StatsManager.take_damage(damage)
-	health_bar.value = float((StatsManager.get_current_health()/StatsManager.get_max_health())*100)
 	if StatsManager.get_current_health() <= 0:
 		player.die()
 		game_state = LANDED
+
+func _update_health(health):
+	print("health changed")
+	health_bar.value = float((StatsManager.get_current_health()/StatsManager.get_max_health())*100)
 
 var aim_angle : float
 var powerratio : float

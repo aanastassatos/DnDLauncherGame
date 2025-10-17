@@ -57,7 +57,7 @@ func spawn_enemies(center_x: float):
 			enemies_in_chunk.append(enemy)
 			add_child(enemy)
 		else:
-			print("⚠️ Could not find valid position for enemy after", tries_per_enemy, "tries")
+			print("Could not find valid position for enemy after", tries_per_enemy, "tries")
 
 func clear_far_enemies(player_x: float):
 	for enemy in enemies:

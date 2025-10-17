@@ -77,14 +77,25 @@ func _on_item_button_pressed(stat_name: String):
 func _update_buy_button():
 	var item_cost = get_selected_item_cost()
 	buy_button.text = "Buy For\n$"+str(int(item_cost))
-	if item_cost > StatsManager.get_money():
-		buy_button.disabled = true
-	else:
+	if is_purchasable(item_cost):
 		buy_button.disabled = false
+	else:
+		buy_button.disabled = true
 
 func get_selected_item_cost():
 	if selected != null:
 		return selected["base_cost"] * pow(selected["cost_multiplier"],StatsManager.get_level(selected["id"]))
+
+func is_purchasable(item_cost : int) -> bool:
+	if item_cost <= StatsManager.get_money():
+		print(selected["id"])
+		print(selected["id"] != "health_potion")
+		if selected["id"] != "health_potion":
+			return true
+		
+		elif StatsManager.get_current_health() < StatsManager.get_max_health():
+			return true
+	return false
 
 func _on_buy_button_pressed():
 	StatsManager.spend_money(get_selected_item_cost())
