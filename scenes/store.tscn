@@ -1,6 +1,7 @@
-[gd_scene load_steps=4 format=3 uid="uid://dy3ggd4jhp6rc"]
+[gd_scene load_steps=5 format=3 uid="uid://dy3ggd4jhp6rc"]
 
 [ext_resource type="Script" uid="uid://cxni2e1echlnr" path="res://scripts/store.gd" id="1_jmp1n"]
+[ext_resource type="LabelSettings" uid="uid://cm2jhx1ipovmf" path="res://settings/store_item_labels.tres" id="2_atuvt"]
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_ncv12"]
 bg_color = Color(0.6357732, 0.377816, 0.008479924, 1)
@@ -19,7 +20,6 @@ grow_vertical = 2
 script = ExtResource("1_jmp1n")
 
 [node name="CanvasLayer" type="CanvasLayer" parent="."]
-visible = false
 
 [node name="PanelContainer" type="PanelContainer" parent="CanvasLayer"]
 anchors_preset = 15
@@ -53,19 +53,102 @@ theme_override_constants/separation = 15
 [node name="HealthUpgradeButton" type="Button" parent="CanvasLayer/PanelContainer/MarginContainer/StoreHBox/PurchasablesVBox/Row1"]
 layout_mode = 2
 size_flags_horizontal = 3
-text = "Upgrade Health
+text = "
 "
+metadata/item_id = "health_upgrade"
+
+[node name="ButtonLabelContainer" type="VBoxContainer" parent="CanvasLayer/PanelContainer/MarginContainer/StoreHBox/PurchasablesVBox/Row1/HealthUpgradeButton"]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -0.5
+offset_top = -25.0
+offset_right = 0.5
+offset_bottom = 25.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="ItemNameLabel" type="Label" parent="CanvasLayer/PanelContainer/MarginContainer/StoreHBox/PurchasablesVBox/Row1/HealthUpgradeButton/ButtonLabelContainer"]
+custom_minimum_size = Vector2(165, 0)
+layout_mode = 2
+size_flags_horizontal = 4
+text = "Health Upgrade"
+label_settings = ExtResource("2_atuvt")
+horizontal_alignment = 1
+autowrap_mode = 2
+
+[node name="CostLabel" type="Label" parent="CanvasLayer/PanelContainer/MarginContainer/StoreHBox/PurchasablesVBox/Row1/HealthUpgradeButton/ButtonLabelContainer"]
+layout_mode = 2
+text = "$10"
+horizontal_alignment = 1
 
 [node name="LaunchUpgradeButton" type="Button" parent="CanvasLayer/PanelContainer/MarginContainer/StoreHBox/PurchasablesVBox/Row1"]
 layout_mode = 2
 size_flags_horizontal = 3
-text = "Upgrade Launch"
+
+[node name="ButtonLabelContainer" type="VBoxContainer" parent="CanvasLayer/PanelContainer/MarginContainer/StoreHBox/PurchasablesVBox/Row1/LaunchUpgradeButton"]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -0.5
+offset_top = -25.0
+offset_right = 0.5
+offset_bottom = 25.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="ItemNameLabel" type="Label" parent="CanvasLayer/PanelContainer/MarginContainer/StoreHBox/PurchasablesVBox/Row1/LaunchUpgradeButton/ButtonLabelContainer"]
+custom_minimum_size = Vector2(165, 0)
+layout_mode = 2
+size_flags_horizontal = 4
+text = "Launch Upgrade"
+label_settings = ExtResource("2_atuvt")
+horizontal_alignment = 1
+autowrap_mode = 2
+
+[node name="CostLabel" type="Label" parent="CanvasLayer/PanelContainer/MarginContainer/StoreHBox/PurchasablesVBox/Row1/LaunchUpgradeButton/ButtonLabelContainer"]
+layout_mode = 2
+text = "$10"
+horizontal_alignment = 1
 
 [node name="BounceOffEnemyUpgradeButton" type="Button" parent="CanvasLayer/PanelContainer/MarginContainer/StoreHBox/PurchasablesVBox/Row1"]
 layout_mode = 2
 size_flags_horizontal = 3
-text = "Upgrade Bounce Off Enemy"
 autowrap_mode = 2
+
+[node name="ButtonLabelContainer" type="VBoxContainer" parent="CanvasLayer/PanelContainer/MarginContainer/StoreHBox/PurchasablesVBox/Row1/BounceOffEnemyUpgradeButton"]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -0.5
+offset_top = -25.0
+offset_right = 0.5
+offset_bottom = 25.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="ItemNameLabel" type="Label" parent="CanvasLayer/PanelContainer/MarginContainer/StoreHBox/PurchasablesVBox/Row1/BounceOffEnemyUpgradeButton/ButtonLabelContainer"]
+custom_minimum_size = Vector2(165, 0)
+layout_mode = 2
+size_flags_horizontal = 4
+text = "Upgrade Bounce Off Enemy"
+label_settings = ExtResource("2_atuvt")
+horizontal_alignment = 1
+autowrap_mode = 2
+
+[node name="CostLabel" type="Label" parent="CanvasLayer/PanelContainer/MarginContainer/StoreHBox/PurchasablesVBox/Row1/BounceOffEnemyUpgradeButton/ButtonLabelContainer"]
+layout_mode = 2
+text = "$10"
+horizontal_alignment = 1
 
 [node name="Row2" type="HBoxContainer" parent="CanvasLayer/PanelContainer/MarginContainer/StoreHBox/PurchasablesVBox"]
 layout_mode = 2
@@ -75,8 +158,35 @@ theme_override_constants/separation = 15
 [node name="LaunchOffEnemyUpgradeButton" type="Button" parent="CanvasLayer/PanelContainer/MarginContainer/StoreHBox/PurchasablesVBox/Row2"]
 layout_mode = 2
 size_flags_horizontal = 3
-text = "Upgrade Launch Off Enemy"
 autowrap_mode = 2
+
+[node name="ButtonLabelContainer" type="VBoxContainer" parent="CanvasLayer/PanelContainer/MarginContainer/StoreHBox/PurchasablesVBox/Row2/LaunchOffEnemyUpgradeButton"]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -0.5
+offset_top = -25.0
+offset_right = 0.5
+offset_bottom = 25.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="ItemNameLabel" type="Label" parent="CanvasLayer/PanelContainer/MarginContainer/StoreHBox/PurchasablesVBox/Row2/LaunchOffEnemyUpgradeButton/ButtonLabelContainer"]
+custom_minimum_size = Vector2(165, 0)
+layout_mode = 2
+size_flags_horizontal = 4
+text = "Upgrade Launch Off Enemy"
+label_settings = ExtResource("2_atuvt")
+horizontal_alignment = 1
+autowrap_mode = 2
+
+[node name="CostLabel" type="Label" parent="CanvasLayer/PanelContainer/MarginContainer/StoreHBox/PurchasablesVBox/Row2/LaunchOffEnemyUpgradeButton/ButtonLabelContainer"]
+layout_mode = 2
+text = "$10"
+horizontal_alignment = 1
 
 [node name="blah" type="Button" parent="CanvasLayer/PanelContainer/MarginContainer/StoreHBox/PurchasablesVBox/Row2"]
 layout_mode = 2
@@ -95,8 +205,36 @@ size_flags_vertical = 3
 [node name="HealthPotionButton" type="Button" parent="CanvasLayer/PanelContainer/MarginContainer/StoreHBox/PurchasablesVBox/Row5"]
 layout_mode = 2
 size_flags_horizontal = 3
-text = "Health Potion
+text = "
 "
+
+[node name="ButtonLabelContainer" type="VBoxContainer" parent="CanvasLayer/PanelContainer/MarginContainer/StoreHBox/PurchasablesVBox/Row5/HealthPotionButton"]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -0.5
+offset_top = -25.0
+offset_right = 0.5
+offset_bottom = 25.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="ItemNameLabel" type="Label" parent="CanvasLayer/PanelContainer/MarginContainer/StoreHBox/PurchasablesVBox/Row5/HealthPotionButton/ButtonLabelContainer"]
+custom_minimum_size = Vector2(165, 0)
+layout_mode = 2
+size_flags_horizontal = 4
+text = "Health Potion"
+label_settings = ExtResource("2_atuvt")
+horizontal_alignment = 1
+autowrap_mode = 2
+
+[node name="CostLabel" type="Label" parent="CanvasLayer/PanelContainer/MarginContainer/StoreHBox/PurchasablesVBox/Row5/HealthPotionButton/ButtonLabelContainer"]
+layout_mode = 2
+text = "$10"
+horizontal_alignment = 1
 
 [node name="Row3" type="HBoxContainer" parent="CanvasLayer/PanelContainer/MarginContainer/StoreHBox/PurchasablesVBox"]
 layout_mode = 2

@@ -32,25 +32,25 @@ func _ready():
 
 func get_level(stat_name: String) -> int:
 	match stat_name:
-		"health": return health_level
-		"launch": return launch_power_level
-		"bounce_off": return bounce_force_level
-		"launch_off": return forward_force_level
-		"health_potion": return health_level
+		Constants.HEALTH: return health_level
+		Constants.LAUNCH: return launch_power_level
+		Constants.BOUNCE_OFF: return bounce_force_level
+		Constants.LAUNCH_OFF: return forward_force_level
+		Constants.HEALTH_POTION: return health_level
 		_: 
 			push_warning("Unknown stat: %s" % stat_name)
 			return 0
 
 func upgrade(stat_name: String):
 	match stat_name:
-		"health": health_level += 1
-		"launch": launch_power_level += 1
-		"bounce_off": bounce_force_level += 1
-		"launch_off": forward_force_level += 1
+		Constants.HEALTH: health_level += 1
+		Constants.LAUNCH: launch_power_level += 1
+		Constants.BOUNCE_OFF: bounce_force_level += 1
+		Constants.LAUNCH_OFF: forward_force_level += 1
 
 func consume(consumable_name: String):
 	match consumable_name:
-		"health_potion": 
+		Constants.HEALTH_POTION: 
 			heal(get_max_health())
 
 func spend_money(cost) -> bool:
