@@ -4,6 +4,7 @@ signal launched
 signal landed
 
 @onready var dice_label = $Control/Panel/Dice
+@export var use_burrito_bison_physics = true
 
 var aiming: bool = true
 var flying: bool = false
@@ -19,6 +20,22 @@ var min_speed : float = 10.0
 var max_still_time:=0.5
 
 var still_time:=0.0
+
+var forward_speed : float = 200.0
+var touching_ground: bool = false
+
+func _ready():
+	if use_burrito_bison_physics:
+		var mat = physics_material_override
+		contact_monitor = true
+		max_contacts_reported = 1
+		body_entered.connect(_on_body_entered)
+		body_exited.connect(_on_body_exited)
+		mat.friction = 0.0
+	
+	else:
+		var mat = physics_material_override
+		mat.friction = 0.1
 
 func _process(delta):
 	if flying:
@@ -38,7 +55,42 @@ func _process(delta):
 	if rolling_dice:
 		dice_label.text = str(randi_range(1,20))
 
+func _on_body_entered(body):
+	print("body entered")
+	if body.is_in_group("ground"):
+		touching_ground = true
+		print("Touching grass")
+
+func _on_body_exited(body):
+	print("body left")
+	if body.is_in_group("ground"):
+		touching_ground = false
+		print("Not Touching grass")
+
+var ground_decay_rate : float = 0.1
+var horizontal_decay_rate : float = 0.08
+var speed_boost_percentage : float = 0.2
+
+func _integrate_forces(state: PhysicsDirectBodyState2D) -> void:
+	if flying and use_burrito_bison_physics:
+		forward_speed *= 1.0 - horizontal_decay_rate * state.step
+		
+		if touching_ground:
+			var speed_loss = forward_speed*ground_decay_rate
+			
+			if forward_speed - speed_loss > 0:
+				forward_speed -= speed_loss
+			
+			else:
+				forward_speed = 0
+			
+		var velocity = state.linear_velocity
+		velocity.x = forward_speed
+		state.linear_velocity = velocity
+
 func bounce(bounce_force, forward_force):
+	if use_burrito_bison_physics:
+		forward_speed += forward_speed*speed_boost_percentage
 	linear_velocity.y = -abs(linear_velocity.y)
 	linear_velocity.x += forward_force
 	var impulse = Vector2.UP * bounce_force + Vector2.RIGHT * forward_force
@@ -47,6 +99,7 @@ func bounce(bounce_force, forward_force):
 func launch(angle, power):
 	flying = true
 	var impulse = Vector2.RIGHT.rotated(deg_to_rad(angle)) * power
+	forward_speed = impulse.x
 	apply_impulse(impulse)
 	emit_signal("launched")
 	

@@ -51,13 +51,16 @@ camera = NodePath("../Player/Camera2D")
 
 [node name="Player" parent="Controller" instance=ExtResource("1_lnu2h")]
 position = Vector2(201, 204)
+max_contacts_reported = 1
 
 [node name="Camera2D" type="Camera2D" parent="Controller/Player"]
 position = Vector2(375, 120)
 ignore_rotation = false
+zoom = Vector2(1.055, 1.055)
 limit_bottom = 400
 position_smoothing_speed = 10.0
 script = ExtResource("2_lbhrr")
+launched_offset_x = 250.0
 
 [node name="HealthControl" type="Control" parent="Controller/Player"]
 layout_mode = 3
@@ -78,7 +81,7 @@ theme_override_styles/fill = SubResource("StyleBoxFlat_dinhu")
 value = 100.0
 show_percentage = false
 
-[node name="Ground" type="StaticBody2D" parent="Controller"]
+[node name="Ground" type="StaticBody2D" parent="Controller" groups=["ground"]]
 position = Vector2(240, 265)
 collision_layer = 4
 collision_mask = 3
@@ -355,3 +358,6 @@ motion_mirroring = Vector2(1461.07, 0)
 scale = Vector2(1.4271654, 1.4271654)
 texture = ExtResource("11_kvpfn")
 centered = false
+
+[connection signal="body_entered" from="Controller/Player" to="Controller/Player" method="_on_body_entered"]
+[connection signal="body_exited" from="Controller/Player" to="Controller/Player" method="_on_body_exited"]
