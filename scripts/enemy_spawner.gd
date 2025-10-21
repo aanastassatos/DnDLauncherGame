@@ -5,7 +5,7 @@ extends Node2D
 @export var chunk_width: float = 2000.0
 @export var enemies_per_chunk: int = 3
 @export var y_range: Vector2 = Vector2(-200, -50)
-@export var y : float = 70.0
+@export var ground_y : float = 70.0
 @export var enabled : bool = true
 
 const MAX_DISTANCE = 2000
@@ -34,15 +34,15 @@ func spawn_enemies(center_x: float):
 	var enemies_in_chunk: Array = []
 
 	for i in range(enemies_per_chunk):
-		var enemy = enemy_scene.instantiate()
 		var valid_position = false
 		var attempt = 0
 		var position: Vector2
+		var offset_x = 0.0
 
 		while not valid_position and attempt < tries_per_enemy:
 			attempt += 1
-			var offset_x = randf_range(-chunk_width / 2, chunk_width / 2)
-			position = Vector2(center_x + offset_x, y)
+			offset_x = randf_range(-chunk_width / 2, chunk_width / 2)
+			position = Vector2(center_x + offset_x, ground_y)
 
 			valid_position = true
 			for e in enemies_in_chunk:
@@ -51,7 +51,18 @@ func spawn_enemies(center_x: float):
 					break
 
 		if valid_position:
-			enemy.position = position
+			var enemy = enemy_scene.instantiate()
+			
+			# Try to align with ground based on collider
+			var collider = enemy.get_node_or_null("CollisionShape2D")
+			if collider and collider.shape is RectangleShape2D:
+				var rect_shape = collider.shape
+				var collider_bottom = rect_shape.extents.y
+				var shape_offset = collider.position.y
+				enemy.position = Vector2(center_x + offset_x, ground_y - collider_bottom - shape_offset)
+			else:
+				enemy.position = Vector2(center_x + offset_x, ground_y)
+
 			enemy.hit_by_player.connect(_notify_player_hit)
 			enemies.append(enemy)
 			enemies_in_chunk.append(enemy)
