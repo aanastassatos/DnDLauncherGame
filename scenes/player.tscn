@@ -1,13 +1,23 @@
-[gd_scene load_steps=6 format=3 uid="uid://brmyj48t05jr"]
+[gd_scene load_steps=10 format=3 uid="uid://brmyj48t05jr"]
 
 [ext_resource type="Script" uid="uid://2e45rx5qgudo" path="res://scripts/player.gd" id="1_onrkg"]
 [ext_resource type="Texture2D" uid="uid://b60xdaf2x6hdk" path="res://assets/circle.png" id="2_i3pqv"]
+[ext_resource type="Texture2D" uid="uid://bldtj7wsxw3q1" path="res://assets/Characters/Gnome_boy.PNG" id="2_qhqgy"]
 
 [sub_resource type="PhysicsMaterial" id="PhysicsMaterial_g2els"]
 friction = 0.1
 bounce = 0.6
 
+[sub_resource type="CircleShape2D" id="CircleShape2D_dqkch"]
+radius = 243.52333
+
 [sub_resource type="CircleShape2D" id="CircleShape2D_0e48y"]
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_qhqgy"]
+radius = 66.0
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_dqkch"]
+size = Vector2(102, 136)
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_g2els"]
 draw_center = false
@@ -18,14 +28,38 @@ physics_material_override = SubResource("PhysicsMaterial_g2els")
 lock_rotation = true
 script = ExtResource("1_onrkg")
 
-[node name="Sprite2D" type="Sprite2D" parent="."]
+[node name="GnomeSprite" type="Sprite2D" parent="."]
+scale = Vector2(0.19299999, 0.19299999)
+texture = ExtResource("2_qhqgy")
+offset = Vector2(-64, -39)
+
+[node name="BallSprite" type="Sprite2D" parent="."]
+visible = false
 scale = Vector2(-0.08048777, -0.08048777)
 texture = ExtResource("2_i3pqv")
 offset = Vector2(-6.96, 22.089)
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+[node name="CollisionBall" type="CollisionShape2D" parent="."]
+position = Vector2(0, 1)
+scale = Vector2(0.19299999, 0.19299999)
+shape = SubResource("CircleShape2D_dqkch")
+
+[node name="CollisionShape2DBall" type="CollisionShape2D" parent="."]
+visible = false
 scale = Vector2(2.2772944, 2.2772944)
 shape = SubResource("CircleShape2D_0e48y")
+
+[node name="HeadCollision" type="CollisionShape2D" parent="."]
+visible = false
+position = Vector2(-6, -42)
+scale = Vector2(0.5, 0.5)
+shape = SubResource("CircleShape2D_qhqgy")
+
+[node name="BodyCollision" type="CollisionShape2D" parent="."]
+visible = false
+position = Vector2(3.5, 5)
+scale = Vector2(0.5, 0.5)
+shape = SubResource("RectangleShape2D_dqkch")
 
 [node name="Control" type="Control" parent="."]
 layout_mode = 3
@@ -50,10 +84,12 @@ anchor_left = 0.5
 anchor_top = 0.5
 anchor_right = 0.5
 anchor_bottom = 0.5
-offset_left = -5.0
-offset_top = -11.5
-offset_right = 5.0
-offset_bottom = 11.5
+offset_left = -8.0
+offset_top = -11.0
+offset_right = 26.0
+offset_bottom = 31.0
 grow_horizontal = 2
 grow_vertical = 2
+scale = Vector2(0.5, 0.5)
+theme_override_font_sizes/font_size = 30
 text = "10"
