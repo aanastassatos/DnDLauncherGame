@@ -55,7 +55,6 @@ max_contacts_reported = 1
 
 [node name="Camera2D" type="Camera2D" parent="Controller/Player"]
 position = Vector2(375, 120)
-ignore_rotation = false
 zoom = Vector2(1.055, 1.055)
 limit_bottom = 400
 position_smoothing_speed = 10.0

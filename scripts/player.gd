@@ -4,6 +4,9 @@ signal launched
 signal landed
 
 @onready var dice_label = $Control/Panel/Dice
+@onready var visuals = find_child("GnomeSprite")
+@onready var collision_ball = find_child("CollisionBall")
+@onready var animation_player = find_child("AnimationPlayer")
 @export var use_burrito_bison_physics = true
 
 var aiming: bool = true
@@ -23,6 +26,9 @@ var still_time:=0.0
 
 var forward_speed : float = 200.0
 var touching_ground: bool = false
+
+var rotation_speed : float = 8.0
+var reset_rotation_on_ground : bool = true
 
 func _ready():
 	if use_burrito_bison_physics:
@@ -49,11 +55,24 @@ func _process(delta):
 				flying = false
 				stop_rolling_dice()
 				emit_signal("landed")
+				animation_player.play("Idle")
 		else:
 			still_time = 0.0
 			
 	if rolling_dice:
 		dice_label.text = str(randi_range(1,20))
+	
+	if flying:
+		if linear_velocity.length() > 10:
+			var target_angle = linear_velocity.angle()+45
+			visuals.rotation = lerp_angle(visuals.rotation, target_angle, rotation_speed * delta)
+			collision_ball.rotation = visuals.rotation
+		elif reset_rotation_on_ground:
+			visuals.rotation = lerp_angle(visuals.rotation, 90, rotation_speed * delta)
+	
+	if not flying:
+		visuals.rotation = lerp_angle(visuals.rotation, 0, rotation_speed * delta)
+		collision_ball.rotation = visuals.rotation
 
 func _on_body_entered(body):
 	print("body entered")
@@ -102,6 +121,7 @@ func launch(angle, power):
 	forward_speed = impulse.x
 	apply_impulse(impulse)
 	emit_signal("launched")
+	animation_player.play("flying")
 	
 
 func start_rolling_dice():
