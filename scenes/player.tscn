@@ -1,7 +1,6 @@
-[gd_scene load_steps=20 format=3 uid="uid://brmyj48t05jr"]
+[gd_scene load_steps=16 format=3 uid="uid://brmyj48t05jr"]
 
 [ext_resource type="Script" uid="uid://2e45rx5qgudo" path="res://scripts/player.gd" id="1_onrkg"]
-[ext_resource type="Texture2D" uid="uid://b60xdaf2x6hdk" path="res://assets/circle.png" id="2_i3pqv"]
 [ext_resource type="Texture2D" uid="uid://bldtj7wsxw3q1" path="res://assets/Characters/Gnome_boy.PNG" id="2_qhqgy"]
 [ext_resource type="Texture2D" uid="uid://cadh08lwy0l4q" path="res://assets/Characters/gnome/Gnome_boy-left-arm.png" id="3_y4r1p"]
 [ext_resource type="Texture2D" uid="uid://csidc8ctotn0o" path="res://assets/Characters/gnome/Gnome_boy-body.png" id="4_d2wvv"]
@@ -492,14 +491,6 @@ _data = {
 radius = 181.34715
 height = 580.31085
 
-[sub_resource type="CircleShape2D" id="CircleShape2D_0e48y"]
-
-[sub_resource type="CircleShape2D" id="CircleShape2D_qhqgy"]
-radius = 66.0
-
-[sub_resource type="RectangleShape2D" id="RectangleShape2D_dqkch"]
-size = Vector2(102, 136)
-
 [node name="Player" type="RigidBody2D"]
 collision_mask = 6
 physics_material_override = SubResource("PhysicsMaterial_g2els")
@@ -555,32 +546,9 @@ libraries = {
 }
 autoplay = "Idle"
 
-[node name="BallSprite" type="Sprite2D" parent="."]
-visible = false
-scale = Vector2(-0.08048777, -0.08048777)
-texture = ExtResource("2_i3pqv")
-offset = Vector2(-6.96, 22.089)
-
 [node name="CollisionBall" type="CollisionShape2D" parent="."]
 scale = Vector2(0.19299999, 0.19299999)
 shape = SubResource("CapsuleShape2D_qhqgy")
-
-[node name="CollisionShape2DBall" type="CollisionShape2D" parent="."]
-visible = false
-scale = Vector2(2.2772944, 2.2772944)
-shape = SubResource("CircleShape2D_0e48y")
-
-[node name="HeadCollision" type="CollisionShape2D" parent="."]
-visible = false
-position = Vector2(-6, -42)
-scale = Vector2(0.5, 0.5)
-shape = SubResource("CircleShape2D_qhqgy")
-
-[node name="BodyCollision" type="CollisionShape2D" parent="."]
-visible = false
-position = Vector2(3.5, 5)
-scale = Vector2(0.5, 0.5)
-shape = SubResource("RectangleShape2D_dqkch")
 
 [node name="Control" type="Control" parent="."]
 layout_mode = 3
