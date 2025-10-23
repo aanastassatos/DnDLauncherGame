@@ -141,6 +141,11 @@ func reset():
 	#hud.hide_middle_text(false)
 	player.position = starting_position
 	player.freeze = true
+	player.linear_velocity = Vector2.ZERO
+	player.angular_velocity = 0
+	player.sleeping = false
+	player.set_deferred("position", starting_position)
+	
 	aim_line.show()
 	aim_line.start()
 	camera.doAiming()
