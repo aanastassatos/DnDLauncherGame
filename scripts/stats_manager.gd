@@ -22,7 +22,7 @@ var attack_power_level := 0
 
 # Current Values
 var current_health : float = 0.0
-var money : int = 0
+var money : int = 500
 
 # Scaling Constants
 const POWER_STEP := 1.2
@@ -54,6 +54,7 @@ func upgrade(stat_name: String):
 		Constants.LAUNCH_OFF: forward_force_level += 1
 		Constants.AIR_DRAG: air_drag_level += 1
 		Constants.GROUND_DRAG: ground_drag_level += 1
+	EventBus.emit_signal("stats_changed")
 
 func consume(consumable_name: String):
 	match consumable_name:
@@ -116,7 +117,7 @@ func get_air_drag() -> float:
 	return air_drag
 
 func get_ground_drag() -> float:
-	var ground_drag = base_ground_drag * pow(DRAG_STEP, ground_drag_level)
+	var ground_drag = base_ground_drag * pow(0.8, ground_drag_level)
 	return ground_drag
 
 func get_attack_modifier() -> float:

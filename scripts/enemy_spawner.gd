@@ -12,8 +12,6 @@ const MAX_DISTANCE = 2000
 var last_spawn_x : float =0.0
 var enemies : Array = []
 
-signal player_hit_enemy(enemy)
-
 func _process(delta):
 	if not camera:
 		return
@@ -63,7 +61,6 @@ func spawn_enemies(center_x: float):
 			else:
 				enemy.position = Vector2(center_x + offset_x, ground_y)
 
-			enemy.hit_by_player.connect(_notify_player_hit)
 			enemies.append(enemy)
 			enemies_in_chunk.append(enemy)
 			add_child(enemy)
@@ -75,9 +72,6 @@ func clear_far_enemies(player_x: float):
 		if is_instance_valid(enemy) and enemy.position.x < player_x - MAX_DISTANCE:
 			enemy.queue_free()
 			enemies.erase(enemy)
-
-func _notify_player_hit(enemy):
-	emit_signal("player_hit_enemy", enemy)
 
 func reset_enemies():
 	for enemy in enemies:

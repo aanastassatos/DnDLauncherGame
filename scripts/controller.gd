@@ -24,9 +24,9 @@ var starting_position : Vector2
 func _ready():
 	power_bar.hide()
 	store.hide_store()
-	player.connect("landed", Callable(self, "_on_player_landed"))
-	player.connect("launched", Callable(self, "_on_player_launched"))
-	enemySpawner.player_hit_enemy.connect(_on_player_hit_enemy)
+	EventBus.player_landed.connect(_on_player_landed)
+	EventBus.player_launched.connect(_on_player_launched)
+	EventBus.player_touched_enemy.connect(_on_player_hit_enemy)
 	store_button.pressed.connect(_on_store_opened)
 	EventBus.store_closed.connect(_on_store_closed)
 	EventBus.health_changed.connect(_update_health)

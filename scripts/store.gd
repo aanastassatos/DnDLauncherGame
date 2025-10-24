@@ -1,7 +1,5 @@
 extends Control
 
-signal upgrade_requested(stat_name: String)
-
 @onready var canvas_layer = $CanvasLayer
 
 # Get stat labels
@@ -77,6 +75,7 @@ func _ready():
 	back_button.pressed.connect(_on_back_button_pressed)
 	
 	EventBus.money_changed.connect(set_money)
+	EventBus.stats_changed.connect(update_stats)
 
 func _on_store_open():
 	update_store()
@@ -84,15 +83,18 @@ func _on_store_open():
 
 func update_store():
 	#Update Stats
+	update_stats()
+	set_money(StatsManager.get_money())
+	_update_buttons()
+	_update_buy_button()
+
+func update_stats():
 	set_health(StatsManager.get_current_health(), StatsManager.get_max_health())
 	set_launch_level(StatsManager.get_level(Constants.LAUNCH))
 	set_bounce_level(StatsManager.get_level(Constants.BOUNCE_OFF))
 	set_launch_off_level(StatsManager.get_level(Constants.LAUNCH_OFF))
 	set_air_drag_level(StatsManager.get_level(Constants.AIR_DRAG))
 	set_ground_drag_level(StatsManager.get_level(Constants.GROUND_DRAG))
-	set_money(StatsManager.get_money())
-	_update_buttons()
-	_update_buy_button()
 
 func _update_buttons():
 	for button in shop_buttons:

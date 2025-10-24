@@ -1,8 +1,5 @@
 extends RigidBody2D
 
-signal launched
-signal landed
-
 @onready var dice_label = find_child("Dice")
 @onready var visuals = find_child("GnomeSprite")
 @onready var collision_ball = find_child("CollisionBall")
@@ -54,7 +51,7 @@ func _process(delta):
 				linear_velocity = Vector2.ZERO
 				flying = false
 				stop_rolling_dice()
-				emit_signal("landed")
+				EventBus.emit_signal("landed")
 				animation_player.play("Idle")
 		else:
 			still_time = 0.0
@@ -112,7 +109,7 @@ func launch(angle, power):
 	var impulse = Vector2.RIGHT.rotated(deg_to_rad(angle)) * power
 	forward_speed = impulse.x
 	apply_impulse(impulse)
-	emit_signal("launched")
+	EventBus.emit_signal("launched")
 	animation_player.play("flying")
 	
 
