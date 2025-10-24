@@ -75,7 +75,6 @@ func clear_far_enemies(player_x: float):
 		if is_instance_valid(enemy) and enemy.position.x < player_x - MAX_DISTANCE:
 			enemy.queue_free()
 			enemies.erase(enemy)
-			print("Enemy Despawned")
 
 func _notify_player_hit(enemy):
 	emit_signal("player_hit_enemy", enemy)

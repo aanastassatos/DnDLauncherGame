@@ -12,4 +12,3 @@ func _ready():
 func _on_body_entered(body):
 	if body.name == "Player":
 		emit_signal("hit_by_player", self)
-	print("Player hit me")

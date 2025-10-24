@@ -75,16 +75,12 @@ func _process(delta):
 		collision_ball.rotation = visuals.rotation
 
 func _on_body_entered(body):
-	print("body entered")
 	if body.is_in_group("ground"):
 		touching_ground = true
-		print("Touching grass")
 
 func _on_body_exited(body):
-	print("body left")
 	if body.is_in_group("ground"):
 		touching_ground = false
-		print("Not Touching grass")
 
 func _integrate_forces(state: PhysicsDirectBodyState2D) -> void:
 	if flying and use_burrito_bison_physics:
