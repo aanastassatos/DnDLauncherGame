@@ -29,12 +29,28 @@ const ITEMS = {
 	},
 	Constants.LAUNCH_OFF: {
 		Constants.SHOP_DATA_ID: Constants.LAUNCH_OFF,
-		Constants.DISPLAY_NAME: "Enemy Launch Boost",
+		Constants.DISPLAY_NAME: "Enemy Launch Speed Boost",
 		Constants.DESCRIPTION: "Increases horizontal force gained after hitting enemies.",
 		Constants.TYPE: Constants.TYPE_UPGRADE,
 		Constants.BASE_COST: 5,
 		Constants.COST_MULTIPLIER: 1.5
 	},
+Constants.AIR_DRAG: {
+	Constants.SHOP_DATA_ID: Constants.AIR_DRAG,
+	Constants.DISPLAY_NAME: "Improve Aerodynamics",
+	Constants.DESCRIPTION: "Reduces air resistance, allowing you to maintain speed longer while flying through the air.",
+	Constants.TYPE: Constants.TYPE_UPGRADE,
+	Constants.BASE_COST: 8,
+	Constants.COST_MULTIPLIER: 1.6
+},
+Constants.GROUND_DRAG: {
+	Constants.SHOP_DATA_ID: Constants.GROUND_DRAG,
+	Constants.DISPLAY_NAME: "Impact Dampening",
+	Constants.DESCRIPTION: "Lessens the speed lost when you hit the ground, keeping your momentum between bounces.",
+	Constants.TYPE: Constants.TYPE_UPGRADE,
+	Constants.BASE_COST: 10,
+	Constants.COST_MULTIPLIER: 1.6
+},
 	Constants.HEALTH_POTION: {
 		Constants.SHOP_DATA_ID: Constants.HEALTH_POTION,
 		Constants.DISPLAY_NAME: "Health Potion",

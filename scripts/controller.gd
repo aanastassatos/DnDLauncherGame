@@ -90,6 +90,7 @@ func hurt_player(damage):
 func _update_health(health):
 	print("health changed")
 	health_bar.value = float((StatsManager.get_current_health()/StatsManager.get_max_health())*100)
+	EventBus.emit_signal("health_changed")
 
 var aim_angle : float
 var powerratio : float
@@ -145,6 +146,7 @@ func reset():
 	player.angular_velocity = 0
 	player.sleeping = false
 	player.set_deferred("position", starting_position)
+	player.set_deferred("touching_ground", false )
 	
 	aim_line.show()
 	aim_line.start()

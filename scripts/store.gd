@@ -9,6 +9,8 @@ signal upgrade_requested(stat_name: String)
 @onready var launch_label = find_child("LaunchLevel", true, false)
 @onready var bounce_label = find_child("BounceLevel", true, false)
 @onready var launch_off_label = find_child("LaunchOffLevel", true, false)
+@onready var air_drag_label = find_child("AerodynamicsLevel", true, false)
+@onready var impact_dampening_level = find_child("ImpactDampeningLevel", true, false)
 
 #Get Money label
 @onready var current_money_label = find_child("CurrentMoneyLabel", true, false)
@@ -18,6 +20,8 @@ signal upgrade_requested(stat_name: String)
 @onready var launch_upgrade_button = find_child("LaunchUpgradeButton", true, false)
 @onready var bounce_off_enemy_upgrade_button = find_child("BounceOffEnemyUpgradeButton", true, false)
 @onready var launch_off_enemy_upgrade_button = find_child("LaunchOffEnemyUpgradeButton", true, false)
+@onready var air_drag_upgrade_button = find_child("AirDragUpgradeButton", true, false)
+@onready var impact_dampening_upgrade_button = find_child("ImpactDampeningUpgradeButton", true, false)
 
 # Get item buttons
 @onready var health_potion_button = find_child("HealthPotionButton", true, false)
@@ -57,6 +61,14 @@ func _ready():
 	launch_off_enemy_upgrade_button.set_meta(Constants.SHOP_DATA_ID, Constants.LAUNCH_OFF)
 	shop_buttons.append(launch_off_enemy_upgrade_button)
 	
+	air_drag_upgrade_button.pressed.connect(_on_item_button_pressed.bind(Constants.AIR_DRAG))
+	air_drag_upgrade_button.set_meta(Constants.SHOP_DATA_ID, Constants.AIR_DRAG)
+	shop_buttons.append(air_drag_upgrade_button)
+		
+	impact_dampening_upgrade_button.pressed.connect(_on_item_button_pressed.bind(Constants.GROUND_DRAG))
+	impact_dampening_upgrade_button.set_meta(Constants.SHOP_DATA_ID, Constants.GROUND_DRAG)
+	shop_buttons.append(impact_dampening_upgrade_button)
+	
 	health_potion_button.pressed.connect(_on_item_button_pressed.bind(Constants.HEALTH_POTION))
 	health_potion_button.set_meta(Constants.SHOP_DATA_ID, Constants.HEALTH_POTION)
 	shop_buttons.append(health_potion_button)
@@ -76,6 +88,8 @@ func update_store():
 	set_launch_level(StatsManager.get_level(Constants.LAUNCH))
 	set_bounce_level(StatsManager.get_level(Constants.BOUNCE_OFF))
 	set_launch_off_level(StatsManager.get_level(Constants.LAUNCH_OFF))
+	set_air_drag_level(StatsManager.get_level(Constants.AIR_DRAG))
+	set_ground_drag_level(StatsManager.get_level(Constants.GROUND_DRAG))
 	set_money(StatsManager.get_money())
 	_update_buttons()
 	_update_buy_button()
@@ -155,6 +169,12 @@ func set_bounce_level(level):
 
 func set_launch_off_level(level):
 	launch_off_label.text = str(level)
+
+func set_air_drag_level(level):
+	air_drag_label.text = str(level)
+
+func set_ground_drag_level(level):
+	impact_dampening_level.text = str(level)
 
 func set_money(money):
 	current_money_label.text = "$"+str(money)

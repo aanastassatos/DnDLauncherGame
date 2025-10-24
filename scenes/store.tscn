@@ -189,15 +189,71 @@ layout_mode = 2
 text = "$10"
 horizontal_alignment = 1
 
-[node name="blah" type="Button" parent="CanvasLayer/PanelContainer/MarginContainer/StoreHBox/PurchasablesVBox/Row2"]
+[node name="ImpactDampeningUpgradeButton" type="Button" parent="CanvasLayer/PanelContainer/MarginContainer/StoreHBox/PurchasablesVBox/Row2"]
 layout_mode = 2
 size_flags_horizontal = 3
 autowrap_mode = 2
 
-[node name="Blah" type="Button" parent="CanvasLayer/PanelContainer/MarginContainer/StoreHBox/PurchasablesVBox/Row2"]
+[node name="ButtonLabelContainer" type="VBoxContainer" parent="CanvasLayer/PanelContainer/MarginContainer/StoreHBox/PurchasablesVBox/Row2/ImpactDampeningUpgradeButton"]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -0.5
+offset_top = -25.0
+offset_right = 0.5
+offset_bottom = 25.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="ItemNameLabel" type="Label" parent="CanvasLayer/PanelContainer/MarginContainer/StoreHBox/PurchasablesVBox/Row2/ImpactDampeningUpgradeButton/ButtonLabelContainer"]
+custom_minimum_size = Vector2(165, 0)
+layout_mode = 2
+size_flags_horizontal = 4
+text = "Impact Dampening"
+label_settings = ExtResource("2_atuvt")
+horizontal_alignment = 1
+autowrap_mode = 2
+
+[node name="CostLabel" type="Label" parent="CanvasLayer/PanelContainer/MarginContainer/StoreHBox/PurchasablesVBox/Row2/ImpactDampeningUpgradeButton/ButtonLabelContainer"]
+layout_mode = 2
+text = "$10"
+horizontal_alignment = 1
+
+[node name="AirDragUpgradeButton" type="Button" parent="CanvasLayer/PanelContainer/MarginContainer/StoreHBox/PurchasablesVBox/Row2"]
 layout_mode = 2
 size_flags_horizontal = 3
 autowrap_mode = 2
+
+[node name="ButtonLabelContainer" type="VBoxContainer" parent="CanvasLayer/PanelContainer/MarginContainer/StoreHBox/PurchasablesVBox/Row2/AirDragUpgradeButton"]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -0.5
+offset_top = -25.0
+offset_right = 0.5
+offset_bottom = 25.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="ItemNameLabel" type="Label" parent="CanvasLayer/PanelContainer/MarginContainer/StoreHBox/PurchasablesVBox/Row2/AirDragUpgradeButton/ButtonLabelContainer"]
+custom_minimum_size = Vector2(165, 0)
+layout_mode = 2
+size_flags_horizontal = 4
+text = "Improved Aerodynamics"
+label_settings = ExtResource("2_atuvt")
+horizontal_alignment = 1
+autowrap_mode = 2
+
+[node name="CostLabel" type="Label" parent="CanvasLayer/PanelContainer/MarginContainer/StoreHBox/PurchasablesVBox/Row2/AirDragUpgradeButton/ButtonLabelContainer"]
+layout_mode = 2
+text = "$10"
+horizontal_alignment = 1
 
 [node name="Row5" type="HBoxContainer" parent="CanvasLayer/PanelContainer/MarginContainer/StoreHBox/PurchasablesVBox"]
 layout_mode = 2
@@ -354,6 +410,26 @@ layout_mode = 2
 text = "Launch Off Level: "
 
 [node name="LaunchOffLevel" type="Label" parent="CanvasLayer/PanelContainer/MarginContainer/StoreHBox/InfoVBox/StatsPanelContainer/StatsMarginContainer/StatsVBox/LaunchOffLevelBox"]
+layout_mode = 2
+
+[node name="AerodynamicsLevelBox" type="HBoxContainer" parent="CanvasLayer/PanelContainer/MarginContainer/StoreHBox/InfoVBox/StatsPanelContainer/StatsMarginContainer/StatsVBox"]
+layout_mode = 2
+
+[node name="AerodynamicsLevelLabel" type="Label" parent="CanvasLayer/PanelContainer/MarginContainer/StoreHBox/InfoVBox/StatsPanelContainer/StatsMarginContainer/StatsVBox/AerodynamicsLevelBox"]
+layout_mode = 2
+text = "Aerodynamics: "
+
+[node name="AerodynamicsLevel" type="Label" parent="CanvasLayer/PanelContainer/MarginContainer/StoreHBox/InfoVBox/StatsPanelContainer/StatsMarginContainer/StatsVBox/AerodynamicsLevelBox"]
+layout_mode = 2
+
+[node name="ImpactDampeningLevelBox" type="HBoxContainer" parent="CanvasLayer/PanelContainer/MarginContainer/StoreHBox/InfoVBox/StatsPanelContainer/StatsMarginContainer/StatsVBox"]
+layout_mode = 2
+
+[node name="ImpactDampeningLabel" type="Label" parent="CanvasLayer/PanelContainer/MarginContainer/StoreHBox/InfoVBox/StatsPanelContainer/StatsMarginContainer/StatsVBox/ImpactDampeningLevelBox"]
+layout_mode = 2
+text = "Impact Dampening: "
+
+[node name="ImpactDampeningLevel" type="Label" parent="CanvasLayer/PanelContainer/MarginContainer/StoreHBox/InfoVBox/StatsPanelContainer/StatsMarginContainer/StatsVBox/ImpactDampeningLevelBox"]
 layout_mode = 2
 
 [node name="BackButtonPanel" type="Panel" parent="CanvasLayer/PanelContainer/MarginContainer/StoreHBox/InfoVBox"]

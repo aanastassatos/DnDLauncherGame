@@ -3,7 +3,7 @@ extends RigidBody2D
 signal launched
 signal landed
 
-@onready var dice_label = $Control/Panel/Dice
+@onready var dice_label = find_child("Dice")
 @onready var visuals = find_child("GnomeSprite")
 @onready var collision_ball = find_child("CollisionBall")
 @onready var animation_player = find_child("AnimationPlayer")
@@ -86,16 +86,12 @@ func _on_body_exited(body):
 		touching_ground = false
 		print("Not Touching grass")
 
-var ground_decay_rate : float = 0.1
-var horizontal_decay_rate : float = 0.08
-var speed_boost_percentage : float = 0.2
-
 func _integrate_forces(state: PhysicsDirectBodyState2D) -> void:
 	if flying and use_burrito_bison_physics:
-		forward_speed *= 1.0 - horizontal_decay_rate * state.step
+		forward_speed *= 1.0 - StatsManager.get_air_drag() * state.step
 		
 		if touching_ground:
-			var speed_loss = forward_speed*ground_decay_rate
+			var speed_loss = forward_speed*StatsManager.get_ground_drag()
 			
 			if forward_speed - speed_loss > 0:
 				forward_speed -= speed_loss
@@ -109,10 +105,10 @@ func _integrate_forces(state: PhysicsDirectBodyState2D) -> void:
 
 func bounce(bounce_force, forward_force):
 	if use_burrito_bison_physics:
-		forward_speed += forward_speed*speed_boost_percentage
-	linear_velocity.y = -abs(linear_velocity.y)
+		forward_speed += forward_speed*StatsManager.get_speed_boost_percentage()
+	linear_velocity.y = -abs(linear_velocity.y)*0.9
 	linear_velocity.x += forward_force
-	var impulse = Vector2.UP * bounce_force + Vector2.RIGHT * forward_force
+	var impulse = Vector2.UP * bounce_force# + Vector2.RIGHT * forward_force
 	apply_impulse(impulse)
 
 func launch(angle, power):

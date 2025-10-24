@@ -5,6 +5,8 @@ const HEALTH = "health"
 const LAUNCH = "launch"
 const BOUNCE_OFF = "bounce_off"
 const LAUNCH_OFF = "launch_off"
+const AIR_DRAG = "air_drag"
+const GROUND_DRAG = "ground_drag"
 
 # Item IDs
 const HEALTH_POTION = "health_potion"
