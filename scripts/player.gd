@@ -46,12 +46,11 @@ func _process(delta):
 			still_time += delta
 			sleeping = false
 			if still_time > max_still_time: # been still for a second
-				print("landed")
 				still_time = 0.0
 				linear_velocity = Vector2.ZERO
 				flying = false
 				stop_rolling_dice()
-				EventBus.emit_signal("landed")
+				EventBus.emit_signal("player_landed")
 				animation_player.play("Idle")
 		else:
 			still_time = 0.0
