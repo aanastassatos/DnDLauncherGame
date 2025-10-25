@@ -179,6 +179,7 @@ func _update_launched(delta):
 	var distance_in_meters = distance/lines.PIXELS_PER_METER
 	hud.update_distance(distance_in_meters)
 	hud.update_linear_velocity(player.linear_velocity)
+	hud.update_forward_speed(player.forward_speed)
 	pass
 
 func _update_landed(delta):

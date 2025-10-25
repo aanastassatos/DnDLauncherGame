@@ -43,4 +43,6 @@ func _on_money_changed(money : int):
 
 func update_linear_velocity(linear_velocity_vector : Vector2):
 	linear_velocity_label.text = str(linear_velocity_vector)
-	velocity_length_label.text = str(round(linear_velocity_vector.length()))
+
+func update_forward_speed(speed : float):
+	velocity_length_label.text = str(round(speed))
