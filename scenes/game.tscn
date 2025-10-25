@@ -260,6 +260,7 @@ text = "(0, 0)"
 
 [node name="VelocityLengthLabel" type="Label" parent="Controller/HUD/ScreenStack/TopOuterMargins/Top/VelocityControl/VelocityPanel/Margins/VBoxContainer"]
 layout_mode = 2
+horizontal_alignment = 2
 
 [node name="Middle" type="HBoxContainer" parent="Controller/HUD/ScreenStack"]
 layout_mode = 2
