@@ -97,6 +97,10 @@ func take_damage(damage):
 		current_health -= damage
 	else:
 		current_health = 0
+	
+	if current_health == 0:
+		EventBus.emit_signal("player_died")
+	
 	EventBus.emit_signal("health_changed", current_health)
 
 func heal(amount):

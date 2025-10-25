@@ -8,7 +8,6 @@ extends Node2D
 @onready var camera = $Player/Camera2D
 @onready var hud = $HUD
 @onready var enemySpawner = $EnemySpawner
-@onready var debug_display = $Debug
 @onready var store = $Store
 @onready var store_button = find_child("StoreButton", true, false)
 
@@ -26,6 +25,7 @@ func _ready():
 	store.hide_store()
 	EventBus.player_landed.connect(_on_player_landed)
 	EventBus.player_launched.connect(_on_player_launched)
+	EventBus.player_died.connect(_on_player_died)
 	EventBus.player_touched_enemy.connect(_on_player_hit_enemy)
 	store_button.pressed.connect(_on_store_opened)
 	EventBus.store_closed.connect(_on_store_closed)
@@ -62,6 +62,7 @@ func _on_player_hit_enemy(enemy):
 	print("You rolled ",roll," against a level ", enemy.cr," enemy")
 	if roll > enemy.cr:
 		_launch_player_further()
+		EventBus.emit_signal("enemy_hit")
 		print("HIT")
 	
 	else:
@@ -69,6 +70,11 @@ func _on_player_hit_enemy(enemy):
 		print("OUCH")
 		
 	await player.freeze_player_for(0.6, roll)
+
+func _on_player_died():
+	player.die()
+	print("died")
+	game_state = LANDED
 
 func roll_dice():
 	randomize()
@@ -83,14 +89,10 @@ func _launch_player_further():
 
 func hurt_player(damage):
 	StatsManager.take_damage(damage)
-	if StatsManager.get_current_health() <= 0:
-		player.die()
-		game_state = LANDED
 
 func _update_health(health):
 	print("health changed")
 	health_bar.value = float((StatsManager.get_current_health()/StatsManager.get_max_health())*100)
-	EventBus.emit_signal("health_changed")
 
 var aim_angle : float
 var powerratio : float

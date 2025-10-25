@@ -108,7 +108,7 @@ func launch(angle, power):
 	var impulse = Vector2.RIGHT.rotated(deg_to_rad(angle)) * power
 	forward_speed = impulse.x
 	apply_impulse(impulse)
-	EventBus.emit_signal("launched")
+	EventBus.emit_signal("player_launched")
 	animation_player.play("flying")
 	
 
@@ -134,4 +134,5 @@ func update_dice(roll):
 	dice_label.text = roll
 
 func die():
-	linear_velocity.x = 0
+	set_deferred("forward_speed", 0)
+	set_deferred("linear_velocity.x", 0)
