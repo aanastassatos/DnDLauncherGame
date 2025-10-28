@@ -47,11 +47,8 @@ func _process(delta):
 			sleeping = false
 			if still_time > max_still_time: # been still for a second
 				still_time = 0.0
-				linear_velocity = Vector2.ZERO
-				flying = false
-				stop_rolling_dice()
-				EventBus.emit_signal("player_landed")
-				animation_player.play("Idle")
+				do_landed()
+
 		else:
 			still_time = 0.0
 			
@@ -69,6 +66,16 @@ func _process(delta):
 	if not flying:
 		visuals.rotation = lerp_angle(visuals.rotation, 0, rotation_speed * delta)
 		collision_ball.rotation = visuals.rotation
+
+func do_landed():
+	linear_velocity = Vector2.ZERO
+	flying = false
+	stop_rolling_dice()
+	if use_burrito_bison_physics:
+		forward_speed = 0
+	
+	EventBus.emit_signal("player_landed")
+	animation_player.play("Idle")
 
 func _on_body_entered(body):
 	if body.is_in_group("ground"):
@@ -97,7 +104,7 @@ func _integrate_forces(state: PhysicsDirectBodyState2D) -> void:
 
 func bounce(bounce_force, forward_force):
 	if use_burrito_bison_physics:
-		forward_speed += forward_speed*StatsManager.get_speed_boost_percentage()
+		var speed_gained = forward_speed*StatsManager.get_speed_boost_percentage()
 	linear_velocity.y = -abs(linear_velocity.y)*0.9
 	linear_velocity.x += forward_force
 	var impulse = Vector2.UP * bounce_force# + Vector2.RIGHT * forward_force
@@ -117,7 +124,7 @@ func start_rolling_dice():
 	
 func stop_rolling_dice():
 	rolling_dice = false
-	
+
 func freeze_player_for(duration, roll):
 	stop_rolling_dice()
 	update_dice(str(int(roll)))
@@ -136,3 +143,4 @@ func update_dice(roll):
 func die():
 	set_deferred("forward_speed", 0)
 	set_deferred("linear_velocity.x", 0)
+	do_landed()
