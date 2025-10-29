@@ -1,7 +1,13 @@
-[gd_scene load_steps=6 format=3 uid="uid://ct5p61x2qm88v"]
+[gd_scene load_steps=12 format=3 uid="uid://ct5p61x2qm88v"]
 
 [ext_resource type="Script" uid="uid://behldpmfxyo77" path="res://scripts/enemy.gd" id="2_4ra3w"]
 [ext_resource type="Texture2D" uid="uid://bkic7m6fqsudu" path="res://assets/Characters/goblin.png" id="2_md0e3"]
+[ext_resource type="Texture2D" uid="uid://b16i3leyytewb" path="res://assets/Characters/goblin/Goblin-left-arm.png" id="3_md484"]
+[ext_resource type="Texture2D" uid="uid://cky0pcf2yykj1" path="res://assets/Characters/goblin/Goblin-left-leg.png" id="4_ipns3"]
+[ext_resource type="Texture2D" uid="uid://4wna0bh5gssy" path="res://assets/Characters/goblin/Goblin-right-leg.png" id="5_8qclf"]
+[ext_resource type="Texture2D" uid="uid://7kmadq643y2q" path="res://assets/Characters/goblin/Goblin-body.png" id="6_w8i8w"]
+[ext_resource type="Texture2D" uid="uid://dhcvp4sfq20wt" path="res://assets/Characters/goblin/Goblin-head.png" id="7_otmr2"]
+[ext_resource type="Texture2D" uid="uid://dm5nm3lc1iqw6" path="res://assets/Characters/goblin/Goblin-right-arm.png" id="8_wtq4b"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_md0e3"]
 size = Vector2(29.859997, 36.88588)
@@ -18,16 +24,57 @@ collision_mask = 5
 script = ExtResource("2_4ra3w")
 
 [node name="Sprite2D" type="Sprite2D" parent="."]
+visible = false
 scale = Vector2(0.135, 0.135)
 texture = ExtResource("2_md0e3")
 flip_h = true
 
+[node name="GoblinSprite" type="Node2D" parent="."]
+
+[node name="Right_Arm" type="Sprite2D" parent="GoblinSprite"]
+scale = Vector2(0.135, 0.135)
+texture = ExtResource("3_md484")
+flip_h = true
+
+[node name="Right_Leg" type="Sprite2D" parent="GoblinSprite"]
+position = Vector2(8.249588, 1.2495879)
+rotation = 0.12262469
+scale = Vector2(0.135, 0.135)
+texture = ExtResource("4_ipns3")
+flip_h = true
+
+[node name="Left_Leg" type="Sprite2D" parent="GoblinSprite"]
+position = Vector2(8.249588, 1.2495879)
+rotation = 0.12262469
+scale = Vector2(0.135, 0.135)
+texture = ExtResource("5_8qclf")
+flip_h = true
+
+[node name="Body" type="Sprite2D" parent="GoblinSprite"]
+scale = Vector2(0.135, 0.135)
+texture = ExtResource("6_w8i8w")
+flip_h = true
+
+[node name="Head" type="Sprite2D" parent="GoblinSprite"]
+scale = Vector2(0.135, 0.135)
+texture = ExtResource("7_otmr2")
+flip_h = true
+
+[node name="Left_Arm" type="Sprite2D" parent="GoblinSprite"]
+scale = Vector2(0.135, 0.135)
+texture = ExtResource("8_wtq4b")
+flip_h = true
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="GoblinSprite"]
+
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+visible = false
 position = Vector2(3.000001, 23.000004)
 scale = Vector2(2.2772944, 2.2772944)
 shape = SubResource("RectangleShape2D_md0e3")
 
 [node name="CollisionShape2D2" type="CollisionShape2D" parent="."]
+visible = false
 position = Vector2(2, -32)
 scale = Vector2(2.2772944, 2.2772944)
 shape = SubResource("CircleShape2D_md0e3")
@@ -39,6 +86,7 @@ anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
+metadata/_edit_use_anchors_ = true
 
 [node name="Panel" type="Panel" parent="Control"]
 layout_mode = 0
@@ -47,6 +95,7 @@ offset_top = -20.0
 offset_right = 21.0
 offset_bottom = 20.0
 theme_override_styles/panel = SubResource("StyleBoxFlat_md0e3")
+metadata/_edit_use_anchors_ = true
 
 [node name="Level" type="Label" parent="Control/Panel"]
 layout_mode = 1
@@ -62,5 +111,6 @@ offset_bottom = 11.5
 grow_horizontal = 2
 grow_vertical = 2
 text = "3"
+metadata/_edit_use_anchors_ = true
 
 [connection signal="body_entered" from="." to="." method="_on_body_entered"]
