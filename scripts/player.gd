@@ -1,9 +1,10 @@
 extends RigidBody2D
 
-@onready var dice_label = find_child("Dice")
+@onready var dice_label : Label = find_child("Dice")
 @onready var visuals = find_child("GnomeSprite")
 @onready var collision_ball = find_child("CollisionBall")
 @onready var animation_player = find_child("AnimationPlayer")
+
 @export var use_burrito_bison_physics = true
 
 var aiming: bool = true
@@ -105,6 +106,7 @@ func _integrate_forces(state: PhysicsDirectBodyState2D) -> void:
 func bounce(bounce_force, forward_force):
 	if use_burrito_bison_physics:
 		var speed_gained = forward_speed*StatsManager.get_speed_boost_percentage()
+		forward_speed += speed_gained
 	linear_velocity.y = -abs(linear_velocity.y)*0.9
 	linear_velocity.x += forward_force
 	var impulse = Vector2.UP * bounce_force# + Vector2.RIGHT * forward_force
