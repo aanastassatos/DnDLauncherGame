@@ -1,4 +1,4 @@
-[gd_scene load_steps=16 format=3 uid="uid://brmyj48t05jr"]
+[gd_scene load_steps=18 format=3 uid="uid://brmyj48t05jr"]
 
 [ext_resource type="Script" uid="uid://2e45rx5qgudo" path="res://scripts/player.gd" id="1_onrkg"]
 [ext_resource type="Texture2D" uid="uid://bldtj7wsxw3q1" path="res://assets/Characters/Gnome_boy.PNG" id="2_qhqgy"]
@@ -14,7 +14,7 @@
 friction = 0.1
 bounce = 0.6
 
-[sub_resource type="Animation" id="Animation_fulsm"]
+[sub_resource type="Animation" id="Animation_ur7pv"]
 resource_name = "Idle"
 tracks/0/type = "value"
 tracks/0/imported = false
@@ -185,7 +185,7 @@ tracks/13/keys = {
 "values": [0.0]
 }
 
-[sub_resource type="Animation" id="Animation_4r5pv"]
+[sub_resource type="Animation" id="Animation_y4r1p"]
 length = 0.001
 tracks/0/type = "value"
 tracks/0/imported = false
@@ -356,7 +356,7 @@ tracks/13/keys = {
 "values": [0.0]
 }
 
-[sub_resource type="Animation" id="Animation_qfm1y"]
+[sub_resource type="Animation" id="Animation_d2wvv"]
 resource_name = "flying"
 loop_mode = 1
 tracks/0/type = "value"
@@ -480,16 +480,169 @@ tracks/9/keys = {
 "values": [Vector2(0, 0), Vector2(-3, 2.0000005), Vector2(0, 0)]
 }
 
-[sub_resource type="AnimationLibrary" id="AnimationLibrary_60mlk"]
+[sub_resource type="Animation" id="Animation_3v2ag"]
+resource_name = "Sliding"
+length = 0.5
+loop_mode = 1
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Head:position")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.42),
+"transitions": PackedFloat32Array(1, 1),
+"update": 0,
+"values": [Vector2(-2, -0.9999995), Vector2(-2, -1)]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("Head:rotation")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0, 0.42),
+"transitions": PackedFloat32Array(1, 1),
+"update": 0,
+"values": [0.99165857, 1.1047934]
+}
+tracks/2/type = "value"
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/path = NodePath("Body:position")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Vector2(4.9999995, -0.9999997)]
+}
+tracks/3/type = "value"
+tracks/3/imported = false
+tracks/3/enabled = true
+tracks/3/path = NodePath("Body:rotation")
+tracks/3/interp = 1
+tracks/3/loop_wrap = true
+tracks/3/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [0.3836697]
+}
+tracks/4/type = "value"
+tracks/4/imported = false
+tracks/4/enabled = true
+tracks/4/path = NodePath("Right_Arm:rotation")
+tracks/4/interp = 1
+tracks/4/loop_wrap = true
+tracks/4/keys = {
+"times": PackedFloat32Array(0, 0.12120245),
+"transitions": PackedFloat32Array(1, 1),
+"update": 0,
+"values": [0.964189, 0.9848617]
+}
+tracks/5/type = "value"
+tracks/5/imported = false
+tracks/5/enabled = true
+tracks/5/path = NodePath("Right_Arm:position")
+tracks/5/interp = 1
+tracks/5/loop_wrap = true
+tracks/5/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Vector2(-3, 1.9999995)]
+}
+tracks/6/type = "value"
+tracks/6/imported = false
+tracks/6/enabled = true
+tracks/6/path = NodePath("Left_Leg:rotation")
+tracks/6/interp = 1
+tracks/6/loop_wrap = true
+tracks/6/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [0.5149579]
+}
+tracks/7/type = "value"
+tracks/7/imported = false
+tracks/7/enabled = true
+tracks/7/path = NodePath("Left_Leg:position")
+tracks/7/interp = 1
+tracks/7/loop_wrap = true
+tracks/7/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Vector2(13, -1.9999995)]
+}
+tracks/8/type = "value"
+tracks/8/imported = false
+tracks/8/enabled = true
+tracks/8/path = NodePath("Right_Leg:rotation")
+tracks/8/interp = 1
+tracks/8/loop_wrap = true
+tracks/8/keys = {
+"times": PackedFloat32Array(0, 0.22, 0.29, 0.37),
+"transitions": PackedFloat32Array(1, 1, 1, 1),
+"update": 0,
+"values": [0.04177414, 0.04177414, -0.069974154, 0.0]
+}
+tracks/9/type = "value"
+tracks/9/imported = false
+tracks/9/enabled = true
+tracks/9/path = NodePath("Right_Leg:position")
+tracks/9/interp = 1
+tracks/9/loop_wrap = true
+tracks/9/keys = {
+"times": PackedFloat32Array(0, 0.22, 0.29, 0.37),
+"transitions": PackedFloat32Array(1, 1, 1, 1),
+"update": 0,
+"values": [Vector2(0, 0), Vector2(0, 0), Vector2(0, 0), Vector2(0, 0)]
+}
+tracks/10/type = "value"
+tracks/10/imported = false
+tracks/10/enabled = true
+tracks/10/path = NodePath("Left_Arm:position")
+tracks/10/interp = 1
+tracks/10/loop_wrap = true
+tracks/10/keys = {
+"times": PackedFloat32Array(0, 0.16),
+"transitions": PackedFloat32Array(1, 1),
+"update": 0,
+"values": [Vector2(0, 0), Vector2(0, 0)]
+}
+tracks/11/type = "value"
+tracks/11/imported = false
+tracks/11/enabled = true
+tracks/11/path = NodePath("Left_Arm:rotation")
+tracks/11/interp = 1
+tracks/11/loop_wrap = true
+tracks/11/keys = {
+"times": PackedFloat32Array(0, 0.16),
+"transitions": PackedFloat32Array(1, 1),
+"update": 0,
+"values": [-0.23339383, -0.12408556]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_jej6c"]
 _data = {
-&"Idle": SubResource("Animation_fulsm"),
-&"RESET": SubResource("Animation_4r5pv"),
-&"flying": SubResource("Animation_qfm1y")
+&"Idle": SubResource("Animation_ur7pv"),
+&"RESET": SubResource("Animation_y4r1p"),
+&"Sliding": SubResource("Animation_3v2ag"),
+&"flying": SubResource("Animation_d2wvv")
 }
 
 [sub_resource type="CapsuleShape2D" id="CapsuleShape2D_qhqgy"]
 radius = 181.34715
 height = 580.31085
+
+[sub_resource type="LabelSettings" id="LabelSettings_ur7pv"]
+font_size = 30
 
 [node name="Player" type="RigidBody2D"]
 collision_mask = 6
@@ -520,6 +673,16 @@ scale = Vector2(0.193, 0.193)
 texture = ExtResource("5_3v2ag")
 offset = Vector2(-27.01, -15.59)
 
+[node name="Left_Leg" type="Sprite2D" parent="GnomeSprite"]
+scale = Vector2(0.193, 0.193)
+texture = ExtResource("9_a8ls1")
+offset = Vector2(-27.01, -15.59)
+
+[node name="Right_Leg" type="Sprite2D" parent="GnomeSprite"]
+scale = Vector2(0.193, 0.193)
+texture = ExtResource("8_oprun")
+offset = Vector2(-27.01, -15.59)
+
 [node name="Head" type="Sprite2D" parent="GnomeSprite"]
 scale = Vector2(0.193, 0.193)
 texture = ExtResource("6_jej6c")
@@ -530,48 +693,50 @@ scale = Vector2(0.193, 0.193)
 texture = ExtResource("7_f1ej7")
 offset = Vector2(-27.01, -15.59)
 
-[node name="Right_Leg" type="Sprite2D" parent="GnomeSprite"]
-scale = Vector2(0.193, 0.193)
-texture = ExtResource("8_oprun")
-offset = Vector2(-27.01, -15.59)
-
-[node name="Left_Leg" type="Sprite2D" parent="GnomeSprite"]
-scale = Vector2(0.193, 0.193)
-texture = ExtResource("9_a8ls1")
-offset = Vector2(-27.01, -15.59)
-
 [node name="AnimationPlayer" type="AnimationPlayer" parent="GnomeSprite"]
 libraries = {
-&"": SubResource("AnimationLibrary_60mlk")
+&"": SubResource("AnimationLibrary_jej6c")
 }
 autoplay = "Idle"
 
 [node name="CollisionBall" type="CollisionShape2D" parent="."]
+visible = false
 scale = Vector2(0.19299999, 0.19299999)
 shape = SubResource("CapsuleShape2D_qhqgy")
 
 [node name="Control" type="Control" parent="."]
+visible = false
+custom_minimum_size = Vector2(50, 50)
 layout_mode = 3
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
-offset_left = -10.000001
-offset_top = -6.0000005
-offset_right = -10.000001
-offset_bottom = -6.0000005
+offset_left = -12.000004
+offset_top = -6.000004
+offset_right = 37.999996
+offset_bottom = 43.999996
 grow_horizontal = 2
 grow_vertical = 2
 scale = Vector2(0.65, 0.65)
 
 [node name="PanelContainer" type="PanelContainer" parent="Control"]
 custom_minimum_size = Vector2(25, 25)
-layout_mode = 0
-offset_right = 26.0
-offset_bottom = 32.0
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -17.0
+offset_top = -21.0
+offset_right = 17.0
+offset_bottom = 21.0
+grow_horizontal = 2
+grow_vertical = 2
 
 [node name="Dice" type="Label" parent="Control/PanelContainer"]
 layout_mode = 2
-theme_override_font_sizes/font_size = 30
 text = "10"
+label_settings = SubResource("LabelSettings_ur7pv")
 horizontal_alignment = 1
 vertical_alignment = 1
