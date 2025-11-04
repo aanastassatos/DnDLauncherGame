@@ -61,8 +61,6 @@ func _ready():
 
 func change_state(state : PlayerState):
 	state_machine.change_state(state)
-	var player_state = state_machine.currentState.state_name
-	update_state_label(player_state)
 
 func update_state_label(player_state : String):
 	state_label.text = player_state

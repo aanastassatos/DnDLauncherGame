@@ -21,6 +21,8 @@ func change_state(newState: PlayerState) -> void:
 	
 	currentState = newState
 	currentState.enter()
+	
+	parent.update_state_label(currentState.state_name)
 
 func doProcess(delta: float) -> void:
 	var newState = currentState.doProcess(delta)
