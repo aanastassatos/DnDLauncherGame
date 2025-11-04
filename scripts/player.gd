@@ -60,7 +60,7 @@ func _ready():
 		mat.friction = 0.1
 
 func change_state(state : PlayerState):
-	state_machine.change_state(state, {})
+	state_machine.change_state(state)
 	var player_state = state_machine.currentState.state_name
 	
 	match player_state:

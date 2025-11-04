@@ -12,15 +12,15 @@ func init(parent: Player) -> void:
 	for child in get_children():
 		child.parent = parent
 	
-	change_state(startingState, {})
+	change_state(startingState)
 
-func change_state(newState: PlayerState, params : Dictionary = {}) -> void:
+func change_state(newState: PlayerState) -> void:
 	if currentState:
 		currentState.exit()
 		previousState = currentState
 	
 	currentState = newState
-	currentState.enter(params)
+	currentState.enter()
 	parent.state_label.text = currentState.state_name
 
 func doProcess(delta: float) -> void:
