@@ -2,10 +2,13 @@ extends Node
 
 @export var startingState: PlayerState
 
+var parent : Player
+
 var currentState: PlayerState
 var previousState: PlayerState
 
 func init(parent: Player) -> void:
+	self.parent = parent
 	for child in get_children():
 		child.parent = parent
 	
@@ -18,6 +21,7 @@ func change_state(newState: PlayerState, params : Dictionary = {}) -> void:
 	
 	currentState = newState
 	currentState.enter(params)
+	parent.state_label.text = currentState.state_name
 
 func doProcess(delta: float) -> void:
 	var newState = currentState.doProcess(delta)

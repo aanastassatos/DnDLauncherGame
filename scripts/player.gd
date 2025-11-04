@@ -5,6 +5,7 @@ extends RigidBody2D
 @onready var visuals = find_child("GnomeSprite")
 @onready var collision_ball = find_child("CollisionBall")
 @onready var animation_player = find_child("AnimationPlayer")
+@onready var state_label = $StateLabel
 
 #States
 @onready var state_machine = $StateMachine

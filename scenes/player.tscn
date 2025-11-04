@@ -1,4 +1,4 @@
-[gd_scene load_steps=25 format=3 uid="uid://brmyj48t05jr"]
+[gd_scene load_steps=26 format=3 uid="uid://brmyj48t05jr"]
 
 [ext_resource type="Script" uid="uid://2e45rx5qgudo" path="res://scripts/player.gd" id="1_onrkg"]
 [ext_resource type="Texture2D" uid="uid://bldtj7wsxw3q1" path="res://assets/Characters/Gnome_boy.PNG" id="2_qhqgy"]
@@ -651,6 +651,10 @@ height = 580.31085
 [sub_resource type="LabelSettings" id="LabelSettings_ur7pv"]
 font_size = 30
 
+[sub_resource type="LabelSettings" id="LabelSettings_a8ls1"]
+outline_size = 5
+outline_color = Color(0, 0, 0, 1)
+
 [node name="Player" type="RigidBody2D"]
 collision_mask = 6
 physics_material_override = SubResource("PhysicsMaterial_g2els")
@@ -773,3 +777,12 @@ text = "10"
 label_settings = SubResource("LabelSettings_ur7pv")
 horizontal_alignment = 1
 vertical_alignment = 1
+
+[node name="StateLabel" type="Label" parent="."]
+offset_left = -20.0
+offset_top = -114.0
+offset_right = 20.0
+offset_bottom = -91.0
+text = "IDLE"
+label_settings = SubResource("LabelSettings_a8ls1")
+horizontal_alignment = 1
