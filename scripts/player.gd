@@ -67,9 +67,6 @@ func update_state_label(player_state : String):
 
 func _process(delta):
 	state_machine.doProcess(delta)
-	
-	if not state_machine.currentState.state_name == LAUNCHED:
-		doIdleRotation(delta)
 
 func doDiceRoll() -> void:
 	if rolling_dice:
