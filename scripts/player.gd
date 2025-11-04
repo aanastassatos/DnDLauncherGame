@@ -62,25 +62,10 @@ func _ready():
 func change_state(state : PlayerState):
 	state_machine.change_state(state)
 	var player_state = state_machine.currentState.state_name
-	
-	match player_state:
-		IDLE:
-			do_idle()
-		LAUNCHED:
-			do_launched()
-		LANDED:
-			do_landed()
-		DEAD:
-			do_landed()
+	update_state_label(player_state)
 
-func do_idle():
-	pass
-
-func do_launched():
-	pass
-
-func do_landed():
-	pass
+func update_state_label(player_state : String):
+	state_label.text = player_state
 
 func _process(delta):
 	state_machine.doProcess(delta)
