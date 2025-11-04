@@ -11,3 +11,7 @@ func enter() -> void:
 	super()
 	parent.stop_movement()
 	EventBus.emit_signal("player_landed")
+
+func doProcess(delta: float) -> PlayerState:
+	parent.doIdleRotation(delta)
+	return null

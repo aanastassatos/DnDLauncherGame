@@ -14,4 +14,5 @@ func exit() -> void:
 	pass
 
 func doProcess(delta: float) -> PlayerState:
+	parent.doIdleRotation(delta)
 	return null

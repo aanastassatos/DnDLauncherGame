@@ -71,8 +71,19 @@ func _process(delta):
 	state_machine.doProcess(delta)
 	
 	if not state_machine.currentState.state_name == LAUNCHED:
-		visuals.rotation = lerp_angle(visuals.rotation, 0, rotation_speed * delta)
+		doIdleRotation(delta)
+
+func doIdleRotation(delta):
+	visuals.rotation = lerp_angle(visuals.rotation, 0, rotation_speed * delta)
+	collision_ball.rotation = visuals.rotation
+
+func doFlyingRotation(delta):
+	if linear_velocity.length() > 10:
+		var target_angle = linear_velocity.angle()+45
+		visuals.rotation = lerp_angle(visuals.rotation, target_angle, rotation_speed * delta)
 		collision_ball.rotation = visuals.rotation
+	elif reset_rotation_on_ground:
+		visuals.rotation = lerp_angle(visuals.rotation, 90, rotation_speed * delta)
 
 func _on_body_entered(body):
 	if body.is_in_group("ground"):

@@ -12,3 +12,7 @@ func enter() -> void:
 
 func exit() -> void:
 	super()
+
+func doProcess(delta: float) -> PlayerState:
+	parent.doIdleRotation(delta)
+	return null
