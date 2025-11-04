@@ -9,9 +9,5 @@ func _ready() -> void:
 
 func enter(params : Dictionary = {}) -> void:
 	super()
-	parent.linear_velocity = Vector2.ZERO
-	parent.stop_rolling_dice()
-	if parent.use_burrito_bison_physics:
-		parent.forward_speed = 0
-	
+	parent.stop_movement()
 	EventBus.emit_signal("player_landed")

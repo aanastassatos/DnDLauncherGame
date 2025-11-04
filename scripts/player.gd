@@ -192,6 +192,12 @@ func _on_attack_success():
 func _on_attack_fail():
 	pass
 
+func stop_movement() -> void:
+	linear_velocity = Vector2.ZERO
+	stop_rolling_dice()
+	if use_burrito_bison_physics:
+		forward_speed = 0
+
 func die():
 	set_deferred("forward_speed", 0)
 	set_deferred("linear_velocity.x", 0)
