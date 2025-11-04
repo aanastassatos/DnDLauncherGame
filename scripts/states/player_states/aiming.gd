@@ -1,0 +1,14 @@
+extends PlayerState
+
+func _ready():
+	if animation_name == "":
+		animation_name = "Idle"
+	
+	if state_name == "":
+		state_name = "Aiming"
+
+func enter(params : Dictionary = {}) -> void:
+	super()
+
+func exit() -> void:
+	super()
