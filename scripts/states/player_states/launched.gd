@@ -22,7 +22,7 @@ func enter(params : Dictionary = {}) -> void:
 	#parent.apply_impulse(impulse)
 
 func doProcess(delta: float) -> PlayerState:
-	var newState : PlayerState = null
+	var newState : PlayerState = super(delta)
 	
 	if parent.linear_velocity.length() < parent.min_speed:
 		still_time += delta
