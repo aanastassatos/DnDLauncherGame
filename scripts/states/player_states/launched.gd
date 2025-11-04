@@ -12,14 +12,9 @@ func _ready() -> void:
 	if state_name == "":
 		state_name = parent.LAUNCHED
 
-func enter(params : Dictionary = {}) -> void:
+func enter() -> void:
 	super()
 	EventBus.emit_signal("player_launched")
-	#var angle = params.get("angle", 0.0)
-	#var power = params.get("power", 0.0)
-	#var impulse = Vector2.RIGHT.rotated(deg_to_rad(angle)) * power
-	#parent.forward_speed = impulse.x
-	#parent.apply_impulse(impulse)
 
 func doProcess(delta: float) -> PlayerState:
 	if parent.rolling_dice:

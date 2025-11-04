@@ -7,7 +7,7 @@ func _ready():
 	if state_name == "":
 		state_name = "Aiming"
 
-func enter(params : Dictionary = {}) -> void:
+func enter() -> void:
 	super()
 
 func exit() -> void:

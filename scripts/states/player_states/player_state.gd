@@ -9,7 +9,7 @@ var state_name : String = ""
 
 var parent: Player
 
-func enter(params : Dictionary = {}) -> void:
+func enter() -> void:
 	parent.animation_player.play(animation_name)
 
 func exit() -> void:

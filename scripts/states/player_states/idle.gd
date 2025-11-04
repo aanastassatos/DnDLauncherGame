@@ -7,7 +7,7 @@ func _ready() -> void:
 	if state_name == "":
 		state_name = parent.IDLE
 
-func enter(params : Dictionary = {}) -> void:
+func enter() -> void:
 	super()
 
 func exit() -> void:

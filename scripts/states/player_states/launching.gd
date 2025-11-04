@@ -10,7 +10,7 @@ func _ready():
 	if state_name == "":
 		state_name = "Launching"
 
-func enter(params : Dictionary = {}) -> void:
+func enter() -> void:
 	super()
 
 func doProcess(delta: float) -> PlayerState:
