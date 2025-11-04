@@ -59,6 +59,7 @@ func _on_player_landed():
 
 func _on_player_hit_enemy(enemy):
 	var roll = roll_dice() + StatsManager.get_attack_modifier()
+	var hit = true
 	print("You rolled ",roll," against a level ", enemy.cr," enemy")
 	if roll > enemy.cr:
 		_launch_player_further()
@@ -67,9 +68,10 @@ func _on_player_hit_enemy(enemy):
 	
 	else:
 		hurt_player(1)
+		hit = false
 		print("OUCH")
 		
-	await player.freeze_player_for(0.6, roll)
+	await player.freeze_player_for(0.6, roll, hit)
 
 func _on_player_died():
 	player.die()
