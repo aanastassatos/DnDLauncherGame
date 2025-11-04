@@ -73,6 +73,10 @@ func _process(delta):
 	if not state_machine.currentState.state_name == LAUNCHED:
 		doIdleRotation(delta)
 
+func doDiceRoll() -> void:
+	if rolling_dice:
+		dice_label.text = str(randi_range(1,20))
+
 func doIdleRotation(delta):
 	visuals.rotation = lerp_angle(visuals.rotation, 0, rotation_speed * delta)
 	collision_ball.rotation = visuals.rotation
