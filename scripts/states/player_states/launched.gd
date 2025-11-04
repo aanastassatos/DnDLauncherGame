@@ -21,15 +21,8 @@ func doProcess(delta: float) -> PlayerState:
 	
 	parent.doDiceRoll()
 	
-	if parent.linear_velocity.length() < parent.min_speed:
-		still_time += delta
-		parent.sleeping = false
-		if still_time > parent.max_still_time: # been still for a second
-			still_time = 0.0
-			newState = landedState
-
-	else:
-		still_time = 0.0
+	if parent.check_landed(delta):
+		newState = landedState
 	
 	parent.doFlyingRotation(delta)
 	

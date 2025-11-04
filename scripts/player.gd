@@ -77,17 +77,30 @@ func doDiceRoll() -> void:
 	if rolling_dice:
 		dice_label.text = str(randi_range(1,20))
 
-func doIdleRotation(delta):
+func doIdleRotation(delta : float) -> void:
 	visuals.rotation = lerp_angle(visuals.rotation, 0, rotation_speed * delta)
 	collision_ball.rotation = visuals.rotation
 
-func doFlyingRotation(delta):
+func doFlyingRotation(delta : float) -> void:
 	if linear_velocity.length() > 10:
 		var target_angle = linear_velocity.angle()+45
 		visuals.rotation = lerp_angle(visuals.rotation, target_angle, rotation_speed * delta)
 		collision_ball.rotation = visuals.rotation
 	elif reset_rotation_on_ground:
 		visuals.rotation = lerp_angle(visuals.rotation, 90, rotation_speed * delta)
+
+func check_landed(delta : float) -> bool:
+	if linear_velocity.length() < min_speed:
+		still_time += delta
+		sleeping = false
+		if still_time > max_still_time: # been still for a second
+			still_time = 0.0
+			return true
+
+	else:
+		still_time = 0.0
+	
+	return false
 
 func _on_body_entered(body):
 	if body.is_in_group("ground"):
