@@ -16,6 +16,4 @@ func exit() -> void:
 	pass
 
 func doProcess(delta: float) -> PlayerState:
-	if parent.rolling_dice:
-		parent.dice_label.text = str(randi_range(1,20))
 	return null

@@ -22,6 +22,8 @@ func enter(params : Dictionary = {}) -> void:
 	#parent.apply_impulse(impulse)
 
 func doProcess(delta: float) -> PlayerState:
+	if parent.rolling_dice:
+		parent.dice_label.text = str(randi_range(1,20))
 	var newState : PlayerState = super(delta)
 	
 	if parent.linear_velocity.length() < parent.min_speed:
