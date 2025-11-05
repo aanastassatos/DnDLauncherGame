@@ -2,6 +2,7 @@ extends PlayerState
 
 @export var launched_state : PlayerState 
 @export var linger_duration : float = 0.6
+@export var slow_time : bool = false
 
 var slow_time_scale : float = 0.05
 var elapsed : float = 0.0
@@ -21,13 +22,13 @@ func enter() -> void:
 	done_highlight = false
 	parent.change_time_scale(slow_time_scale)
 	parent.doBounce()
-	parent.animation_player.speed_scale = 1.0/slow_time_scale
+	parent.animation_player.speed_scale = 1.0/parent.current_time_scale
 	doDiceHighlightAsync()
 
 func doProcess(delta: float) -> PlayerState:
 	parent.doIdleRotation(delta)
 	elapsed += delta
-	if elapsed >= linger_duration*slow_time_scale and done_highlight:
+	if elapsed >= linger_duration*parent.current_time_scale and done_highlight:
 		return launched_state
 	return null
 

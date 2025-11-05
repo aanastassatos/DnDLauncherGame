@@ -181,41 +181,6 @@ func doDiceHighlight(duration : float, roll : int, hit : bool) -> void:
 	
 	start_rolling_dice()
 
-func freeze_player_for(duration, roll, hit : bool):
-	stop_rolling_dice()
-	update_dice(str(int(roll)))
-	
-	var big_size = 48
-	var regular_size = 30
-	var normal_color = Color.WHITE
-	var highlight_color = Color.GREEN
-	
-	if not hit:
-		highlight_color = Color.RED
-	
-	var tween = get_tree().create_tween()
-	var tween2 = get_tree().create_tween()
-	
-	var time_slow_scale = 0.05
-	Engine.time_scale = time_slow_scale
-	
-	tween.tween_property(dice_label.label_settings, "font_size", big_size, 0.5*time_slow_scale).set_trans(Tween.TRANS_SINE)
-	tween2.tween_property(dice_label.label_settings, "font_color", highlight_color, 0.5*time_slow_scale)
-	
-	await get_tree().create_timer(duration*time_slow_scale).timeout
-	
-	tween = create_tween()
-	tween2 = create_tween() 
-	
-	Engine.time_scale = 1.0
-	
-	tween.tween_property(dice_label.label_settings, "font_size", regular_size, 0.5).set_trans(Tween.TRANS_SINE)
-	tween2.tween_property(dice_label.label_settings, "font_color", normal_color, 0.5)
-	
-	await get_tree().create_timer(duration).timeout
-	
-	start_rolling_dice()
-
 func update_dice(roll):
 	dice_label.text = roll
 
