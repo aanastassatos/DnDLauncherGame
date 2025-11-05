@@ -123,16 +123,29 @@ func _integrate_forces(state: PhysicsDirectBodyState2D) -> void:
 func doBounce() -> void:
 	var bounce_force = StatsManager.get_bounce_force()
 	var forward_force = StatsManager.get_forward_force()
+	var isCrit : bool = false
 	
-	bounce(bounce_force, forward_force)
+	if last_roll >= 20:
+		isCrit = true
+	
+	bounce(bounce_force, forward_force, isCrit)
 
-func bounce(bounce_force : float, forward_force : float) -> void:
+func bounce(bounce_force : float, forward_force : float, isCrit : bool) -> void:
 	if use_burrito_bison_physics:
 		var speed_gained = forward_speed*StatsManager.get_speed_boost_percentage()
+		if isCrit:
+			speed_gained *= 2
 		forward_speed += speed_gained
 	linear_velocity.y = -abs(linear_velocity.y)*0.9
+	
+	if isCrit:
+		forward_force *= 2
+		bounce_force *= 2
+	
 	linear_velocity.x += forward_force
 	var impulse = Vector2.UP * bounce_force# + Vector2.RIGHT * forward_force
+	if use_burrito_bison_physics: 
+		forward_speed = linear_velocity.x
 	apply_impulse(impulse)
 
 func launch(angle, power):
@@ -162,6 +175,10 @@ func doDiceHighlight(duration : float, roll : int, hit : bool) -> void:
 	
 	if not hit:
 		highlight_color = Color.RED
+	
+	elif roll == 20:
+		highlight_color = Color.GOLDENROD
+		big_size = 60
 	
 	var tween = get_tree().create_tween()
 	var tween2 = get_tree().create_tween()
