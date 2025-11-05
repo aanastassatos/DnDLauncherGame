@@ -1,9 +1,10 @@
 extends PlayerState
 
-@export
-var landedState : PlayerState
+@export var landedState : PlayerState
+@export var attackingState : PlayerState
+@export var missedState : PlayerState
 
-var still_time : float = 0.0
+var pending_next_state : PlayerState = null
 
 func _ready() -> void:
 	if animation_name == "":
@@ -15,15 +16,41 @@ func _ready() -> void:
 func enter() -> void:
 	super()
 	EventBus.emit_signal("player_launched")
+	
+	if not EventBus.enemy_hit.is_connected(_on_enemy_hit):
+		EventBus.enemy_hit.connect(_on_enemy_hit)
+	
+	if not EventBus.enemy_missed.is_connected(_on_enemy_missed):
+		EventBus.enemy_missed.connect(_on_enemy_missed)
+		
+	pending_next_state = null
+
+func exit() -> void:
+	super()
+	if EventBus.enemy_hit.is_connected(_on_enemy_hit):
+		EventBus.enemy_hit.disconnect(_on_enemy_hit)
+	
+	if EventBus.enemy_missed.is_connected(_on_enemy_missed):
+		EventBus.enemy_missed.disconnect(_on_enemy_missed)
+
+func _on_enemy_hit(enemy : Enemy) -> void:
+	pending_next_state = attackingState
+
+func _on_enemy_missed(enemy : Enemy) -> void:
+	print("enemy missed")
+	pending_next_state = missedState
 
 func doProcess(delta: float) -> PlayerState:
 	var newState : PlayerState = super(delta)
 	
 	parent.doDiceRoll()
 	
+	parent.doFlyingRotation(delta)
+	
+	if pending_next_state:
+		return pending_next_state
+	
 	if parent.check_landed(delta):
 		newState = landedState
-	
-	parent.doFlyingRotation(delta)
 	
 	return newState

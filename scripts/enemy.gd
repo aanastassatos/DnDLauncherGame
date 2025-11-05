@@ -1,3 +1,4 @@
+class_name Enemy
 extends Area2D
 
 @onready var level_label = $Control/Panel/Level

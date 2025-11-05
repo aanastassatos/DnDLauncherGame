@@ -59,30 +59,25 @@ func _on_player_landed():
 
 func _on_player_hit_enemy(enemy):
 	var roll = roll_dice() + StatsManager.get_attack_modifier()
-	var hit = true
-	print("You rolled ",roll," against a level ", enemy.cr," enemy")
+	#print("You rolled ",roll," against a level ", enemy.cr," enemy")
 	if roll > enemy.cr:
-		_launch_player_further()
-		EventBus.emit_signal("enemy_hit")
+		EventBus.emit_signal("enemy_hit", enemy)
 		print("HIT")
-	
+	#
 	else:
 		hurt_player(1)
-		hit = false
+		EventBus.emit_signal("enemy_missed", enemy)
 		print("OUCH")
 		
-	await player.freeze_player_for(0.6, roll, hit)
+	#await player.freeze_player_for(0.6, roll, hit)
 
 func _on_player_died():
 	player.die()
 	print("died")
 	game_state = LANDED
 
-func roll_dice():
-	randomize()
-	var roll = randi_range(1, 20)
-	#roll = 20
-	return roll
+func roll_dice() -> int:
+	return player.get_roll()
 
 func _launch_player_further():
 	StatsManager.add_money(1)

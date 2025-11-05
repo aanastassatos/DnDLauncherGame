@@ -18,17 +18,14 @@ extends RigidBody2D
 
 var aiming: bool = true
 var rolling_dice: bool = false
-var aim_angle: float = -45
-var min_angle: float = 0.0
-var max_angle: float = 85.0
-var swing_speed : float = 90.0
-var swinging_down : bool = true
-var last_position : Vector2
+var last_roll : int
 
 var min_speed : float = 10.0
 var max_still_time:=0.5
 
 var still_time:=0.0
+
+var current_time_scale : float = 1.00
 
 var forward_speed : float = 200.0
 var touching_ground: bool = false
@@ -40,6 +37,7 @@ const IDLE : String = "idle"
 const LAUNCHED : String = "launched"
 const SLIDING : String = "sliding"
 const ATTACK : String = "attack"
+const MISS : String = "miss"
 const HURT : String = "hurt"
 const DEAD : String = "dead"
 const LANDED : String = "landed"
@@ -122,7 +120,13 @@ func _integrate_forces(state: PhysicsDirectBodyState2D) -> void:
 		velocity.x = forward_speed
 		state.linear_velocity = velocity
 
-func bounce(bounce_force, forward_force):
+func doBounce() -> void:
+	var bounce_force = StatsManager.get_bounce_force()
+	var forward_force = StatsManager.get_forward_force()
+	
+	bounce(bounce_force, forward_force)
+
+func bounce(bounce_force : float, forward_force : float) -> void:
 	if use_burrito_bison_physics:
 		var speed_gained = forward_speed*StatsManager.get_speed_boost_percentage()
 		forward_speed += speed_gained
@@ -142,6 +146,40 @@ func start_rolling_dice():
 	
 func stop_rolling_dice():
 	rolling_dice = false
+
+func change_time_scale(time_scale : float) -> void:
+	Engine.time_scale = time_scale
+	current_time_scale = time_scale
+
+func doDiceHighlight(duration : float, roll : int, hit : bool) -> void:
+	stop_rolling_dice()
+	update_dice(str(int(roll)))
+	
+	var big_size = 48
+	var regular_size = 30
+	var normal_color = Color.WHITE
+	var highlight_color = Color.GREEN
+	
+	if not hit:
+		highlight_color = Color.RED
+	
+	var tween = get_tree().create_tween()
+	var tween2 = get_tree().create_tween()
+	
+	tween.tween_property(dice_label.label_settings, "font_size", big_size, 0.5*current_time_scale).set_trans(Tween.TRANS_SINE)
+	tween2.tween_property(dice_label.label_settings, "font_color", highlight_color, 0.5*current_time_scale)
+	
+	await get_tree().create_timer(duration*current_time_scale).timeout
+	
+	tween = create_tween()
+	tween2 = create_tween() 
+	
+	tween.tween_property(dice_label.label_settings, "font_size", regular_size, 0.5*current_time_scale).set_trans(Tween.TRANS_SINE)
+	tween2.tween_property(dice_label.label_settings, "font_color", normal_color, 0.5*current_time_scale)
+	
+	await get_tree().create_timer(duration*current_time_scale).timeout
+	
+	start_rolling_dice()
 
 func freeze_player_for(duration, roll, hit : bool):
 	stop_rolling_dice()
@@ -200,6 +238,11 @@ func _on_attack_success():
 
 func _on_attack_fail():
 	pass
+
+func get_roll() -> int:
+	randomize()
+	last_roll = randi_range(1, 20)
+	return last_roll
 
 func stop_movement() -> void:
 	linear_velocity = Vector2.ZERO

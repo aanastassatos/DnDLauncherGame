@@ -1,4 +1,4 @@
-[gd_scene load_steps=26 format=3 uid="uid://brmyj48t05jr"]
+[gd_scene load_steps=28 format=3 uid="uid://brmyj48t05jr"]
 
 [ext_resource type="Script" uid="uid://2e45rx5qgudo" path="res://scripts/player.gd" id="1_onrkg"]
 [ext_resource type="Texture2D" uid="uid://bldtj7wsxw3q1" path="res://assets/Characters/Gnome_boy.PNG" id="2_qhqgy"]
@@ -15,7 +15,9 @@
 [ext_resource type="Script" uid="uid://ct2tpy4j0fmh1" path="res://scripts/states/player_states/aiming.gd" id="12_f1ej7"]
 [ext_resource type="Script" uid="uid://ynssdu3m233v" path="res://scripts/states/player_states/launching.gd" id="12_jej6c"]
 [ext_resource type="Script" uid="uid://cf0gbe5hxxikx" path="res://scripts/states/player_states/landed.gd" id="15_oprun"]
+[ext_resource type="Script" uid="uid://dphepfr6sehd" path="res://scripts/states/player_states/attack.gd" id="15_qfm1y"]
 [ext_resource type="Script" uid="uid://5djtfakanv1" path="res://scripts/states/player_states/dead.gd" id="16_a8ls1"]
+[ext_resource type="Script" uid="uid://cn4a63hubapid" path="res://scripts/states/player_states/miss.gd" id="16_fulsm"]
 
 [sub_resource type="PhysicsMaterial" id="PhysicsMaterial_g2els"]
 friction = 0.1
@@ -725,10 +727,20 @@ script = ExtResource("12_f1ej7")
 script = ExtResource("12_jej6c")
 launched_state = NodePath("../Launched")
 
-[node name="Launched" type="Node" parent="StateMachine" node_paths=PackedStringArray("landedState")]
+[node name="Launched" type="Node" parent="StateMachine" node_paths=PackedStringArray("landedState", "attackingState", "missedState")]
 script = ExtResource("11_d2wvv")
 landedState = NodePath("../Landed")
+attackingState = NodePath("../Attack")
+missedState = NodePath("../Miss")
 animation_name = "flying"
+
+[node name="Attack" type="Node" parent="StateMachine" node_paths=PackedStringArray("launched_state")]
+script = ExtResource("15_qfm1y")
+launched_state = NodePath("../Launched")
+
+[node name="Miss" type="Node" parent="StateMachine" node_paths=PackedStringArray("launched_state")]
+script = ExtResource("16_fulsm")
+launched_state = NodePath("../Launched")
 
 [node name="Landed" type="Node" parent="StateMachine"]
 script = ExtResource("15_oprun")
