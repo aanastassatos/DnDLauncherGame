@@ -10,7 +10,7 @@ var done_highlight : bool = false
 
 func _ready() -> void:
 	if animation_name == "" or state_name == null:
-		animation_name = "Sliding"
+		animation_name = "kick"
 	
 	if state_name == "" or state_name == null:
 		state_name = parent.ATTACK
@@ -21,15 +21,18 @@ func enter() -> void:
 	done_highlight = false
 	parent.change_time_scale(slow_time_scale)
 	parent.doBounce()
+	parent.animation_player.speed_scale = 1.0/slow_time_scale
 	doDiceHighlightAsync()
 
 func doProcess(delta: float) -> PlayerState:
+	parent.doIdleRotation(delta)
 	elapsed += delta
 	if elapsed >= linger_duration*slow_time_scale and done_highlight:
 		return launched_state
 	return null
 
 func exit() -> void:
+	parent.animation_player.speed_scale = 1.0
 	parent.change_time_scale(1.0)
 
 func doDiceHighlightAsync() -> void:

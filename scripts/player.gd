@@ -71,7 +71,7 @@ func doDiceRoll() -> void:
 		dice_label.text = str(randi_range(1,20))
 
 func doIdleRotation(delta : float) -> void:
-	visuals.rotation = lerp_angle(visuals.rotation, 0, rotation_speed * delta)
+	visuals.rotation = lerp_angle(visuals.rotation, 0, rotation_speed * (1/current_time_scale) * delta)
 	collision_ball.rotation = visuals.rotation
 
 func doFlyingRotation(delta : float) -> void:
@@ -221,20 +221,6 @@ func update_dice(roll):
 
 func _on_attack_success():
 	pass
-	#var big_size = 48
-	#var regular_size = 30
-	#var normal_color = Color.WHITE
-	#var highlight_color = Color.GREEN
-	#
-	#var tween = get_tree().create_tween()
-	#var tween2 = get_tree().create_tween()
-	#
-	#tween.tween_property(dice_label.label_settings, "font_size", big_size, 0.5).set_trans(Tween.TRANS_SINE)
-	#tween2.tween_property(dice_label.label_settings, "font_color", highlight_color, 0.5)
-	#
-	## Then shrink back and restore color
-	#tween.tween_property(dice_label.label_settings, "font_size", regular_size, 0.5).set_trans(Tween.TRANS_SINE)
-	#tween2.tween_property(dice_label.label_settings, "font_color", normal_color, 0.5)
 
 func _on_attack_fail():
 	pass
