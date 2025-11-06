@@ -21,13 +21,14 @@ var rolling_dice: bool = false
 var last_roll : int
 
 var min_speed : float = 10.0
+var max_speed : float = 10000
 var max_still_time:=0.5
 
 var still_time:=0.0
 
 var current_time_scale : float = 1.00
 
-var forward_speed : float = 200.0
+var forward_speed : float = 0.0
 var touching_ground: bool = false
 
 var rotation_speed : float = 8.0
@@ -103,19 +104,33 @@ func _on_body_exited(body):
 	if body.is_in_group("ground"):
 		touching_ground = false
 
+var touching_ground_last_frame = false
+
 func _integrate_forces(state: PhysicsDirectBodyState2D) -> void:
 	if state_machine.get_current_state() == LAUNCHED and use_burrito_bison_physics:
 		forward_speed *= 1.0 - StatsManager.get_air_drag() * state.step
 		
+		var startingSpeed = forward_speed
+		
 		if touching_ground:
 			var speed_loss = forward_speed*StatsManager.get_ground_drag()
 			
+			if touching_ground_last_frame:
+				speed_loss = speed_loss*state.step
+			
+			touching_ground_last_frame = true
+			
 			if forward_speed - speed_loss > 0:
 				forward_speed -= speed_loss
+				print("starting: "+str(startingSpeed)+" ending: "+str(forward_speed)+" loss: "+str(startingSpeed-forward_speed))
 			
 			else:
 				forward_speed = 0
-			
+		
+		else:
+			touching_ground_last_frame = false
+		
+		forward_speed = min(forward_speed, max_speed)
 		var velocity = state.linear_velocity
 		velocity.x = forward_speed
 		state.linear_velocity = velocity
@@ -139,8 +154,8 @@ func bounce(bounce_force : float, forward_force : float, isCrit : bool) -> void:
 	linear_velocity.y = -abs(linear_velocity.y)*0.9
 	
 	if isCrit:
-		forward_force *= 2
-		bounce_force *= 2
+		forward_force *= 10
+		bounce_force *= 5
 	
 	linear_velocity.x += forward_force
 	var impulse = Vector2.UP * bounce_force# + Vector2.RIGHT * forward_force
