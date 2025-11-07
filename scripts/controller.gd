@@ -1,9 +1,7 @@
 extends Node2D
 
-@onready var player = $Player
+@onready var player : Player = $Player
 @onready var health_bar = $Player/HealthControl/HealthBar
-@onready var aim_line = $AimLine
-@onready var power_bar = $PowerBar
 @onready var lines = $Lines
 @onready var camera = $Player/Camera2D
 @onready var hud = $HUD
@@ -19,10 +17,7 @@ const LANDED : String = "landed"
 
 var game_state : String = AIMING  # "aiming", "launching", "launched", "landed"
 
-var starting_position : Vector2
-
 func _ready():
-	power_bar.hide()
 	store.hide_store()
 	EventBus.player_landed.connect(_on_player_landed)
 	EventBus.player_launched.connect(_on_player_launched)
@@ -31,7 +26,6 @@ func _ready():
 	store_button.pressed.connect(_on_store_opened)
 	EventBus.store_closed.connect(_on_store_closed)
 	EventBus.health_changed.connect(_update_health)
-	starting_position = player.position
 	hud.hide_middle_text(true)
 	reset()
 
@@ -87,9 +81,6 @@ func _update_health(health):
 	print("health changed")
 	health_bar.value = float((StatsManager.get_current_health()/StatsManager.get_max_health())*100)
 
-var aim_angle : float
-var powerratio : float
-
 func _unhandled_input(event):
 	if event.is_action_pressed("ui_accept"):
 		match game_state:
@@ -107,28 +98,16 @@ func _unhandled_input(event):
 				reset()
 			
 func doLaunching():
-	aim_line.stop()
 	game_state = LAUNCHING
-	aim_angle = aim_line.aim_angle
 	start_launching()
 	
 func start_launching():
-	#hud.update_middle_text("PRESS SPACE BITCH!!! (if you want)")
-	power_bar.show() 
-	power_bar.position = player.position
-	power_bar.set_aim_angle(aim_angle)
-	power_bar.start()
+	pass
 	
 func doLaunched():
 	game_state = LAUNCHED
 	player.start_rolling_dice()
 	hud.hide_middle_text(true)
-	powerratio = power_bar.stop()
-	aim_line.hide()
-	power_bar.hide()
-	player.freeze = false
-	print("Launched at ", powerratio*100, "% power with value of ", StatsManager.get_launch_power()*powerratio)
-	player.launch(aim_angle, StatsManager.get_launch_power()*powerratio)
 	camera.doLaunched()
 
 func reset():
@@ -136,24 +115,14 @@ func reset():
 	skyEnemySpawner.reset_enemies()
 	#hud.update_middle_text("Press SPACEBAR to launch")
 	#hud.hide_middle_text(false)
-	player.position = starting_position
-	player.freeze = true
-	player.linear_velocity = Vector2.ZERO
-	player.angular_velocity = 0
-	player.sleeping = false
-	player.set_deferred("position", starting_position)
-	player.set_deferred("touching_ground", false )
-	
-	aim_line.show()
-	aim_line.start()
+	player.do_reset()
 	camera.doAiming()
 	game_state = AIMING
 
 func _process(delta):
 	match game_state:
 		AIMING:
-			aim_line.position = player.position
-			_update_aiming(delta)
+			pass
 		LAUNCHING:
 			_update_launching(delta)
 		LAUNCHED:
@@ -162,14 +131,11 @@ func _process(delta):
 			_update_landed(delta)
 			
 
-func _update_aiming(delta):
-	pass
-
 func _update_launching(delta):
 	pass
 
 func _update_launched(delta):
-	var distance = player.global_position.x - starting_position.x
+	var distance = player.global_position.x - player.starting_position.x
 	var distance_in_meters = distance/lines.PIXELS_PER_METER
 	hud.update_distance(distance_in_meters)
 	hud.update_linear_velocity(player.linear_velocity)

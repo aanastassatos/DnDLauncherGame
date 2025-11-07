@@ -1,3 +1,4 @@
+class_name AimLine
 extends Line2D
 
 var aiming: bool = true
@@ -9,7 +10,7 @@ var swing_speed : float = 90.0
 var swinging_down : bool = true
 var active : bool = false
 
-func _process(delta):
+func do_aiming(delta):
 	if active:
 		if swinging_down:
 			aim_angle += swing_speed * delta

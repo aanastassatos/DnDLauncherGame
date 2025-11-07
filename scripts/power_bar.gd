@@ -1,7 +1,8 @@
-extends Node2D
+class_name PowerLine
+extends Line2D
 
 # The Line2D node that visually represents the power
-@onready var line: Line2D = $PowerLine
+@onready var line: Line2D = self
 
 # Power bar settings
 @export var min_length: float = 10.0
@@ -16,12 +17,12 @@ var current_length: float = 10.0
 # Normalized power value (0..1)
 var power_ratio: float = 0.0
 
-func _ready():
+func _ready() -> void:
 	# Initialize line to start at base point
 	line.points[0] = Vector2.ZERO
 	line.points[1] = Vector2(current_length, 0)
 
-func _process(delta):
+func do_power_up(delta : float) -> void:
 	if not active:
 		return
 
@@ -41,7 +42,7 @@ func _process(delta):
 	# Update normalized power ratio
 	power_ratio = (current_length - min_length) / (max_length - min_length)
 
-func start():
+func start() -> void:
 	# Begin the power bar animation
 	active = true
 	current_length = min_length

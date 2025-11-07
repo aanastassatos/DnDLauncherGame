@@ -17,3 +17,6 @@ func exit() -> void:
 
 func doProcess(delta: float) -> PlayerState:
 	return null
+
+func do_unhandled_input(event : InputEvent) -> PlayerState:
+	return null

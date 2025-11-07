@@ -31,3 +31,8 @@ func doProcess(delta: float) -> void:
 
 func get_current_state() -> String:
 	return currentState.state_name
+
+func do_unhandled_input(event : InputEvent) -> void:
+	var newState = currentState.do_unhandled_input(event)
+	if newState:
+		change_state(newState)

@@ -1,4 +1,4 @@
-[gd_scene load_steps=21 format=3 uid="uid://bu5rbi6tmk83u"]
+[gd_scene load_steps=18 format=3 uid="uid://bu5rbi6tmk83u"]
 
 [ext_resource type="Script" uid="uid://0vmwscm1swpe" path="res://scripts/controller.gd" id="1_lbhrr"]
 [ext_resource type="PackedScene" uid="uid://brmyj48t05jr" path="res://scenes/player.tscn" id="1_lnu2h"]
@@ -6,8 +6,6 @@
 [ext_resource type="Script" uid="uid://o2gu4wndfc5r" path="res://scripts/camera_2d.gd" id="2_lbhrr"]
 [ext_resource type="Script" uid="uid://bn41b5o32be40" path="res://scripts/lines.gd" id="3_iywne"]
 [ext_resource type="PackedScene" uid="uid://bdfkrfem2jj3x" path="res://scenes/flying_enemy.tscn" id="3_kvuet"]
-[ext_resource type="Script" uid="uid://ieirnvo0p1qc" path="res://scripts/aim_line.gd" id="5_iywne"]
-[ext_resource type="Script" uid="uid://2t3gc362lajr" path="res://scripts/power_bar.gd" id="6_p57ef"]
 [ext_resource type="Script" uid="uid://c3r6j6w4bvbpx" path="res://scripts/hud.gd" id="7_u5sy4"]
 [ext_resource type="Script" uid="uid://c115i6dexqvso" path="res://scripts/enemy_spawner.gd" id="8_0tnpc"]
 [ext_resource type="PackedScene" uid="uid://ct5p61x2qm88v" path="res://scenes/goblin.tscn" id="9_vtaks"]
@@ -27,10 +25,6 @@ friction = 0.1
 
 [sub_resource type="WorldBoundaryShape2D" id="WorldBoundaryShape2D_rnjyy"]
 distance = -1.0
-
-[sub_resource type="Gradient" id="Gradient_iywne"]
-offsets = PackedFloat32Array(0, 0.21917808)
-colors = PackedColorArray(0, 1, 0.05499029, 1, 1, 0, 0, 1)
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_vtaks"]
 bg_color = Color(0.839433, 0.20993586, 0.20993586, 1)
@@ -123,23 +117,6 @@ offset_right = 40.0
 offset_bottom = 23.0
 text = "Start"
 metadata/_edit_use_anchors_ = true
-
-[node name="AimLine" type="Line2D" parent="Controller"]
-physics_interpolation_mode = 2
-z_index = -1
-position = Vector2(240, 167)
-points = PackedVector2Array(0, 0, 87, 0)
-width = 1.0
-script = ExtResource("5_iywne")
-
-[node name="PowerBar" type="Node2D" parent="Controller"]
-position = Vector2(-519, 167)
-script = ExtResource("6_p57ef")
-
-[node name="PowerLine" type="Line2D" parent="Controller/PowerBar"]
-points = PackedVector2Array(0, 0, 100, 0)
-default_color = Color(0.98878354, 0, 0, 1)
-gradient = SubResource("Gradient_iywne")
 
 [node name="Store" parent="Controller" instance=ExtResource("11_dinhu")]
 

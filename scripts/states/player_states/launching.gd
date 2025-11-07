@@ -5,7 +5,7 @@ var launched_state : PlayerState
 
 func _ready():
 	if animation_name == "":
-		animation_name = "Idle"
+		animation_name = "flying"
 	
 	if state_name == "":
 		state_name = "Launching"
@@ -14,4 +14,5 @@ func enter() -> void:
 	super()
 
 func doProcess(delta: float) -> PlayerState:
+	parent.do_launch()
 	return launched_state

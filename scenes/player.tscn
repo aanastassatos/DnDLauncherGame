@@ -1,4 +1,4 @@
-[gd_scene load_steps=29 format=3 uid="uid://brmyj48t05jr"]
+[gd_scene load_steps=34 format=3 uid="uid://brmyj48t05jr"]
 
 [ext_resource type="Script" uid="uid://2e45rx5qgudo" path="res://scripts/player.gd" id="1_onrkg"]
 [ext_resource type="Texture2D" uid="uid://bldtj7wsxw3q1" path="res://assets/Characters/Gnome_boy.PNG" id="2_qhqgy"]
@@ -14,10 +14,14 @@
 [ext_resource type="Script" uid="uid://dkwga46p1s27v" path="res://scripts/states/player_states/launched.gd" id="11_d2wvv"]
 [ext_resource type="Script" uid="uid://ct2tpy4j0fmh1" path="res://scripts/states/player_states/aiming.gd" id="12_f1ej7"]
 [ext_resource type="Script" uid="uid://ynssdu3m233v" path="res://scripts/states/player_states/launching.gd" id="12_jej6c"]
+[ext_resource type="Script" uid="uid://bwtf5qfwehb03" path="res://scripts/states/player_states/powering_up.gd" id="13_4r5pv"]
 [ext_resource type="Script" uid="uid://cf0gbe5hxxikx" path="res://scripts/states/player_states/landed.gd" id="15_oprun"]
 [ext_resource type="Script" uid="uid://dphepfr6sehd" path="res://scripts/states/player_states/hit.gd" id="15_qfm1y"]
 [ext_resource type="Script" uid="uid://5djtfakanv1" path="res://scripts/states/player_states/dead.gd" id="16_a8ls1"]
 [ext_resource type="Script" uid="uid://cn4a63hubapid" path="res://scripts/states/player_states/miss.gd" id="16_fulsm"]
+[ext_resource type="Script" uid="uid://d26n5w4adcax5" path="res://scripts/aim_and_power.gd" id="20_a38lo"]
+[ext_resource type="Script" uid="uid://ieirnvo0p1qc" path="res://scripts/aim_line.gd" id="20_i4ail"]
+[ext_resource type="Script" uid="uid://2t3gc362lajr" path="res://scripts/power_bar.gd" id="21_a38lo"]
 
 [sub_resource type="PhysicsMaterial" id="PhysicsMaterial_g2els"]
 friction = 0.1
@@ -830,6 +834,10 @@ font_size = 30
 outline_size = 5
 outline_color = Color(0, 0, 0, 1)
 
+[sub_resource type="Gradient" id="Gradient_4ni07"]
+offsets = PackedFloat32Array(0, 0.21917808)
+colors = PackedColorArray(0, 1, 0.05499029, 1, 1, 0, 0, 1)
+
 [node name="Player" type="RigidBody2D"]
 collision_mask = 6
 physics_material_override = SubResource("PhysicsMaterial_g2els")
@@ -887,14 +895,19 @@ autoplay = "Idle"
 
 [node name="StateMachine" type="Node" parent="." node_paths=PackedStringArray("startingState")]
 script = ExtResource("10_y4r1p")
-startingState = NodePath("Idle")
+startingState = NodePath("Aiming")
 
 [node name="Idle" type="Node" parent="StateMachine"]
 script = ExtResource("11_3v2ag")
 animation_name = "Idle"
 
-[node name="Aiming" type="Node" parent="StateMachine"]
+[node name="Aiming" type="Node" parent="StateMachine" node_paths=PackedStringArray("power_up_state")]
 script = ExtResource("12_f1ej7")
+power_up_state = NodePath("../Powering_Up")
+
+[node name="Powering_Up" type="Node" parent="StateMachine" node_paths=PackedStringArray("launching_state")]
+script = ExtResource("13_4r5pv")
+launching_state = NodePath("../Launching")
 
 [node name="Launching" type="Node" parent="StateMachine" node_paths=PackedStringArray("launched_state")]
 script = ExtResource("12_jej6c")
@@ -976,3 +989,19 @@ offset_bottom = -91.0
 text = "IDLE"
 label_settings = SubResource("LabelSettings_a8ls1")
 horizontal_alignment = 1
+
+[node name="Aim_And_Power" type="Node2D" parent="."]
+script = ExtResource("20_a38lo")
+
+[node name="AimLine" type="Line2D" parent="Aim_And_Power"]
+physics_interpolation_mode = 2
+z_index = -1
+points = PackedVector2Array(0, 0, 87, 0)
+width = 1.0
+script = ExtResource("20_i4ail")
+
+[node name="PowerLine" type="Line2D" parent="Aim_And_Power"]
+points = PackedVector2Array(0, 0, 100, 0)
+default_color = Color(0.98878354, 0, 0, 1)
+gradient = SubResource("Gradient_4ni07")
+script = ExtResource("21_a38lo")

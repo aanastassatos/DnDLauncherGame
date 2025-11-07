@@ -5,6 +5,7 @@ extends RigidBody2D
 @onready var visuals = find_child("GnomeSprite")
 @onready var collision_ball = find_child("CollisionBall")
 @onready var animation_player = find_child("AnimationPlayer")
+@onready var aim_and_power : AimAndPower = $Aim_And_Power
 @onready var state_label = $StateLabel
 
 #States
@@ -15,6 +16,8 @@ extends RigidBody2D
 @onready var dead_state = $StateMachine/Dead
 
 @export var use_burrito_bison_physics = true
+
+var starting_position : Vector2
 
 var aiming: bool = true
 var rolling_dice: bool = false
@@ -47,6 +50,8 @@ func _ready():
 	EventBus.enemy_hit.connect(_on_attack_success)
 	EventBus.enemy_missed.connect(_on_attack_fail)
 	state_machine.init(self)
+	
+	starting_position = position
 
 	if use_burrito_bison_physics:
 		var mat = physics_material_override
@@ -67,6 +72,9 @@ func update_state_label(player_state : String):
 func _process(delta):
 	state_machine.doProcess(delta)
 
+func _unhandled_input(event: InputEvent) -> void:
+	state_machine.do_unhandled_input(event)
+
 func doDiceRoll() -> void:
 	if rolling_dice:
 		dice_label.text = str(randi_range(1,20))
@@ -84,7 +92,7 @@ func doFlyingRotation(delta : float) -> void:
 		visuals.rotation = lerp_angle(visuals.rotation, 90, rotation_speed * delta)
 
 func check_landed(delta : float) -> bool:
-	if linear_velocity.length() < min_speed:
+	if forward_speed < min_speed:
 		still_time += delta
 		sleeping = false
 		if still_time > max_still_time: # been still for a second
@@ -163,11 +171,15 @@ func bounce(bounce_force : float, forward_force : float, isCrit : bool) -> void:
 		forward_speed = linear_velocity.x
 	apply_impulse(impulse)
 
+func do_launch():
+	freeze = false
+	print("Launched at ", aim_and_power.power_ratio*100, "% power with value of ", StatsManager.get_launch_power()*aim_and_power.power_ratio)
+	launch(aim_and_power.aim_angle, StatsManager.get_launch_power()*aim_and_power.power_ratio)
+
 func launch(angle, power):
 	var impulse = Vector2.RIGHT.rotated(deg_to_rad(angle)) * power
 	forward_speed = impulse.x
 	apply_impulse(impulse)
-	change_state(launched_state)
 
 func start_rolling_dice():
 	rolling_dice = true
@@ -232,6 +244,16 @@ func stop_movement() -> void:
 	stop_rolling_dice()
 	if use_burrito_bison_physics:
 		forward_speed = 0
+
+# Called from controller to reset the player
+func do_reset() -> void:
+	freeze = true
+	linear_velocity = Vector2.ZERO
+	angular_velocity = 0
+	sleeping = false
+	set_deferred("position", starting_position)
+	set_deferred("touching_ground", false )
+	state_machine.change_state(state_machine.startingState)
 
 func die():
 	set_deferred("forward_speed", 0)
