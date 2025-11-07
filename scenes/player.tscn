@@ -15,7 +15,7 @@
 [ext_resource type="Script" uid="uid://ct2tpy4j0fmh1" path="res://scripts/states/player_states/aiming.gd" id="12_f1ej7"]
 [ext_resource type="Script" uid="uid://ynssdu3m233v" path="res://scripts/states/player_states/launching.gd" id="12_jej6c"]
 [ext_resource type="Script" uid="uid://cf0gbe5hxxikx" path="res://scripts/states/player_states/landed.gd" id="15_oprun"]
-[ext_resource type="Script" uid="uid://dphepfr6sehd" path="res://scripts/states/player_states/attack.gd" id="15_qfm1y"]
+[ext_resource type="Script" uid="uid://dphepfr6sehd" path="res://scripts/states/player_states/hit.gd" id="15_qfm1y"]
 [ext_resource type="Script" uid="uid://5djtfakanv1" path="res://scripts/states/player_states/dead.gd" id="16_a8ls1"]
 [ext_resource type="Script" uid="uid://cn4a63hubapid" path="res://scripts/states/player_states/miss.gd" id="16_fulsm"]
 
@@ -876,14 +876,14 @@ script = ExtResource("12_f1ej7")
 script = ExtResource("12_jej6c")
 launched_state = NodePath("../Launched")
 
-[node name="Launched" type="Node" parent="StateMachine" node_paths=PackedStringArray("landedState", "attackingState", "missedState")]
+[node name="Launched" type="Node" parent="StateMachine" node_paths=PackedStringArray("landedState", "hit_state", "missedState")]
 script = ExtResource("11_d2wvv")
 landedState = NodePath("../Landed")
-attackingState = NodePath("../Attack")
+hit_state = NodePath("../Hit")
 missedState = NodePath("../Miss")
 animation_name = "flying"
 
-[node name="Attack" type="Node" parent="StateMachine" node_paths=PackedStringArray("launched_state")]
+[node name="Hit" type="Node" parent="StateMachine" node_paths=PackedStringArray("launched_state")]
 script = ExtResource("15_qfm1y")
 launched_state = NodePath("../Launched")
 

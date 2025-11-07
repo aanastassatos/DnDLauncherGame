@@ -1,7 +1,7 @@
 extends PlayerState
 
 @export var landedState : PlayerState
-@export var attackingState : PlayerState
+@export var hit_state : PlayerState
 @export var missedState : PlayerState
 
 var pending_next_state : PlayerState = null
@@ -34,7 +34,7 @@ func exit() -> void:
 		EventBus.enemy_missed.disconnect(_on_enemy_missed)
 
 func _on_enemy_hit(enemy : Enemy) -> void:
-	pending_next_state = attackingState
+	pending_next_state = hit_state
 
 func _on_enemy_missed(enemy : Enemy) -> void:
 	print("enemy missed")
