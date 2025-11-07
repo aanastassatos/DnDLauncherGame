@@ -100,7 +100,7 @@ func _update_buttons():
 	for button in shop_buttons:
 		var button_id = button.get_meta(Constants.SHOP_DATA_ID)
 		var cost_label = button.find_child("CostLabel")
-		cost_label.text = "$"+str(int(get_item_cost(button_id)))
+		cost_label.text = "$"+str(get_item_cost(button_id))
 
 func hide_store():
 	canvas_layer.hide()
@@ -129,11 +129,14 @@ func _update_buy_button():
 		else:
 			buy_button.disabled = true
 
-func get_item_cost(item_id : String):
+func get_item_cost(item_id : String) -> int:
 	if item_id != null:
 		var item_info = ShopData.ITEMS[item_id]
-		return item_info[Constants.BASE_COST] * pow(item_info[Constants.COST_MULTIPLIER],
-													StatsManager.get_level(item_info[Constants.SHOP_DATA_ID]))
+		var cost = item_info[Constants.BASE_COST] * pow(item_info[Constants.COST_MULTIPLIER],
+														StatsManager.get_level(item_info[Constants.SHOP_DATA_ID]))
+		return int(floor(cost))
+	else:
+		return -1
 
 func is_purchasable(item_cost : int) -> bool:
 	if item_cost <= StatsManager.get_money():
