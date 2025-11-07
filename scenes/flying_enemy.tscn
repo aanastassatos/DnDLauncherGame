@@ -1,0 +1,57 @@
+[gd_scene load_steps=5 format=3 uid="uid://bdfkrfem2jj3x"]
+
+[ext_resource type="Script" uid="uid://bryebwwq2lxkg" path="res://scripts/character_scripts/enemy_scripts/flying_enemy.gd" id="1_fgwew"]
+[ext_resource type="Texture2D" uid="uid://dmq8yp7vq4gnu" path="res://assets/enemy.png" id="1_vbcm2"]
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_vbcm2"]
+radius = 51.009804
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_fgwew"]
+draw_center = false
+
+[node name="FlyingEnemy" type="Area2D"]
+scale = Vector2(0.635, 0.635)
+script = ExtResource("1_fgwew")
+
+[node name="FlyingEnemySprite" type="Sprite2D" parent="."]
+scale = Vector2(0.155, 0.155)
+texture = ExtResource("1_vbcm2")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+shape = SubResource("CircleShape2D_vbcm2")
+
+[node name="Control" type="Control" parent="."]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+metadata/_edit_use_anchors_ = true
+
+[node name="Panel" type="Panel" parent="Control"]
+layout_mode = 0
+offset_left = -19.0
+offset_top = -20.0
+offset_right = 21.0
+offset_bottom = 20.0
+theme_override_styles/panel = SubResource("StyleBoxFlat_fgwew")
+metadata/_edit_use_anchors_ = true
+
+[node name="Level" type="Label" parent="Control/Panel"]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -5.0
+offset_top = -11.5
+offset_right = 5.0
+offset_bottom = 11.5
+grow_horizontal = 2
+grow_vertical = 2
+text = "3"
+metadata/_edit_use_anchors_ = true
+
+[connection signal="body_entered" from="." to="." method="_on_body_entered"]

@@ -1,5 +1,4 @@
-class_name Enemy
-extends Area2D
+extends Enemy
 
 @onready var level_label = $Control/Panel/Level
 

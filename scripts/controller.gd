@@ -8,6 +8,7 @@ extends Node2D
 @onready var camera = $Player/Camera2D
 @onready var hud = $HUD
 @onready var enemySpawner = $EnemySpawner
+@onready var skyEnemySpawner = $SkyEnemySpawner
 @onready var store = $Store
 @onready var store_button = find_child("StoreButton", true, false)
 
@@ -132,6 +133,7 @@ func doLaunched():
 
 func reset():
 	enemySpawner.reset_enemies()
+	skyEnemySpawner.reset_enemies()
 	#hud.update_middle_text("Press SPACEBAR to launch")
 	#hud.hide_middle_text(false)
 	player.position = starting_position
