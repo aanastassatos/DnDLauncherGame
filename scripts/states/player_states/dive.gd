@@ -1,18 +1,19 @@
 extends PlayerState
 
-@export var landedState : PlayerState
+@export var launched_state : PlayerState
 @export var hit_state : PlayerState
 @export var missedState : PlayerState
-@export var dive_state : PlayerState
 
-var pending_next_state : PlayerState = null
+var pending_next_state  : PlayerState = null
+
+var dive_force : float = 1200.0
 
 func _ready() -> void:
 	if animation_name == "":
-		animation_name = "flying"
+		animation_name = "Sliding"
 	
 	if state_name == "":
-		state_name = parent.LAUNCHED
+		state_name = parent.DIVE
 
 func enter() -> void:
 	super()
@@ -22,44 +23,31 @@ func enter() -> void:
 	if not EventBus.enemy_missed.is_connected(_on_enemy_missed):
 		EventBus.enemy_missed.connect(_on_enemy_missed)
 	
-	if not EventBus.dive_requested.is_connected(_on_dive_requested):
-		EventBus.dive_requested.connect(_on_dive_requested)
-		
 	pending_next_state = null
+	
+	var velocity = parent.linear_velocity
+	print("Linear velocity before dive: "+str(velocity))
+	parent.linear_velocity.y = dive_force
+	print("Linear velocity after dive: "+str(parent.linear_velocity))
 
 func exit() -> void:
-	super()
 	if EventBus.enemy_hit.is_connected(_on_enemy_hit):
 		EventBus.enemy_hit.disconnect(_on_enemy_hit)
 	
 	if EventBus.enemy_missed.is_connected(_on_enemy_missed):
 		EventBus.enemy_missed.disconnect(_on_enemy_missed)
-	
-	if EventBus.dive_requested.is_connected(_on_dive_requested):
-		EventBus.dive_requested.disconnect(_on_dive_requested)
+	pass
 
 func _on_enemy_hit(enemy : Enemy) -> void:
 	pending_next_state = hit_state
 
 func _on_enemy_missed(enemy : Enemy) -> void:
-	print("enemy missed")
 	pending_next_state = missedState
 
-func _on_dive_requested() -> void:
-	print("Dive requested")
-	pending_next_state = dive_state
-
 func doProcess(delta: float) -> PlayerState:
-	var newState : PlayerState = super(delta)
+	parent.doIdleRotation(delta)
 	
-	parent.doDiceRoll()
+	if parent.touching_ground:
+		return launched_state
 	
-	parent.doFlyingRotation(delta)
-	
-	if pending_next_state:
-		return pending_next_state
-	
-	if parent.check_landed(delta):
-		newState = landedState
-	
-	return newState
+	return pending_next_state

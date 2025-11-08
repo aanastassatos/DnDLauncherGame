@@ -18,3 +18,4 @@ signal enemy_missed(enemy : Enemy)
 signal player_launched
 signal player_landed
 signal player_died
+signal dive_requested

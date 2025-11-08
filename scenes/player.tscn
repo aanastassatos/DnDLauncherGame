@@ -1,4 +1,4 @@
-[gd_scene load_steps=34 format=3 uid="uid://brmyj48t05jr"]
+[gd_scene load_steps=35 format=3 uid="uid://brmyj48t05jr"]
 
 [ext_resource type="Script" uid="uid://2e45rx5qgudo" path="res://scripts/player.gd" id="1_onrkg"]
 [ext_resource type="Texture2D" uid="uid://bldtj7wsxw3q1" path="res://assets/Characters/Gnome_boy.PNG" id="2_qhqgy"]
@@ -19,6 +19,7 @@
 [ext_resource type="Script" uid="uid://dphepfr6sehd" path="res://scripts/states/player_states/hit.gd" id="15_qfm1y"]
 [ext_resource type="Script" uid="uid://5djtfakanv1" path="res://scripts/states/player_states/dead.gd" id="16_a8ls1"]
 [ext_resource type="Script" uid="uid://cn4a63hubapid" path="res://scripts/states/player_states/miss.gd" id="16_fulsm"]
+[ext_resource type="Script" uid="uid://c3hcn38tx85fg" path="res://scripts/states/player_states/dive.gd" id="20_4ni07"]
 [ext_resource type="Script" uid="uid://d26n5w4adcax5" path="res://scripts/aim_and_power.gd" id="20_a38lo"]
 [ext_resource type="Script" uid="uid://ieirnvo0p1qc" path="res://scripts/aim_line.gd" id="20_i4ail"]
 [ext_resource type="Script" uid="uid://2t3gc362lajr" path="res://scripts/power_bar.gd" id="21_a38lo"]
@@ -913,11 +914,12 @@ launching_state = NodePath("../Launching")
 script = ExtResource("12_jej6c")
 launched_state = NodePath("../Launched")
 
-[node name="Launched" type="Node" parent="StateMachine" node_paths=PackedStringArray("landedState", "hit_state", "missedState")]
+[node name="Launched" type="Node" parent="StateMachine" node_paths=PackedStringArray("landedState", "hit_state", "missedState", "dive_state")]
 script = ExtResource("11_d2wvv")
 landedState = NodePath("../Landed")
 hit_state = NodePath("../Hit")
 missedState = NodePath("../Miss")
+dive_state = NodePath("../Dive")
 animation_name = "flying"
 
 [node name="Hit" type="Node" parent="StateMachine" node_paths=PackedStringArray("launched_state", "hit_state", "miss_state")]
@@ -931,6 +933,12 @@ script = ExtResource("16_fulsm")
 launched_state = NodePath("../Launched")
 hit_state = NodePath("../Hit")
 miss_state = NodePath(".")
+
+[node name="Dive" type="Node" parent="StateMachine" node_paths=PackedStringArray("launched_state", "hit_state", "missedState")]
+script = ExtResource("20_4ni07")
+launched_state = NodePath("../Launched")
+hit_state = NodePath("../Hit")
+missedState = NodePath("../Miss")
 
 [node name="Landed" type="Node" parent="StateMachine"]
 script = ExtResource("15_oprun")

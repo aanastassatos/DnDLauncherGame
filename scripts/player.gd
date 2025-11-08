@@ -43,6 +43,7 @@ const SLIDING : String = "sliding"
 const ATTACK : String = "attack"
 const MISS : String = "miss"
 const HURT : String = "hurt"
+const DIVE : String = "dive"
 const DEAD : String = "dead"
 const LANDED : String = "landed"
 
