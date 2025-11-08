@@ -16,3 +16,6 @@ func enter() -> void:
 func doProcess(delta: float) -> PlayerState:
 	parent.do_launch()
 	return launched_state
+
+func exit() -> void:
+	EventBus.emit_signal("player_launched")

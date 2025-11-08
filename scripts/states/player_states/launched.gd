@@ -15,8 +15,6 @@ func _ready() -> void:
 
 func enter() -> void:
 	super()
-	EventBus.emit_signal("player_launched")
-	
 	if not EventBus.enemy_hit.is_connected(_on_enemy_hit):
 		EventBus.enemy_hit.connect(_on_enemy_hit)
 	
