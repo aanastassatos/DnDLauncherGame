@@ -47,6 +47,8 @@ func _on_enemy_missed(enemy : Enemy) -> void:
 func doProcess(delta: float) -> PlayerState:
 	parent.doIdleRotation(delta)
 	
+	parent.dive_ability.current_cooldown = parent.dive_ability.cooldown
+	
 	if parent.touching_ground:
 		return launched_state
 	

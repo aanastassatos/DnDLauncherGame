@@ -1,4 +1,4 @@
-[gd_scene load_steps=18 format=3 uid="uid://bu5rbi6tmk83u"]
+[gd_scene load_steps=20 format=3 uid="uid://bu5rbi6tmk83u"]
 
 [ext_resource type="Script" uid="uid://0vmwscm1swpe" path="res://scripts/controller.gd" id="1_lbhrr"]
 [ext_resource type="PackedScene" uid="uid://brmyj48t05jr" path="res://scenes/player.tscn" id="1_lnu2h"]
@@ -11,6 +11,8 @@
 [ext_resource type="PackedScene" uid="uid://ct5p61x2qm88v" path="res://scenes/goblin.tscn" id="9_vtaks"]
 [ext_resource type="PackedScene" uid="uid://dy3ggd4jhp6rc" path="res://scenes/store.tscn" id="11_dinhu"]
 [ext_resource type="Texture2D" uid="uid://es2pq45jg6rn" path="res://assets/Backgound_elements/Samples/colored_castle.png" id="11_kvpfn"]
+[ext_resource type="Script" uid="uid://ck48brejni3gd" path="res://scripts/ui_scripts/ability_button.gd" id="11_kvuet"]
+[ext_resource type="Resource" uid="uid://cqq1x3gmtv700" path="res://scripts/abilities/dive_ability.tres" id="12_trtic"]
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_kvpfn"]
 bg_color = Color(1, 0, 0, 1)
@@ -330,6 +332,72 @@ size_flags_vertical = 3
 theme_override_styles/fill = SubResource("StyleBoxFlat_vtaks")
 value = 100.0
 show_percentage = false
+
+[node name="Abilities" type="HBoxContainer" parent="Controller/HUD/ScreenStack/BottomMargin/Bottom"]
+layout_mode = 2
+
+[node name="Dive" type="Button" parent="Controller/HUD/ScreenStack/BottomMargin/Bottom/Abilities"]
+custom_minimum_size = Vector2(125, 0)
+layout_mode = 2
+text = "Dive"
+script = ExtResource("11_kvuet")
+ability = ExtResource("12_trtic")
+signal_name = "dive_requested"
+
+[node name="CooldownLabel" type="Label" parent="Controller/HUD/ScreenStack/BottomMargin/Bottom/Abilities/Dive"]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -0.5
+offset_top = -11.5
+offset_right = 0.5
+offset_bottom = 11.5
+grow_horizontal = 2
+grow_vertical = 2
+text = "2"
+
+[node name="Slide" type="Button" parent="Controller/HUD/ScreenStack/BottomMargin/Bottom/Abilities"]
+custom_minimum_size = Vector2(125, 0)
+layout_mode = 2
+text = "Dive"
+
+[node name="CooldownLabel" type="Label" parent="Controller/HUD/ScreenStack/BottomMargin/Bottom/Abilities/Slide"]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -0.5
+offset_top = -11.5
+offset_right = 0.5
+offset_bottom = 11.5
+grow_horizontal = 2
+grow_vertical = 2
+text = "2"
+
+[node name="Glide" type="Button" parent="Controller/HUD/ScreenStack/BottomMargin/Bottom/Abilities"]
+custom_minimum_size = Vector2(125, 0)
+layout_mode = 2
+text = "Dive"
+
+[node name="CooldownLabel" type="Label" parent="Controller/HUD/ScreenStack/BottomMargin/Bottom/Abilities/Glide"]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -0.5
+offset_top = -11.5
+offset_right = 0.5
+offset_bottom = 11.5
+grow_horizontal = 2
+grow_vertical = 2
+text = "2"
 
 [node name="Control" type="Control" parent="Controller/HUD/ScreenStack/BottomMargin/Bottom"]
 layout_mode = 2

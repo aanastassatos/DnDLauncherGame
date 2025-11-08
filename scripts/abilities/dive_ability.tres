@@ -1,0 +1,9 @@
+[gd_resource type="Resource" script_class="Ability" load_steps=2 format=3 uid="uid://cqq1x3gmtv700"]
+
+[ext_resource type="Script" uid="uid://df2raqb1gndjf" path="res://scripts/abilities/ability.gd" id="1_hjdr7"]
+
+[resource]
+script = ExtResource("1_hjdr7")
+name = "Dive"
+cooldown = 20.0
+metadata/_custom_type_script = "uid://df2raqb1gndjf"

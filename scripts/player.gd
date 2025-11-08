@@ -15,6 +15,8 @@ extends RigidBody2D
 @onready var landed_state = $StateMachine/Landed
 @onready var dead_state = $StateMachine/Dead
 
+@export var dive_ability : Ability
+
 @export var use_burrito_bison_physics = true
 
 var starting_position : Vector2
@@ -71,7 +73,14 @@ func update_state_label(player_state : String):
 	state_label.text = player_state
 
 func _process(delta):
+	_do_cooldowns(delta)
 	state_machine.doProcess(delta)
+
+func _do_cooldowns(delta : float) -> void:
+	if dive_ability.current_cooldown > 0.0:
+		dive_ability.current_cooldown -= delta
+		if dive_ability.current_cooldown < 0.0:
+			dive_ability.current_cooldown = 0.0
 
 func _unhandled_input(event: InputEvent) -> void:
 	state_machine.do_unhandled_input(event)
@@ -254,7 +263,11 @@ func do_reset() -> void:
 	sleeping = false
 	set_deferred("position", starting_position)
 	set_deferred("touching_ground", false )
+	_reset_ability_cooldowns()
 	state_machine.change_state(state_machine.startingState)
+
+func _reset_ability_cooldowns() -> void:
+	dive_ability.current_cooldown = 0.0
 
 func die():
 	set_deferred("forward_speed", 0)

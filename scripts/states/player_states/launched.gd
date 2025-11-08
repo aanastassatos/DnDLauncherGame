@@ -38,16 +38,17 @@ func exit() -> void:
 	if EventBus.dive_requested.is_connected(_on_dive_requested):
 		EventBus.dive_requested.disconnect(_on_dive_requested)
 
-func _on_enemy_hit(enemy : Enemy) -> void:
+func _on_enemy_hit(_enemy : Enemy) -> void:
 	pending_next_state = hit_state
 
-func _on_enemy_missed(enemy : Enemy) -> void:
+func _on_enemy_missed(_enemy : Enemy) -> void:
 	print("enemy missed")
 	pending_next_state = missedState
 
 func _on_dive_requested() -> void:
 	print("Dive requested")
-	pending_next_state = dive_state
+	if parent.can_dive():
+		pending_next_state = dive_state
 
 func doProcess(delta: float) -> PlayerState:
 	var newState : PlayerState = super(delta)
