@@ -10,6 +10,7 @@ func _ready() -> void:
 func enter() -> void:
 	super()
 	parent.stop_movement()
+	parent.is_launched = false
 	EventBus.emit_signal("player_landed")
 
 func doProcess(delta: float) -> PlayerState:

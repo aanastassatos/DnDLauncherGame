@@ -19,3 +19,4 @@ func doProcess(delta: float) -> PlayerState:
 
 func exit() -> void:
 	EventBus.emit_signal("player_launched")
+	parent.is_launched = true

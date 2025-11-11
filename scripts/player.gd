@@ -36,6 +36,11 @@ var current_time_scale : float = 1.00
 var forward_speed : float = 0.0
 var touching_ground: bool = false
 
+var is_launched: bool = false
+
+var _ground_friction_enabled: bool = true
+var _air_friction_enabled: bool = true
+
 var rotation_speed : float = 8.0
 var reset_rotation_on_ground : bool = true
 
@@ -52,6 +57,8 @@ const SLIDE : String = "slide"
 const DEAD : String = "dead"
 const LANDED : String = "landed"
 
+const PHYSICS_BOUNCE : float = 0.6
+
 func _ready():
 	EventBus.enemy_hit.connect(_on_attack_success)
 	EventBus.enemy_missed.connect(_on_attack_fail)
@@ -64,6 +71,7 @@ func _ready():
 		contact_monitor = true
 		max_contacts_reported = 1
 		mat.friction = 0.0
+		mat.bounce = PHYSICS_BOUNCE
 	
 	else:
 		var mat = physics_material_override
@@ -129,12 +137,14 @@ func _on_body_exited(body):
 var touching_ground_last_frame = false
 
 func _integrate_forces(state: PhysicsDirectBodyState2D) -> void:
-	if state_machine.get_current_state() == LAUNCHED and use_burrito_bison_physics:
-		forward_speed *= 1.0 - StatsManager.get_air_drag() * state.step
+	if is_launched and use_burrito_bison_physics:
+		
+		if _air_friction_enabled:
+			forward_speed *= 1.0 - StatsManager.get_air_drag() * state.step
 		
 		var startingSpeed = forward_speed
 		
-		if touching_ground:
+		if touching_ground and _ground_friction_enabled:
 			var speed_loss = forward_speed*StatsManager.get_ground_drag()
 			
 			if touching_ground_last_frame:
@@ -256,6 +266,19 @@ func get_roll() -> int:
 func can_dive() -> bool:
 	return dive_ability.current_cooldown == 0.0
 
+func set_ground_friction_enabled(enabled : bool) -> void:
+	_ground_friction_enabled = enabled 
+
+func set_air_friction_enabled(enabled : bool) -> void:
+	_air_friction_enabled = enabled
+
+func set_bounce_enabled(enabled : bool) -> void:
+	var mat = physics_material_override
+	if not enabled:
+		mat.bounce = 0.0
+	else:
+		mat.bounce = PHYSICS_BOUNCE
+
 func stop_movement() -> void:
 	linear_velocity = Vector2.ZERO
 	stop_rolling_dice()
@@ -268,6 +291,7 @@ func do_reset() -> void:
 	linear_velocity = Vector2.ZERO
 	angular_velocity = 0
 	sleeping = false
+	is_launched = false
 	set_deferred("position", starting_position)
 	set_deferred("touching_ground", false )
 	_reset_ability_cooldowns()
