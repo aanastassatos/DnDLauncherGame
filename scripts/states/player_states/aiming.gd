@@ -7,7 +7,7 @@ func _ready():
 		animation_name = "Idle"
 	
 	if state_name == "":
-		state_name = "Aiming"
+		state_name = parent.AIMING
 
 func enter() -> void:
 	super()

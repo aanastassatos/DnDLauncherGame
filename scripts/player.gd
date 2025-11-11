@@ -40,12 +40,15 @@ var rotation_speed : float = 8.0
 var reset_rotation_on_ground : bool = true
 
 const IDLE : String = "idle"
+const AIMING : String = "aiming"
+const POWERING_UP : String = "powering_up"
+const LAUNCHING : String = "launching"
 const LAUNCHED : String = "launched"
-const SLIDING : String = "sliding"
 const ATTACK : String = "attack"
 const MISS : String = "miss"
 const HURT : String = "hurt"
 const DIVE : String = "dive"
+const SLIDE : String = "slide"
 const DEAD : String = "dead"
 const LANDED : String = "landed"
 

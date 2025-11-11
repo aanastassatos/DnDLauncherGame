@@ -8,7 +8,7 @@ func _ready():
 		animation_name = "flying"
 	
 	if state_name == "":
-		state_name = "Launching"
+		state_name = parent.LAUNCHING
 
 func enter() -> void:
 	super()
