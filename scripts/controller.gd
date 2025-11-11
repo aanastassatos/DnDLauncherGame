@@ -98,7 +98,7 @@ func _unhandled_input(event):
 				reset()
 	
 	if event is InputEventKey and event.is_pressed() and not event.is_echo():
-		if event.keycode == KEY_D:
+		if event.keycode == KEY_Z:
 			print("The D")
 			EventBus.emit_signal("dive_requested")
 

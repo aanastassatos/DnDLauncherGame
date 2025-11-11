@@ -249,6 +249,9 @@ func get_roll() -> int:
 	last_roll = randi_range(1, 20)
 	return last_roll
 
+func can_dive() -> bool:
+	return dive_ability.current_cooldown == 0.0
+
 func stop_movement() -> void:
 	linear_velocity = Vector2.ZERO
 	stop_rolling_dice()

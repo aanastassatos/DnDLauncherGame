@@ -5,5 +5,5 @@
 [resource]
 script = ExtResource("1_hjdr7")
 name = "Dive"
-cooldown = 20.0
+cooldown = 5.0
 metadata/_custom_type_script = "uid://df2raqb1gndjf"

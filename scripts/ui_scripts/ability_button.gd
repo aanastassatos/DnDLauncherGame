@@ -7,6 +7,7 @@ extends Button
 
 func _ready() -> void:
 	pressed.connect(_on_button_pressed)
+	focus_mode = Control.FOCUS_NONE
 	_update_button_state()
 
 func _process(_delta : float) -> void:
