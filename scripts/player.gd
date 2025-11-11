@@ -97,12 +97,13 @@ func doIdleRotation(delta : float) -> void:
 	collision_ball.rotation = visuals.rotation
 
 func doFlyingRotation(delta : float) -> void:
-	if linear_velocity.length() > 10:
+	if not touching_ground:
 		var target_angle = linear_velocity.angle()+45
 		visuals.rotation = lerp_angle(visuals.rotation, target_angle, rotation_speed * delta)
 		collision_ball.rotation = visuals.rotation
 	elif reset_rotation_on_ground:
-		visuals.rotation = lerp_angle(visuals.rotation, 90, rotation_speed * delta)
+		visuals.rotation = lerp_angle(visuals.rotation, deg_to_rad(90), rotation_speed * delta)
+		collision_ball.rotation = deg_to_rad(90)
 
 func check_landed(delta : float) -> bool:
 	if forward_speed < min_speed:
