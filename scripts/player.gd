@@ -296,10 +296,11 @@ func set_bounce_enabled(enabled : bool) -> void:
 		mat.bounce = PHYSICS_BOUNCE
 
 func stop_movement() -> void:
-	linear_velocity = Vector2.ZERO
+	set_deferred("linear_velocity", Vector2.ZERO)
 	stop_rolling_dice()
 	if use_burrito_bison_physics:
-		forward_speed = 0
+		set_deferred("forward_speed", 0)
+	sleeping = true
 
 # Called from controller to reset the player
 func do_reset() -> void:
