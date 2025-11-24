@@ -1,10 +1,10 @@
 [gd_scene load_steps=5 format=3 uid="uid://bdfkrfem2jj3x"]
 
 [ext_resource type="Script" uid="uid://bryebwwq2lxkg" path="res://scripts/character_scripts/enemy_scripts/flying_enemy.gd" id="1_fgwew"]
-[ext_resource type="Texture2D" uid="uid://dmq8yp7vq4gnu" path="res://assets/enemy.png" id="1_vbcm2"]
+[ext_resource type="Texture2D" uid="uid://84h6berovnw7" path="res://assets/Characters/bat.png" id="2_fgwew"]
 
-[sub_resource type="CircleShape2D" id="CircleShape2D_vbcm2"]
-radius = 51.009804
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_c4a5w"]
+size = Vector2(122, 61.935)
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_fgwew"]
 draw_center = false
@@ -14,11 +14,11 @@ scale = Vector2(0.635, 0.635)
 script = ExtResource("1_fgwew")
 
 [node name="FlyingEnemySprite" type="Sprite2D" parent="."]
-scale = Vector2(0.155, 0.155)
-texture = ExtResource("1_vbcm2")
+scale = Vector2(0.05, 0.05)
+texture = ExtResource("2_fgwew")
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
-shape = SubResource("CircleShape2D_vbcm2")
+shape = SubResource("RectangleShape2D_c4a5w")
 
 [node name="Control" type="Control" parent="."]
 layout_mode = 3
