@@ -2,7 +2,7 @@ extends Enemy
 
 @onready var level_label = $Control/Panel/Level
 
-var cr : int = 4
+var cr : int = 3
 
 func _ready():
 	level_label.text = str(cr)
