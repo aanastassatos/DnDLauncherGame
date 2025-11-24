@@ -96,7 +96,7 @@ theme_override_styles/fill = SubResource("StyleBoxFlat_dinhu")
 value = 100.0
 show_percentage = false
 
-[node name="Ground" type="StaticBody2D" parent="Controller" groups=["ground"]]
+[node name="Ground" type="StaticBody2D" parent="Controller"]
 position = Vector2(240, 265)
 collision_layer = 4
 collision_mask = 3
@@ -105,14 +105,20 @@ physics_material_override = SubResource("PhysicsMaterial_rnjyy")
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Controller/Ground"]
 material = SubResource("CanvasItemMaterial_4dvvg")
 shape = SubResource("WorldBoundaryShape2D_rnjyy")
+disabled = true
 
 [node name="Line2D" type="Line2D" parent="Controller/Ground"]
 position = Vector2(-5992, 0)
 points = PackedVector2Array(-1000000, 2, 100000000, 2)
 default_color = Color(0.3882353, 0.7411765, 0.08627451, 0.9882353)
 
-[node name="StartingGroundSegment" parent="Controller/Ground" instance=ExtResource("15_ca42v")]
-position = Vector2(-414, 0)
+[node name="StartingGroundSegments" type="Node2D" parent="Controller/Ground"]
+position = Vector2(-654, -3)
+
+[node name="StartingGroundSegment1" parent="Controller/Ground/StartingGroundSegments" instance=ExtResource("15_ca42v")]
+
+[node name="StartingGroundSegment2" parent="Controller/Ground/StartingGroundSegments" instance=ExtResource("15_ca42v")]
+position = Vector2(1170, 0)
 
 [node name="Lines" type="Node2D" parent="Controller"]
 visibility_layer = 4
