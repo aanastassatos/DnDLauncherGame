@@ -16,6 +16,7 @@ extends RigidBody2D
 @onready var dead_state = $StateMachine/Dead
 
 @export var dive_ability : Ability
+@export var slide_ability : Ability
 
 @export var use_burrito_bison_physics = true
 
@@ -29,7 +30,8 @@ var min_speed : float = 10.0
 var max_speed : float = 10000
 var max_still_time:=0.5
 
-var still_time:=0.0
+var still_time: float = 0.0
+var time_since_touched_ground : float = 0.0
 
 var current_time_scale : float = 1.00
 
@@ -85,13 +87,19 @@ func update_state_label(player_state : String):
 
 func _process(delta):
 	_do_cooldowns(delta)
+	if not touching_ground:
+		time_since_touched_ground += delta
 	state_machine.doProcess(delta)
 
 func _do_cooldowns(delta : float) -> void:
-	if dive_ability.current_cooldown > 0.0:
-		dive_ability.current_cooldown -= delta
-		if dive_ability.current_cooldown < 0.0:
-			dive_ability.current_cooldown = 0.0
+	_update_cooldown(delta, dive_ability)
+	_update_cooldown(delta, slide_ability)
+
+func _update_cooldown(delta : float, ability : Ability) -> void:
+	if ability.current_cooldown > 0.0:
+		ability.current_cooldown -= delta
+		if ability.current_cooldown < 0.0:
+			ability.current_cooldown = 0.0
 
 func _unhandled_input(event: InputEvent) -> void:
 	state_machine.do_unhandled_input(event)
@@ -113,6 +121,10 @@ func doFlyingRotation(delta : float) -> void:
 		visuals.rotation = lerp_angle(visuals.rotation, deg_to_rad(90), rotation_speed * delta)
 		collision_ball.rotation = deg_to_rad(90)
 
+func doSlideRotation(delta : float) -> void:
+	visuals.rotation = lerp_angle(visuals.rotation, deg_to_rad(270), rotation_speed * delta)
+	collision_ball.rotation = deg_to_rad(90)
+
 func check_landed(delta : float) -> bool:
 	if forward_speed < min_speed:
 		still_time += delta
@@ -133,6 +145,7 @@ func _on_body_entered(body):
 func _on_body_exited(body):
 	if body.is_in_group("ground"):
 		touching_ground = false
+		time_since_touched_ground = 0.0
 
 var touching_ground_last_frame = false
 
@@ -266,6 +279,9 @@ func get_roll() -> int:
 func can_dive() -> bool:
 	return dive_ability.current_cooldown == 0.0
 
+func can_slide() -> bool:
+	return slide_ability.current_cooldown == 0.0
+
 func set_ground_friction_enabled(enabled : bool) -> void:
 	_ground_friction_enabled = enabled 
 
@@ -299,6 +315,7 @@ func do_reset() -> void:
 
 func _reset_ability_cooldowns() -> void:
 	dive_ability.current_cooldown = 0.0
+	slide_ability.current_cooldown = 0.0
 
 func die():
 	set_deferred("forward_speed", 0)

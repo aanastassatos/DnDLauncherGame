@@ -1,0 +1,9 @@
+[gd_resource type="Resource" script_class="Ability" load_steps=2 format=3 uid="uid://ceo26vr6wlca6"]
+
+[ext_resource type="Script" uid="uid://df2raqb1gndjf" path="res://scripts/abilities/ability.gd" id="1_2h80u"]
+
+[resource]
+script = ExtResource("1_2h80u")
+name = "Slide"
+cooldown = 10.0
+metadata/_custom_type_script = "uid://df2raqb1gndjf"

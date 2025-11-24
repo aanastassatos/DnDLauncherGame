@@ -22,7 +22,7 @@ var attack_power_level := 0
 
 # Current Values
 var current_health : float = 0.0
-var money : int = 10000
+var money : int = 0
 
 # Scaling Constants
 const POWER_STEP := 1.2

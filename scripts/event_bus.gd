@@ -19,3 +19,4 @@ signal player_launched
 signal player_landed
 signal player_died
 signal dive_requested
+signal slide_requested
