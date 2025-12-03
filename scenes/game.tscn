@@ -1,4 +1,4 @@
-[gd_scene load_steps=23 format=3 uid="uid://bu5rbi6tmk83u"]
+[gd_scene load_steps=21 format=3 uid="uid://bu5rbi6tmk83u"]
 
 [ext_resource type="Script" uid="uid://0vmwscm1swpe" path="res://scripts/controller.gd" id="1_lbhrr"]
 [ext_resource type="PackedScene" uid="uid://brmyj48t05jr" path="res://scenes/player.tscn" id="1_lnu2h"]
@@ -16,12 +16,6 @@
 [ext_resource type="Resource" uid="uid://ceo26vr6wlca6" path="res://scripts/abilities/slide_ability.tres" id="13_trtic"]
 [ext_resource type="Script" uid="uid://w71ghxs4pve" path="res://scripts/repeating_ground.gd" id="14_ca42v"]
 [ext_resource type="PackedScene" uid="uid://ctf2ywhrb2tpu" path="res://scenes/ground_segment.tscn" id="15_ca42v"]
-
-[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_kvpfn"]
-bg_color = Color(1, 0, 0, 1)
-
-[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_dinhu"]
-bg_color = Color(0, 1, 0.048797607, 1)
 
 [sub_resource type="PhysicsMaterial" id="PhysicsMaterial_rnjyy"]
 friction = 0.1
@@ -67,34 +61,6 @@ limit_bottom = 400
 position_smoothing_speed = 10.0
 script = ExtResource("2_lbhrr")
 launched_offset_x = 250.0
-
-[node name="HealthControl" type="Control" parent="Controller/Player"]
-layout_mode = 3
-anchors_preset = 0
-offset_left = -6.0
-offset_top = -85.0
-offset_right = 34.0
-offset_bottom = -45.0
-
-[node name="HealthBar" type="ProgressBar" parent="Controller/Player/HealthControl"]
-custom_minimum_size = Vector2(100, 0)
-layout_mode = 1
-anchors_preset = 8
-anchor_left = 0.5
-anchor_top = 0.5
-anchor_right = 0.5
-anchor_bottom = 0.5
-offset_left = -50.0
-offset_top = -10.5
-offset_right = 50.0
-offset_bottom = 10.5
-grow_horizontal = 2
-grow_vertical = 2
-scale = Vector2(0.67999876, 0.39999998)
-theme_override_styles/background = SubResource("StyleBoxFlat_kvpfn")
-theme_override_styles/fill = SubResource("StyleBoxFlat_dinhu")
-value = 100.0
-show_percentage = false
 
 [node name="Ground" type="StaticBody2D" parent="Controller"]
 position = Vector2(240, 265)

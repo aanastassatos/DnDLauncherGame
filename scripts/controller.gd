@@ -1,7 +1,6 @@
 extends Node2D
 
 @onready var player : Player = $Player
-@onready var health_bar = $Player/HealthControl/HealthBar
 @onready var lines = $Lines
 @onready var camera = $Player/Camera2D
 @onready var hud = $HUD
@@ -25,7 +24,6 @@ func _ready():
 	EventBus.player_touched_enemy.connect(_on_player_hit_enemy)
 	store_button.pressed.connect(_on_store_opened)
 	EventBus.store_closed.connect(_on_store_closed)
-	EventBus.health_changed.connect(_update_health)
 	hud.hide_middle_text(true)
 	reset()
 
@@ -76,10 +74,6 @@ func roll_dice() -> int:
 
 func hurt_player(damage):
 	StatsManager.take_damage(damage)
-
-func _update_health(health):
-	print("health changed")
-	health_bar.value = float((StatsManager.get_current_health()/StatsManager.get_max_health())*100)
 
 func _unhandled_input(event):
 	if event.is_action_pressed("ui_accept"):
