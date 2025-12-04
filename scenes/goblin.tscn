@@ -10,7 +10,7 @@
 [ext_resource type="Texture2D" uid="uid://dm5nm3lc1iqw6" path="res://assets/Characters/goblin/Goblin-right-arm.png" id="8_wtq4b"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_md0e3"]
-size = Vector2(29.859997, 36.88588)
+size = Vector2(27.225292, 36.88588)
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_md0e3"]
 radius = 13.619726
@@ -68,7 +68,7 @@ flip_h = true
 [node name="AnimationPlayer" type="AnimationPlayer" parent="GoblinSprite"]
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
-position = Vector2(3.000001, 23.000004)
+position = Vector2(6.000001, 23.000004)
 scale = Vector2(2.2772944, 2.2772944)
 shape = SubResource("RectangleShape2D_md0e3")
 
