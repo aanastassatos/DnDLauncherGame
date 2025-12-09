@@ -9,9 +9,9 @@ func _ready() -> void:
 
 func enter() -> void:
 	super()
-	parent.stop_movement()
 	parent.is_launched = false
 	EventBus.emit_signal("player_landed")
+	parent.stop_movement()
 
 func doProcess(delta: float) -> PlayerState:
 	parent.doIdleRotation(delta)

@@ -90,6 +90,9 @@ func _process(delta):
 	if not touching_ground:
 		time_since_touched_ground += delta
 	state_machine.doProcess(delta)
+	
+#	Check if player is still moving after having landed. For debugging.
+	_check_landed_bug(delta)
 
 func _do_cooldowns(delta : float) -> void:
 	_update_cooldown(delta, dive_ability)
@@ -100,6 +103,17 @@ func _update_cooldown(delta : float, ability : Ability) -> void:
 		ability.current_cooldown -= delta
 		if ability.current_cooldown < 0.0:
 			ability.current_cooldown = 0.0
+
+var times : int = 0
+func _check_landed_bug(delta : float) -> void:
+	if state_machine.get_current_state() == LANDED:
+		if not linear_velocity.x == 0:
+			print("The bug is happening!!!")
+			times += 1
+			if times > 10:
+				set_deferred("linear_velocity", Vector2.ZERO)
+				print("We stopped it WOOO!")
+				times = 0
 
 func _unhandled_input(event: InputEvent) -> void:
 	state_machine.do_unhandled_input(event)
@@ -161,9 +175,12 @@ func _integrate_forces(state: PhysicsDirectBodyState2D) -> void:
 			var speed_loss = forward_speed*StatsManager.get_ground_drag()
 			
 			if touching_ground_last_frame:
-				speed_loss = speed_loss*state.step
+				speed_loss = 4*speed_loss*state.step
 			
 			touching_ground_last_frame = true
+			
+			if state_machine.get_current_state() == DIVE:
+				speed_loss = speed_loss/2
 			
 			if forward_speed - speed_loss > 0:
 				forward_speed -= speed_loss
@@ -179,6 +196,7 @@ func _integrate_forces(state: PhysicsDirectBodyState2D) -> void:
 		var velocity = state.linear_velocity
 		velocity.x = forward_speed
 		state.linear_velocity = velocity
+
 
 func doBounce() -> void:
 	var bounce_force = StatsManager.get_bounce_force()
@@ -225,8 +243,9 @@ func stop_rolling_dice():
 	rolling_dice = false
 
 func change_time_scale(time_scale : float) -> void:
-	Engine.time_scale = time_scale
-	current_time_scale = time_scale
+	#Engine.time_scale = time_scale
+	#current_time_scale = time_scale
+	pass
 
 func doDiceHighlight(duration : float, roll : int, hit : bool) -> void:
 	stop_rolling_dice()
@@ -274,6 +293,8 @@ func _on_attack_fail():
 func get_roll() -> int:
 	randomize()
 	last_roll = randi_range(1, 20)
+	if last_roll > 18:
+		last_roll = 20
 	return last_roll
 
 func can_dive() -> bool:
@@ -296,11 +317,13 @@ func set_bounce_enabled(enabled : bool) -> void:
 		mat.bounce = PHYSICS_BOUNCE
 
 func stop_movement() -> void:
-	set_deferred("linear_velocity", Vector2.ZERO)
-	stop_rolling_dice()
 	if use_burrito_bison_physics:
 		set_deferred("forward_speed", 0)
+	position.y = starting_position.y
+	set_deferred("linear_velocity", Vector2.ZERO)
+	stop_rolling_dice()
 	sleeping = true
+	freeze = true
 
 # Called from controller to reset the player
 func do_reset() -> void:
