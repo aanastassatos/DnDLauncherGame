@@ -1,4 +1,4 @@
-[gd_scene load_steps=21 format=3 uid="uid://bu5rbi6tmk83u"]
+[gd_scene load_steps=23 format=3 uid="uid://bu5rbi6tmk83u"]
 
 [ext_resource type="Script" uid="uid://0vmwscm1swpe" path="res://scripts/controller.gd" id="1_lbhrr"]
 [ext_resource type="PackedScene" uid="uid://brmyj48t05jr" path="res://scenes/player.tscn" id="1_lnu2h"]
@@ -16,6 +16,8 @@
 [ext_resource type="Resource" uid="uid://ceo26vr6wlca6" path="res://scripts/abilities/slide_ability.tres" id="13_trtic"]
 [ext_resource type="Script" uid="uid://w71ghxs4pve" path="res://scripts/repeating_ground.gd" id="14_ca42v"]
 [ext_resource type="PackedScene" uid="uid://ctf2ywhrb2tpu" path="res://scenes/ground_segment.tscn" id="15_ca42v"]
+[ext_resource type="Texture2D" uid="uid://c0ae0vrfj4hmn" path="res://assets/BG_Custom/Sky/bigger_sky.jpg" id="17_rysoc"]
+[ext_resource type="Texture2D" uid="uid://b2n6rfpcwfcnc" path="res://assets/BG_Custom/Sky/cloud_layer.webp" id="17_ssvqc"]
 
 [sub_resource type="PhysicsMaterial" id="PhysicsMaterial_rnjyy"]
 friction = 0.1
@@ -408,14 +410,30 @@ position = Vector2(2340, 0)
 [node name="ParallaxBackground" type="ParallaxBackground" parent="."]
 
 [node name="ParallaxLayer" type="ParallaxLayer" parent="ParallaxBackground"]
-position = Vector2(-174, -750)
+position = Vector2(-299, -704)
 motion_scale = Vector2(0.5, 0.5)
 motion_mirroring = Vector2(1461.07, 0)
 
 [node name="Sprite2D" type="Sprite2D" parent="ParallaxBackground/ParallaxLayer"]
-position = Vector2(-124.999985, 45.999996)
 scale = Vector2(1.4271654, 1.4271654)
 texture = ExtResource("11_kvpfn")
+centered = false
+
+[node name="CloudLayer" type="Sprite2D" parent="ParallaxBackground/ParallaxLayer"]
+z_index = 5
+position = Vector2(731.00006, 0)
+scale = Vector2(1.427, 1.427)
+texture = ExtResource("17_ssvqc")
+
+[node name="SkyLayer" type="ParallaxLayer" parent="ParallaxBackground"]
+z_index = -1
+position = Vector2(-299, -6424)
+motion_scale = Vector2(0.5, 0.5)
+motion_mirroring = Vector2(1461.25, 0)
+
+[node name="SkySprite" type="Sprite2D" parent="ParallaxBackground/SkyLayer"]
+scale = Vector2(1.427, 1.427)
+texture = ExtResource("17_rysoc")
 centered = false
 
 [connection signal="body_entered" from="Controller/Player" to="Controller/Player" method="_on_body_entered"]
