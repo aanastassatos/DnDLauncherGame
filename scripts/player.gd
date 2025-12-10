@@ -166,8 +166,7 @@ var touching_ground_last_frame = false
 func _integrate_forces(state: PhysicsDirectBodyState2D) -> void:
 	if is_launched and use_burrito_bison_physics:
 		
-		if _air_friction_enabled:
-			forward_speed *= 1.0 - StatsManager.get_air_drag() * state.step
+		_doAirFriction(state.step)
 		
 		var startingSpeed = forward_speed
 		
@@ -197,6 +196,9 @@ func _integrate_forces(state: PhysicsDirectBodyState2D) -> void:
 		velocity.x = forward_speed
 		state.linear_velocity = velocity
 
+func _doAirFriction(delta : float) -> void:
+	if _air_friction_enabled:
+		forward_speed *= 1.0 - StatsManager.get_air_drag() * delta
 
 func doBounce() -> void:
 	var bounce_force = StatsManager.get_bounce_force()
