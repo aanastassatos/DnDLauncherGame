@@ -36,6 +36,8 @@ func exit() -> void:
 	
 	if EventBus.enemy_missed.is_connected(_on_enemy_missed):
 		EventBus.enemy_missed.disconnect(_on_enemy_missed)
+	
+	parent.bounce_from_dive = true
 	pass
 
 func _on_enemy_hit(enemy : Enemy) -> void:

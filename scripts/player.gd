@@ -42,6 +42,7 @@ var is_launched: bool = false
 
 var _ground_friction_enabled: bool = true
 var _air_friction_enabled: bool = true
+var bounce_from_dive = false
 
 var rotation_speed : float = 8.0
 var reset_rotation_on_ground : bool = true
@@ -168,26 +169,8 @@ func _integrate_forces(state: PhysicsDirectBodyState2D) -> void:
 		
 		_doAirFriction(state.step)
 		
-		var startingSpeed = forward_speed
-		
 		if touching_ground and _ground_friction_enabled:
-			var speed_loss = forward_speed*StatsManager.get_ground_drag()
-			
-			if touching_ground_last_frame:
-				speed_loss = 4*speed_loss*state.step
-			
-			touching_ground_last_frame = true
-			
-			if state_machine.get_current_state() == DIVE:
-				speed_loss = speed_loss/2
-			
-			if forward_speed - speed_loss > 0:
-				forward_speed -= speed_loss
-				print("starting: "+str(startingSpeed)+" ending: "+str(forward_speed)+" loss: "+str(startingSpeed-forward_speed))
-			
-			else:
-				forward_speed = 0
-		
+			_doGroundDrag(state.step)
 		else:
 			touching_ground_last_frame = false
 		
@@ -199,6 +182,27 @@ func _integrate_forces(state: PhysicsDirectBodyState2D) -> void:
 func _doAirFriction(delta : float) -> void:
 	if _air_friction_enabled:
 		forward_speed *= 1.0 - StatsManager.get_air_drag() * delta
+
+func _doGroundDrag(delta : float) -> void:
+	var startingSpeed = forward_speed
+	
+	var speed_loss = forward_speed*StatsManager.get_ground_drag()
+	
+	if touching_ground_last_frame:
+		speed_loss = 4*speed_loss*delta
+	
+	touching_ground_last_frame = true
+	
+	if bounce_from_dive:
+		speed_loss = speed_loss/2
+		bounce_from_dive = false
+	
+	if forward_speed - speed_loss > 0:
+		forward_speed -= speed_loss
+		print("starting: "+str(startingSpeed)+" ending: "+str(forward_speed)+" loss: "+str(startingSpeed-forward_speed))
+	
+	else:
+		forward_speed = 0
 
 func doBounce() -> void:
 	var bounce_force = StatsManager.get_bounce_force()
@@ -334,6 +338,7 @@ func do_reset() -> void:
 	angular_velocity = 0
 	sleeping = false
 	is_launched = false
+	bounce_from_dive = false
 	set_deferred("position", starting_position)
 	set_deferred("touching_ground", false )
 	_reset_ability_cooldowns()
