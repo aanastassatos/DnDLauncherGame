@@ -32,6 +32,7 @@ var max_still_time:=0.5
 
 var still_time: float = 0.0
 var time_since_touched_ground : float = 0.0
+var last_bounce_speed_loss : float = 0.0
 
 var current_time_scale : float = 1.00
 
@@ -203,6 +204,12 @@ func _doGroundDrag(delta : float) -> void:
 	
 	else:
 		forward_speed = 0
+	
+	#Keep track of the last speed loss in order to refund if needed
+	last_bounce_speed_loss = speed_loss
+
+func refund_last_speed_loss() -> void:
+	forward_speed += last_bounce_speed_loss
 
 func doBounce() -> void:
 	var bounce_force = StatsManager.get_bounce_force()

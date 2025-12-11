@@ -7,7 +7,9 @@ extends PlayerState
 @export var slide_state : PlayerState
 
 var _slide_timer : float
-const SLIDE_TIME_WINDOW : float = 0.2
+
+const SLIDE_GRACE_PERIOD_BEFORE_BOUNCE : float = 0.3
+const SLIDE_GRACE_PERIOD_AFTER_BOUNCE : float = 0.2
 
 var pending_next_state : PlayerState = null
 
@@ -65,7 +67,7 @@ func _on_slide_requested() -> void:
 	print("Slide requested")
 	if parent.can_slide():
 		pending_next_state = slide_state
-	_slide_timer = SLIDE_TIME_WINDOW
+	_slide_timer = SLIDE_GRACE_PERIOD_BEFORE_BOUNCE
 	
 
 func doProcess(delta: float) -> PlayerState:
@@ -89,8 +91,15 @@ func doProcess(delta: float) -> PlayerState:
 
 func _check_if_it_is_time_to_slide(delta: float) -> bool:
 	if _slide_timer > 0.0:
-		if parent.touching_ground or parent.time_since_touched_ground < SLIDE_TIME_WINDOW:
+		if parent.touching_ground:
 			return true
+		
+		#Refund speed loss if after bouncing off ground
+		elif parent.time_since_touched_ground < SLIDE_GRACE_PERIOD_AFTER_BOUNCE:
+			print("After bounce, refunding speed: ", parent.last_bounce_speed_loss)
+			parent.refund_last_speed_loss()
+			return true
+		
 		else:
 			_slide_timer -= delta
 	else:
