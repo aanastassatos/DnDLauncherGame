@@ -61,18 +61,13 @@ func check_furthest_distance() -> void:
 		furthest_distance_sign.set_futhest_distance(player.position.x)
 		
 
-func _on_player_hit_enemy(enemy):
+func _on_player_hit_enemy(enemy : Enemy):
 	var roll = roll_dice() + StatsManager.get_attack_modifier()
-	if roll > enemy.cr:
-		StatsManager.add_money(1)
-		print(StatsManager.money)
-		EventBus.emit_signal("enemy_hit", enemy)
-		print("HIT")
+	if roll > enemy.armor_class:
+		enemy._on_player_hit(player)
 	#
 	else:
-		hurt_player(1)
-		EventBus.emit_signal("enemy_missed", enemy)
-		print("OUCH")
+		enemy._on_player_missed(player)
 	
 
 func _on_player_died():
