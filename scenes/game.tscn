@@ -1,6 +1,6 @@
 [gd_scene load_steps=24 format=3 uid="uid://bu5rbi6tmk83u"]
 
-[ext_resource type="Script" uid="uid://0vmwscm1swpe" path="res://scripts/controller.gd" id="1_lbhrr"]
+[ext_resource type="Script" uid="uid://0vmwscm1swpe" path="res://scripts/scene_controllers/controller.gd" id="1_lbhrr"]
 [ext_resource type="PackedScene" uid="uid://brmyj48t05jr" path="res://scenes/player.tscn" id="1_lnu2h"]
 [ext_resource type="Script" uid="uid://cddhxsbu50tx5" path="res://scripts/sky_enemy_spawner.gd" id="2_dinhu"]
 [ext_resource type="Script" uid="uid://o2gu4wndfc5r" path="res://scripts/camera_2d.gd" id="2_lbhrr"]
