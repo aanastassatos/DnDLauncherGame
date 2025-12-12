@@ -9,8 +9,6 @@ extends Node2D
 var last_x: float = 0.0
 var generated_until: float = 0.0
 
-const PIXELS_PER_METER: float = 72.0
-
 func _process(delta):
 	if not player:
 		return
@@ -25,7 +23,7 @@ func _process(delta):
 
 func add_distance_marker(x_pos: float):
 	
-	var meters = x_pos / PIXELS_PER_METER
+	var meters = x_pos / Constants.PIXELS_PER_METER
 	
 	var line = Line2D.new()
 	line.width = 2

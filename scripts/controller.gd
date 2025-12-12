@@ -1,5 +1,7 @@
 extends Node2D
 
+@onready var furthest_distance_sign : FurthestDistanceSign = $FurthestDistanceSign
+
 @onready var player : Player = $Player
 @onready var lines = $Lines
 @onready var camera = $Player/Camera2D
@@ -15,6 +17,8 @@ const LAUNCHED : String = "launched"
 const LANDED : String = "landed"
 
 var game_state : String = AIMING  # "aiming", "launching", "launched", "landed"
+
+var furthest_distance : float = 0.0
 
 func _ready():
 	store.hide_store()
@@ -45,10 +49,17 @@ func _on_player_launched():
 func _on_player_landed():
 	print("landed")
 	game_state = LANDED
+	check_furthest_distance()
 	hud.update_middle_text("Press SPACE to reset")
 	hud.hide_middle_text(false)
 	find_child("StoreButton", true, false).show()
 	pass
+
+func check_furthest_distance() -> void:
+	if player.position.x >= RunManager.get_furthest_distance_in_pixels():
+		furthest_distance = player.position.x
+		furthest_distance_sign.set_futhest_distance(player.position.x)
+		
 
 func _on_player_hit_enemy(enemy):
 	var roll = roll_dice() + StatsManager.get_attack_modifier()
@@ -138,8 +149,7 @@ func _update_launching(delta):
 
 func _update_launched(delta):
 	var distance = player.global_position.x - player.starting_position.x
-	var distance_in_meters = distance/lines.PIXELS_PER_METER
-	hud.update_distance(distance_in_meters)
+	RunManager.update_distance(distance)
 	hud.update_linear_velocity(player.linear_velocity)
 	hud.update_forward_speed(player.forward_speed)
 	pass

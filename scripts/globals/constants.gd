@@ -22,3 +22,6 @@ const COST_MULTIPLIER = "cost_multiplier"
 # Shop item types
 const TYPE_UPGRADE = "upgrade"
 const TYPE_CONSUMABLE = "consumable"
+
+# Numerical Constants
+const PIXELS_PER_METER : float = 72.0

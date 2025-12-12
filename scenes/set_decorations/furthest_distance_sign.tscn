@@ -1,0 +1,68 @@
+[gd_scene load_steps=8 format=3 uid="uid://ce7g1xbkdr2eb"]
+
+[ext_resource type="Script" uid="uid://bcmty085xfiw5" path="res://scripts/scene_element_scripts/furthest_distance_sign.gd" id="1_7f0dc"]
+[ext_resource type="Texture2D" uid="uid://7hf8rtbxegl5" path="res://assets/BG_Custom/set_decorations/furthest_distance_sign.webp" id="1_80q44"]
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_80q44"]
+
+[sub_resource type="SystemFont" id="SystemFont_80q44"]
+font_names = PackedStringArray("Fantasy")
+
+[sub_resource type="LabelSettings" id="LabelSettings_7f0dc"]
+font = SubResource("SystemFont_80q44")
+font_size = 195
+
+[sub_resource type="SystemFont" id="SystemFont_7f0dc"]
+
+[sub_resource type="LabelSettings" id="LabelSettings_bqrmu"]
+font = SubResource("SystemFont_7f0dc")
+
+[node name="FurthestDistanceSign" type="Node2D"]
+script = ExtResource("1_7f0dc")
+
+[node name="RotateableRoot" type="Node2D" parent="."]
+position = Vector2(18, 0)
+rotation = 0.23911011
+
+[node name="SignSprite" type="Sprite2D" parent="RotateableRoot"]
+scale = Vector2(0.25, 0.25)
+texture = ExtResource("1_80q44")
+
+[node name="SignLabelControl" type="Control" parent="RotateableRoot"]
+layout_mode = 3
+anchors_preset = 0
+offset_left = -50.0
+offset_top = -45.0
+offset_right = 50.0
+offset_bottom = 7.0
+
+[node name="SignMargins" type="MarginContainer" parent="RotateableRoot/SignLabelControl"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="SignLines" type="VBoxContainer" parent="RotateableRoot/SignLabelControl/SignMargins"]
+layout_mode = 2
+
+[node name="TopLabelPanel" type="Panel" parent="RotateableRoot/SignLabelControl/SignMargins/SignLines"]
+layout_mode = 2
+size_flags_vertical = 3
+theme_override_styles/panel = SubResource("StyleBoxEmpty_80q44")
+
+[node name="Furthest Distance Label" type="Label" parent="RotateableRoot/SignLabelControl/SignMargins/SignLines/TopLabelPanel"]
+layout_mode = 1
+offset_right = 217.0
+offset_bottom = 41.0
+scale = Vector2(0.095, 0.095)
+size_flags_vertical = 1
+text = "Furthest Distance"
+label_settings = SubResource("LabelSettings_7f0dc")
+
+[node name="DistanceLabel" type="Label" parent="RotateableRoot/SignLabelControl/SignMargins/SignLines"]
+layout_mode = 2
+size_flags_horizontal = 4
+text = "0 m"
+label_settings = SubResource("LabelSettings_bqrmu")

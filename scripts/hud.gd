@@ -18,15 +18,15 @@ func _ready():
 	store_button.pressed.connect(_on_store_pressed)
 	EventBus.money_changed.connect(_on_money_changed)
 
+func _process(delta : float) -> void:
+	update_distance()
+
 func _on_store_pressed():
 	emit_signal("store_pressed")
 
-func update_distance(distance: float):
-	distance_label.text = str(int(round(distance))) + " m"
-	
-	if distance > high_score:
-		high_score = distance
-		high_score_label.text = str(int(round(high_score))) + " m"
+func update_distance():
+	distance_label.text = str(int(round(RunManager.get_current_distance_in_meters()))) + " m"
+	high_score_label.text = str(int(round(RunManager.get_furthest_distance_in_meters()))) + " m"
 		
 func update_middle_text(middleTextString : String):
 	middle_text.text = middleTextString

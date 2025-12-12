@@ -1,4 +1,4 @@
-[gd_scene load_steps=23 format=3 uid="uid://bu5rbi6tmk83u"]
+[gd_scene load_steps=24 format=3 uid="uid://bu5rbi6tmk83u"]
 
 [ext_resource type="Script" uid="uid://0vmwscm1swpe" path="res://scripts/controller.gd" id="1_lbhrr"]
 [ext_resource type="PackedScene" uid="uid://brmyj48t05jr" path="res://scenes/player.tscn" id="1_lnu2h"]
@@ -12,6 +12,7 @@
 [ext_resource type="PackedScene" uid="uid://dy3ggd4jhp6rc" path="res://scenes/store.tscn" id="11_dinhu"]
 [ext_resource type="Texture2D" uid="uid://es2pq45jg6rn" path="res://assets/Backgound_elements/Samples/colored_castle.png" id="11_kvpfn"]
 [ext_resource type="Script" uid="uid://ck48brejni3gd" path="res://scripts/ui_scripts/ability_button.gd" id="11_kvuet"]
+[ext_resource type="PackedScene" uid="uid://ce7g1xbkdr2eb" path="res://scenes/set_decorations/furthest_distance_sign.tscn" id="12_264po"]
 [ext_resource type="Resource" uid="uid://cqq1x3gmtv700" path="res://scripts/abilities/dive_ability.tres" id="12_trtic"]
 [ext_resource type="Resource" uid="uid://ceo26vr6wlca6" path="res://scripts/abilities/slide_ability.tres" id="13_trtic"]
 [ext_resource type="Script" uid="uid://w71ghxs4pve" path="res://scripts/repeating_ground.gd" id="14_ca42v"]
@@ -101,6 +102,10 @@ text = "Start"
 metadata/_edit_use_anchors_ = true
 
 [node name="Store" parent="Controller" instance=ExtResource("11_dinhu")]
+
+[node name="FurthestDistanceSign" parent="Controller" instance=ExtResource("12_264po")]
+z_index = -1
+position = Vector2(-722, 206)
 
 [node name="HUD" type="CanvasLayer" parent="Controller"]
 process_mode = 3
