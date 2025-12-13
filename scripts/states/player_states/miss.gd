@@ -1,4 +1,4 @@
-extends AttackState
+extends AttackResultState
 
 func _ready() -> void:
 	if animation_name == "" or state_name == null:

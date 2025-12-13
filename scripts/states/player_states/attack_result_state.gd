@@ -1,9 +1,8 @@
-class_name AttackState
+class_name AttackResultState
 extends PlayerState
 
 @export var launched_state : PlayerState 
-@export var hit_state : PlayerState
-@export var miss_state : PlayerState 
+@export var attacking_state : PlayerState
 @export var linger_duration : float = 0.6
 @export var slow_time : bool = false
 
@@ -16,11 +15,9 @@ var pending_next_state : PlayerState = null
 
 func enter() -> void:
 	super()
-	if not EventBus.enemy_hit.is_connected(_on_enemy_hit):
-		EventBus.enemy_hit.connect(_on_enemy_hit)
+	if not EventBus.player_touched_enemy.is_connected(_on_player_touched_enemy):
+		EventBus.player_touched_enemy.connect(_on_player_touched_enemy)
 	
-	if not EventBus.enemy_missed.is_connected(_on_enemy_missed):
-		EventBus.enemy_missed.connect(_on_enemy_missed)
 	elapsed = 0.0
 	pending_next_state = null
 	done_highlight = false
@@ -31,18 +28,12 @@ func enter() -> void:
 func exit() -> void:
 	parent.animation_player.speed_scale = 1.0
 	parent.change_time_scale(1.0)
-	if EventBus.enemy_hit.is_connected(_on_enemy_hit):
-		EventBus.enemy_hit.disconnect(_on_enemy_hit)
-	
-	if EventBus.enemy_missed.is_connected(_on_enemy_missed):
-		EventBus.enemy_missed.disconnect(_on_enemy_missed)
+	if EventBus.player_touched_enemy.is_connected(_on_player_touched_enemy):
+		EventBus.player_touched_enemy.disconnect(_on_player_touched_enemy)
 
-func _on_enemy_hit(enemy : Enemy) -> void:
-	pending_next_state = hit_state
-
-func _on_enemy_missed(enemy : Enemy) -> void:
-	print("enemy missed")
-	pending_next_state = miss_state
+func _on_player_touched_enemy(enemy : Enemy) -> void:
+	pending_next_state = attacking_state
+	parent.last_enemy = enemy
 
 func doProcess(delta: float) -> PlayerState:
 	elapsed += delta

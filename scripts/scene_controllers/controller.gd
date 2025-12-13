@@ -25,7 +25,6 @@ func _ready():
 	EventBus.player_landed.connect(_on_player_landed)
 	EventBus.player_launched.connect(_on_player_launched)
 	EventBus.player_died.connect(_on_player_died)
-	EventBus.player_touched_enemy.connect(_on_player_hit_enemy)
 	store_button.pressed.connect(_on_store_opened)
 	EventBus.store_closed.connect(_on_store_closed)
 	hud.hide_middle_text(true)
@@ -61,22 +60,10 @@ func check_furthest_distance() -> void:
 		furthest_distance_sign.set_futhest_distance(player.position.x)
 		
 
-func _on_player_hit_enemy(enemy : Enemy):
-	var roll = roll_dice() + StatsManager.get_attack_modifier()
-	if roll > enemy.armor_class:
-		enemy._on_player_hit(player)
-	#
-	else:
-		enemy._on_player_missed(player)
-	
-
 func _on_player_died():
 	player.die()
 	print("died")
 	game_state = LANDED
-
-func roll_dice() -> int:
-	return player.get_roll()
 
 func hurt_player(damage):
 	StatsManager.take_damage(damage)

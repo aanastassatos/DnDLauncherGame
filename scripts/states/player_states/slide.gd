@@ -1,7 +1,6 @@
 extends PlayerState
 
-@export var hit_state : PlayerState
-@export var missed_state : PlayerState
+@export var attacking_state : PlayerState
 @export var launched_state: PlayerState
 
 @export var slide_duration: float = 3.0
@@ -23,11 +22,8 @@ func _ready() -> void:
 func enter() -> void:
 	super()
 	
-	if not EventBus.enemy_hit.is_connected(_on_enemy_hit):
-		EventBus.enemy_hit.connect(_on_enemy_hit)
-	
-	if not EventBus.enemy_missed.is_connected(_on_enemy_missed):
-		EventBus.enemy_missed.connect(_on_enemy_missed)
+	if not EventBus.player_touched_enemy.is_connected(_on_player_touched_enemy):
+		EventBus.player_touched_enemy.connect(_on_player_touched_enemy)
 	
 	_elapsed = 0.0
 	pending_next_state = null
@@ -43,12 +39,8 @@ func enter() -> void:
 	parent.set_bounce_enabled(false)
 
 func exit() -> void:
-	# Restore normal physics when leaving this state
-	if EventBus.enemy_hit.is_connected(_on_enemy_hit):
-		EventBus.enemy_hit.disconnect(_on_enemy_hit)
-	
-	if EventBus.enemy_missed.is_connected(_on_enemy_missed):
-		EventBus.enemy_missed.disconnect(_on_enemy_missed)
+	if EventBus.player_touched_enemy.is_connected(_on_player_touched_enemy):
+		EventBus.player_touched_enemy.disconnect(_on_player_touched_enemy)
 	
 	parent.linear_velocity.y = starting_velocity_y
 	
@@ -59,11 +51,9 @@ func exit() -> void:
 	parent.set_air_friction_enabled(true)
 	parent.set_bounce_enabled(true)
 
-func _on_enemy_hit(_enemy : Enemy) -> void:
-	pending_next_state = hit_state
-
-func _on_enemy_missed(_enemy : Enemy) -> void:
-	pending_next_state = missed_state
+func _on_player_touched_enemy(enemy : Enemy) -> void:
+	pending_next_state = attacking_state
+	parent.last_enemy = enemy
 
 func doProcess(delta: float) -> PlayerState:
 	_elapsed += delta

@@ -39,6 +39,8 @@ var current_time_scale : float = 1.00
 var forward_speed : float = 0.0
 var touching_ground: bool = false
 
+var last_enemy : Enemy
+
 var is_launched: bool = false
 
 var _ground_friction_enabled: bool = true
@@ -53,7 +55,8 @@ const AIMING : String = "aiming"
 const POWERING_UP : String = "powering_up"
 const LAUNCHING : String = "launching"
 const LAUNCHED : String = "launched"
-const ATTACK : String = "attack"
+const ATTACKING : String = "attacking"
+const HIT : String = "hit"
 const MISS : String = "miss"
 const HURT : String = "hurt"
 const DIVE : String = "dive"
@@ -64,8 +67,6 @@ const LANDED : String = "landed"
 const PHYSICS_BOUNCE : float = 0.6
 
 func _ready():
-	EventBus.enemy_hit.connect(_on_attack_success)
-	EventBus.enemy_missed.connect(_on_attack_fail)
 	state_machine.init(self)
 	
 	starting_position = position
@@ -296,12 +297,6 @@ func doDiceHighlight(duration : float, roll : int, hit : bool) -> void:
 
 func update_dice(roll):
 	dice_label.text = roll
-
-func _on_attack_success():
-	pass
-
-func _on_attack_fail():
-	pass
 
 func get_roll() -> int:
 	randomize()

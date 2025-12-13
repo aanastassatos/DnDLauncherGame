@@ -1,8 +1,7 @@
 extends PlayerState
 
 @export var landedState : PlayerState
-@export var hit_state : PlayerState
-@export var missedState : PlayerState
+@export var attacking_state : PlayerState
 @export var dive_state : PlayerState
 @export var slide_state : PlayerState
 
@@ -22,11 +21,8 @@ func _ready() -> void:
 
 func enter() -> void:
 	super()
-	if not EventBus.enemy_hit.is_connected(_on_enemy_hit):
-		EventBus.enemy_hit.connect(_on_enemy_hit)
-	
-	if not EventBus.enemy_missed.is_connected(_on_enemy_missed):
-		EventBus.enemy_missed.connect(_on_enemy_missed)
+	if not EventBus.player_touched_enemy.is_connected(_on_player_touched_enemy):
+		EventBus.player_touched_enemy.connect(_on_player_touched_enemy)
 	
 	if not EventBus.dive_requested.is_connected(_on_dive_requested):
 		EventBus.dive_requested.connect(_on_dive_requested)
@@ -39,11 +35,8 @@ func enter() -> void:
 
 func exit() -> void:
 	super()
-	if EventBus.enemy_hit.is_connected(_on_enemy_hit):
-		EventBus.enemy_hit.disconnect(_on_enemy_hit)
-	
-	if EventBus.enemy_missed.is_connected(_on_enemy_missed):
-		EventBus.enemy_missed.disconnect(_on_enemy_missed)
+	if EventBus.player_touched_enemy.is_connected(_on_player_touched_enemy):
+		EventBus.player_touched_enemy.disconnect(_on_player_touched_enemy)
 	
 	if EventBus.dive_requested.is_connected(_on_dive_requested):
 		EventBus.dive_requested.disconnect(_on_dive_requested)
@@ -51,12 +44,9 @@ func exit() -> void:
 	if EventBus.slide_requested.is_connected(_on_slide_requested):
 		EventBus.slide_requested.disconnect(_on_slide_requested)
 
-func _on_enemy_hit(_enemy : Enemy) -> void:
-	pending_next_state = hit_state
-
-func _on_enemy_missed(_enemy : Enemy) -> void:
-	print("enemy missed")
-	pending_next_state = missedState
+func _on_player_touched_enemy(enemy : Enemy) -> void:
+	pending_next_state = attacking_state
+	parent.last_enemy = enemy
 
 func _on_dive_requested() -> void:
 	print("Dive requested")

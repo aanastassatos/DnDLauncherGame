@@ -1,4 +1,4 @@
-[gd_scene load_steps=41 format=3 uid="uid://brmyj48t05jr"]
+[gd_scene load_steps=42 format=3 uid="uid://brmyj48t05jr"]
 
 [ext_resource type="Script" uid="uid://2e45rx5qgudo" path="res://scripts/player.gd" id="1_onrkg"]
 [ext_resource type="Resource" uid="uid://cqq1x3gmtv700" path="res://scripts/abilities/dive_ability.tres" id="2_l71n6"]
@@ -18,6 +18,7 @@
 [ext_resource type="Script" uid="uid://ynssdu3m233v" path="res://scripts/states/player_states/launching.gd" id="12_jej6c"]
 [ext_resource type="Script" uid="uid://bwtf5qfwehb03" path="res://scripts/states/player_states/powering_up.gd" id="13_4r5pv"]
 [ext_resource type="Script" uid="uid://cf0gbe5hxxikx" path="res://scripts/states/player_states/landed.gd" id="15_oprun"]
+[ext_resource type="Script" uid="uid://bep3akoqtu2hd" path="res://scripts/states/player_states/attacking.gd" id="15_pf23h"]
 [ext_resource type="Script" uid="uid://dphepfr6sehd" path="res://scripts/states/player_states/hit.gd" id="15_qfm1y"]
 [ext_resource type="Script" uid="uid://5djtfakanv1" path="res://scripts/states/player_states/dead.gd" id="16_a8ls1"]
 [ext_resource type="Script" uid="uid://cn4a63hubapid" path="res://scripts/states/player_states/miss.gd" id="16_fulsm"]
@@ -918,6 +919,11 @@ animation_name = "Idle"
 script = ExtResource("12_f1ej7")
 power_up_state = NodePath("../Powering_Up")
 
+[node name="Attacking" type="Node" parent="StateMachine" node_paths=PackedStringArray("hit_state", "miss_state")]
+script = ExtResource("15_pf23h")
+hit_state = NodePath("../Hit")
+miss_state = NodePath("../Miss")
+
 [node name="Powering_Up" type="Node" parent="StateMachine" node_paths=PackedStringArray("launching_state")]
 script = ExtResource("13_4r5pv")
 launching_state = NodePath("../Launching")
@@ -926,37 +932,32 @@ launching_state = NodePath("../Launching")
 script = ExtResource("12_jej6c")
 launched_state = NodePath("../Launched")
 
-[node name="Launched" type="Node" parent="StateMachine" node_paths=PackedStringArray("landedState", "hit_state", "missedState", "dive_state", "slide_state")]
+[node name="Launched" type="Node" parent="StateMachine" node_paths=PackedStringArray("landedState", "attacking_state", "dive_state", "slide_state")]
 script = ExtResource("11_d2wvv")
 landedState = NodePath("../Landed")
-hit_state = NodePath("../Hit")
-missedState = NodePath("../Miss")
+attacking_state = NodePath("../Attacking")
 dive_state = NodePath("../Dive")
 slide_state = NodePath("../Slide")
 animation_name = "flying"
 
-[node name="Hit" type="Node" parent="StateMachine" node_paths=PackedStringArray("launched_state", "hit_state", "miss_state")]
+[node name="Hit" type="Node" parent="StateMachine" node_paths=PackedStringArray("launched_state", "attacking_state")]
 script = ExtResource("15_qfm1y")
 launched_state = NodePath("../Launched")
-hit_state = NodePath(".")
-miss_state = NodePath("../Miss")
+attacking_state = NodePath("../Attacking")
 
-[node name="Miss" type="Node" parent="StateMachine" node_paths=PackedStringArray("launched_state", "hit_state", "miss_state")]
+[node name="Miss" type="Node" parent="StateMachine" node_paths=PackedStringArray("launched_state", "attacking_state")]
 script = ExtResource("16_fulsm")
 launched_state = NodePath("../Launched")
-hit_state = NodePath("../Hit")
-miss_state = NodePath(".")
+attacking_state = NodePath("../Attacking")
 
-[node name="Dive" type="Node" parent="StateMachine" node_paths=PackedStringArray("launched_state", "hit_state", "missedState")]
+[node name="Dive" type="Node" parent="StateMachine" node_paths=PackedStringArray("launched_state", "attacking_state")]
 script = ExtResource("20_4ni07")
 launched_state = NodePath("../Launched")
-hit_state = NodePath("../Hit")
-missedState = NodePath("../Miss")
+attacking_state = NodePath("../Attacking")
 
-[node name="Slide" type="Node" parent="StateMachine" node_paths=PackedStringArray("hit_state", "missed_state", "launched_state")]
+[node name="Slide" type="Node" parent="StateMachine" node_paths=PackedStringArray("attacking_state", "launched_state")]
 script = ExtResource("20_ke2ow")
-hit_state = NodePath("../Hit")
-missed_state = NodePath("../Miss")
+attacking_state = NodePath("../Attacking")
 launched_state = NodePath("../Launched")
 
 [node name="Landed" type="Node" parent="StateMachine"]
