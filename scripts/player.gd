@@ -119,7 +119,17 @@ func _check_landed_bug(delta : float) -> void:
 				times = 0
 
 func _unhandled_input(event: InputEvent) -> void:
-	state_machine.do_unhandled_input(event)
+	if event.is_action_pressed("ability_1") and not event.is_echo():
+		EventBus.emit_signal("dive_requested")
+	
+	elif event.is_action_pressed("ability_2") and not event.is_echo():
+		EventBus.emit_signal("slide_requested")
+	
+	elif event.is_action_pressed("ability_3") and not event.is_echo():
+		print("ability 3 not set yet")
+	
+	else:
+		state_machine.do_unhandled_input(event)
 
 func doDiceRoll() -> void:
 	if rolling_dice:

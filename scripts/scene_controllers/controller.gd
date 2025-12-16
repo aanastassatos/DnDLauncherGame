@@ -83,14 +83,6 @@ func _unhandled_input(event):
 			LANDED:
 				hud.hide_middle_text(true)
 				reset()
-	
-	if event is InputEventKey and event.is_pressed() and not event.is_echo():
-		if event.keycode == KEY_Z:
-			print("The Z")
-			EventBus.emit_signal("dive_requested")
-		if event.keycode == KEY_X:
-			print("The X")
-			EventBus.emit_signal("slide_requested")
 
 func doLaunching():
 	game_state = LAUNCHING
