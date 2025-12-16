@@ -1,0 +1,70 @@
+[gd_scene load_steps=6 format=3 uid="uid://cs6yhi800d53x"]
+
+[ext_resource type="Texture2D" uid="uid://b60xdaf2x6hdk" path="res://assets/circle.png" id="1_dlmty"]
+[ext_resource type="Script" uid="uid://csph6p2il4wpt" path="res://scripts/character_scripts/enemy_scripts/boss.gd" id="1_neq0i"]
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_neq0i"]
+radius = 141.0
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_neq0i"]
+draw_center = false
+
+[sub_resource type="LabelSettings" id="LabelSettings_jncid"]
+font_size = 135
+
+[node name="Boss" type="Area2D"]
+script = ExtResource("1_neq0i")
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+scale = Vector2(0.5, 0.5)
+texture = ExtResource("1_dlmty")
+region_enabled = true
+region_rect = Rect2(50.699165, 20.513222, 561.6037, 561.938)
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+shape = SubResource("CircleShape2D_neq0i")
+
+[node name="Control" type="Control" parent="."]
+layout_mode = 3
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="Panel" type="Panel" parent="Control"]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -20.0
+offset_top = -20.0
+offset_right = 20.0
+offset_bottom = 20.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_styles/panel = SubResource("StyleBoxFlat_neq0i")
+
+[node name="Level" type="Label" parent="Control/Panel"]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -9.448821
+offset_top = -23.622047
+offset_right = 67.55118
+offset_bottom = 161.37796
+grow_horizontal = 2
+grow_vertical = 2
+scale = Vector2(0.235, 0.235)
+text = "3"
+label_settings = SubResource("LabelSettings_jncid")
+horizontal_alignment = 1
+
+[connection signal="body_entered" from="." to="." method="_on_body_entered"]
