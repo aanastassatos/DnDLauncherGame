@@ -42,13 +42,12 @@ border_color = Color(0.48642266, 0, 0, 1)
 script = ExtResource("1_lbhrr")
 
 [node name="SkyEnemySpawner" type="Node2D" parent="Controller" node_paths=PackedStringArray("camera")]
-position = Vector2(240, 265)
 script = ExtResource("2_dinhu")
 enemy_scene = ExtResource("3_kvuet")
 camera = NodePath("../Player/Camera2D")
+y_range = Vector2(-60, -735)
 
 [node name="EnemySpawner" type="Node2D" parent="Controller" node_paths=PackedStringArray("camera")]
-position = Vector2(240, 167)
 script = ExtResource("8_0tnpc")
 enemy_scene = ExtResource("9_vtaks")
 camera = NodePath("../Player/Camera2D")

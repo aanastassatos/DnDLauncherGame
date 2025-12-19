@@ -4,8 +4,8 @@ extends Node2D
 @export var camera: Camera2D
 @export var chunk_width: float = 2000.0
 @export var enemies_per_chunk: int = 3
-@export var y_range: Vector2 = Vector2(-300, -1000)
-@export var ground_y : float = 70
+@export var y_range: Vector2 = Vector2(-60, -1000)
+@export var ground_y : float = 237.0
 @export var enabled : bool = true
 
 const MAX_DISTANCE = 2000

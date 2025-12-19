@@ -58,12 +58,12 @@ text = "Start"
 metadata/_edit_use_anchors_ = true
 
 [node name="EnemySpawner" type="Node2D" parent="." node_paths=PackedStringArray("camera")]
-position = Vector2(240, 167)
 script = ExtResource("5_vqvw1")
 enemy_scene = ExtResource("6_jafqr")
 camera = NodePath("../Player/Camera2D")
 
 [node name="Boss" parent="." node_paths=PackedStringArray("player") instance=ExtResource("7_jafqr")]
+visible = false
 position = Vector2(1003, 2)
 player = NodePath("../Player")
 
