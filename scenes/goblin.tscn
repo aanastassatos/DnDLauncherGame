@@ -1,4 +1,4 @@
-[gd_scene load_steps=12 format=3 uid="uid://ct5p61x2qm88v"]
+[gd_scene load_steps=13 format=3 uid="uid://ct5p61x2qm88v"]
 
 [ext_resource type="Script" uid="uid://behldpmfxyo77" path="res://scripts/character_scripts/enemy_scripts/goblin.gd" id="2_4ra3w"]
 [ext_resource type="Texture2D" uid="uid://bkic7m6fqsudu" path="res://assets/Characters/goblin.png" id="2_md0e3"]
@@ -8,6 +8,7 @@
 [ext_resource type="Texture2D" uid="uid://7kmadq643y2q" path="res://assets/Characters/goblin/Goblin-body.png" id="6_w8i8w"]
 [ext_resource type="Texture2D" uid="uid://dhcvp4sfq20wt" path="res://assets/Characters/goblin/Goblin-head.png" id="7_otmr2"]
 [ext_resource type="Texture2D" uid="uid://dm5nm3lc1iqw6" path="res://assets/Characters/goblin/Goblin-right-arm.png" id="8_wtq4b"]
+[ext_resource type="PackedScene" uid="uid://6lvrxr3haqmo" path="res://scenes/debug_tools/position_label.tscn" id="9_vho8j"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_md0e3"]
 size = Vector2(27.225292, 36.88588)
@@ -16,6 +17,7 @@ size = Vector2(27.225292, 36.88588)
 radius = 13.619726
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_md0e3"]
+bg_color = Color(0.3019608, 0.3019608, 0.3019608, 1)
 draw_center = false
 
 [node name="Goblin" type="Area2D"]
@@ -110,5 +112,9 @@ grow_horizontal = 2
 grow_vertical = 2
 text = "3"
 metadata/_edit_use_anchors_ = true
+
+[node name="PositionLabel" parent="." node_paths=PackedStringArray("parent") instance=ExtResource("9_vho8j")]
+visible = false
+parent = NodePath("..")
 
 [connection signal="body_entered" from="." to="." method="_on_body_entered"]
