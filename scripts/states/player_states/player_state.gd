@@ -15,6 +15,9 @@ func enter() -> void:
 func exit() -> void:
 	pass
 
+func do_physics_process(delta : float) -> PlayerState:
+	return null
+
 func doProcess(delta: float) -> PlayerState:
 	return null
 

@@ -29,6 +29,11 @@ func doProcess(delta: float) -> void:
 	if newState:
 		change_state(newState)
 
+func do_physics_process(delta : float) -> void:
+	var newState = currentState.do_physics_process(delta)
+	if newState:
+		change_state(newState)
+
 func get_current_state() -> String:
 	return currentState.state_name
 
