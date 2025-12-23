@@ -97,6 +97,9 @@ func _process(delta):
 #	Check if player is still moving after having landed. For debugging.
 	_check_landed_bug(delta)
 
+func _physics_process(delta: float) -> void:
+	state_machine.do_physics_process(delta)
+
 func _do_cooldowns(delta : float) -> void:
 	_update_cooldown(delta, dive_ability)
 	_update_cooldown(delta, slide_ability)
