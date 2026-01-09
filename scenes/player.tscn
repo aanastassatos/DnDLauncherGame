@@ -1,4 +1,4 @@
-[gd_scene load_steps=42 format=3 uid="uid://brmyj48t05jr"]
+[gd_scene load_steps=43 format=3 uid="uid://brmyj48t05jr"]
 
 [ext_resource type="Script" uid="uid://2e45rx5qgudo" path="res://scripts/player.gd" id="1_onrkg"]
 [ext_resource type="Resource" uid="uid://cqq1x3gmtv700" path="res://scripts/abilities/dive_ability.tres" id="2_l71n6"]
@@ -28,6 +28,7 @@
 [ext_resource type="Script" uid="uid://chfe35k3mbxkk" path="res://scripts/states/player_states/slide.gd" id="20_ke2ow"]
 [ext_resource type="Script" uid="uid://2t3gc362lajr" path="res://scripts/power_bar.gd" id="21_a38lo"]
 [ext_resource type="Script" uid="uid://j548vwyhebd8" path="res://scripts/character_scripts/player_scripts/health_bar.gd" id="24_31cv2"]
+[ext_resource type="AudioStream" uid="uid://dn245xwdhsiah" path="res://assets/Sounds/gnome-woo.wav" id="29_dt7fs"]
 
 [sub_resource type="PhysicsMaterial" id="PhysicsMaterial_g2els"]
 friction = 0.1
@@ -1061,3 +1062,6 @@ points = PackedVector2Array(0, 0, 100, 0)
 default_color = Color(0.98878354, 0, 0, 1)
 gradient = SubResource("Gradient_4ni07")
 script = ExtResource("21_a38lo")
+
+[node name="Woo" type="AudioStreamPlayer" parent="."]
+stream = ExtResource("29_dt7fs")

@@ -14,6 +14,7 @@ extends RigidBody2D
 @onready var launched_state = $StateMachine/Launched
 @onready var landed_state = $StateMachine/Landed
 @onready var dead_state = $StateMachine/Dead
+@onready var woo_sound_player = $Woo
 
 @export var dive_ability : Ability
 @export var slide_ability : Ability
@@ -246,6 +247,7 @@ func bounce(bounce_force : float, forward_force : float, isCrit : bool) -> void:
 	if isCrit:
 		forward_force *= 10
 		bounce_force *= 5
+		woo_sound_player.play()
 	
 	linear_velocity.x += forward_force
 	var impulse = Vector2.UP * bounce_force# + Vector2.RIGHT * forward_force
